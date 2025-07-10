@@ -1,48 +1,51 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [ IonicModule, FormsModule, RouterModule ]
+  imports: [IonicModule, FormsModule],
+  styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email = '';
-  password = '';
-  perfil = '';
+  email: string = '';
+  password: string = '';
+  rol: string = '';
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private auth: AuthService
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
-    this.perfil = this.route.snapshot.routeConfig?.path?.split('/').pop() || '';
+    this.route.queryParams.subscribe(params => {
+      this.rol = params['rol'];
+    });
   }
 
   onSubmit() {
     if (!this.email || !this.password) {
-      alert('Faltan campos');
+      alert('Por favor completa todos los campos');
       return;
     }
 
-    this.auth.login(this.email, this.password).subscribe({
-      next: ({ usuario }) => {
-        if (usuario.rol !== this.perfil) {
-          alert(`No tienes acceso como ${this.perfil}`);
-          return;
-        }
+    // Simulamos login y guardamos el usuario con rol
+    const usuario = {
+      email: this.email,
+      rol: this.rol // este rol lo recibimos desde la URL
+    };
+    localStorage.setItem('usuario', JSON.stringify(usuario));
 
-        // Redirección según rol
-        if (usuario.rol === 'admin') this.router.navigate(['/admin']);
-        else if (usuario.rol === 'maestro') this.router.navigate(['/dashboard']);
-        else if (usuario.rol === 'tutor') this.router.navigate(['/tutores/lista']);
-      },
-      error: () => alert('Credenciales inválidas')
-    });
+    // Redirigir por rol
+    if (this.rol === 'admin') {
+      this.router.navigate(['/admin']);
+    } else if (this.rol === 'maestro') {
+      this.router.navigate(['/dashboard']);
+    } else if (this.rol === 'tutor') {
+      this.router.navigate(['/home']); // o su propio módulo
+    } else {
+      alert('Rol desconocido');
+    }
   }
 }

@@ -31,9 +31,10 @@ export class AuthService {
   }
 
   getUsuario() {
-    const data = localStorage.getItem('usuario');
-    return data ? JSON.parse(data) : null;
-  }
+  const usuario = localStorage.getItem('usuario');
+  return usuario ? JSON.parse(usuario) : null;
+}
+
 
   logout() {
     localStorage.removeItem('usuario');
