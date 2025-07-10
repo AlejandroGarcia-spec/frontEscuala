@@ -77,7 +77,11 @@ const routes: Routes = [
   {
   path: 'auth/:perfil', // <- así capturamos admin, maestro o tutor
   loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
-}
+},
+  {
+    path: 'header',
+    loadChildren: () => import('./componentes/header/header.module').then( m => m.HeaderPageModule)
+  }
 
 ];
 
