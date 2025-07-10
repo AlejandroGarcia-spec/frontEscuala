@@ -17,7 +17,7 @@ import { FormsModule,  } from '@angular/forms';
 })
 export class LoginPage {
 email: string = '';
-  password: string = '';
+password: string = '';
 
   constructor(private readonly router: Router) {}
 onSubmit() {
