@@ -1,63 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-
-interface LoginResponse {
-  token: string;
-}
+import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://tu-backend/api'; // Cambia esto a la URL real de tu backend
+  isAuthenticated(): boolean {
+  const usuario = this.getUsuario();
+  return !!usuario; // retorna true si existe un usuario
+}
 
-  private currentUserRole = new BehaviorSubject<string | null>(null);
+  login(email: string, password: string): Observable<any> {
+    // Simulación de usuarios (puedes cambiar esto por una API real)
+    const usuarios = [
+      { email: 'admin@correo.com', password: '1234', rol: 'admin' },
+      { email: 'maestro@correo.com', password: '1234', rol: 'maestro' },
+      { email: 'tutor@correo.com', password: '1234', rol: 'tutor' },
+    ];
 
-  constructor(private http: HttpClient) {
-    // Si ya hay token en localStorage al iniciar el servicio, extraemos el rol
-    const token = this.getToken();
-    if (token) {
-      const payload = this.parseJwt(token);
-      this.currentUserRole.next(payload?.role || null);
-    }
+    const usuario = usuarios.find(
+      u => u.email === email && u.password === password
+    );
+
+    if (!usuario) return throwError(() => new Error('Credenciales inválidas'));
+
+    // Guardar en localStorage
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+
+    return of({ usuario });
   }
 
-  login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap(res => {
-        localStorage.setItem('token', res.token);
-        const payload = this.parseJwt(res.token);
-        this.currentUserRole.next(payload?.role || null);
-      })
-    );
+  getUsuario() {
+    const data = localStorage.getItem('usuario');
+    return data ? JSON.parse(data) : null;
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.currentUserRole.next(null);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  getRole(): Observable<string | null> {
-    return this.currentUserRole.asObservable();
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
-
-  // Método para decodificar el payload del JWT
-  private parseJwt(token: string): any {
-    try {
-      const base64Payload = token.split('.')[1];
-      const payload = atob(base64Payload);
-      return JSON.parse(payload);
-    } catch (e) {
-      return null;
-    }
+    localStorage.removeItem('usuario');
   }
 }

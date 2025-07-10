@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,18 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+   constructor(private Router: Router) { }
+
+  redirectToInstructor() {
+    this.Router.navigate(['/tutores']);
+  }
+  redirectToAdmin() {
+    this.Router.navigate(['/admin']);
+  }
+
+  redirectToUser() {
+    this.Router.navigate(['/auth/tutor']);
+  }
+
 
 }

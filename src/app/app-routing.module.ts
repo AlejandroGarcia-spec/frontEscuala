@@ -73,7 +73,12 @@ const routes: Routes = [
   {
     path: 'footer',
     loadChildren: () => import('./componentes/footer/footer.module').then( m => m.FooterPageModule)
-  }
+  },
+  {
+  path: 'auth/:perfil', // <- así capturamos admin, maestro o tutor
+  loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
+}
+
 ];
 
 @NgModule({

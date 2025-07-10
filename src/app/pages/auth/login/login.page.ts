@@ -1,36 +1,48 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule,  } from '@angular/forms';
-
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  standalone: true,
-  imports: [
-    IonicModule,
-    FormsModule,
-    RouterModule
-  ],
   styleUrls: ['./login.page.scss'],
+  standalone: true,
+  imports: [ IonicModule, FormsModule, RouterModule ]
 })
 export class LoginPage {
-email: string = '';
-password: string = '';
+  email = '';
+  password = '';
+  perfil = '';
 
-  constructor(private readonly router: Router) {}
-onSubmit() {
-  if (!this.email || !this.password) {
-    alert('Por favor completa todos los campos');
-    return;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: AuthService
+  ) {
+    this.perfil = this.route.snapshot.routeConfig?.path?.split('/').pop() || '';
   }
 
-  // Solo admin por ahora
-  if (this.email.includes('admin')) {
-    this.router.navigate(['/admin']);
-  } else {
-    alert('Solo usuarios admin por ahora');
+  onSubmit() {
+    if (!this.email || !this.password) {
+      alert('Faltan campos');
+      return;
+    }
+
+    this.auth.login(this.email, this.password).subscribe({
+      next: ({ usuario }) => {
+        if (usuario.rol !== this.perfil) {
+          alert(`No tienes acceso como ${this.perfil}`);
+          return;
+        }
+
+        // Redirección según rol
+        if (usuario.rol === 'admin') this.router.navigate(['/admin']);
+        else if (usuario.rol === 'maestro') this.router.navigate(['/dashboard']);
+        else if (usuario.rol === 'tutor') this.router.navigate(['/tutores/lista']);
+      },
+      error: () => alert('Credenciales inválidas')
+    });
   }
-}
 }
