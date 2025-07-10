@@ -81,6 +81,14 @@ const routes: Routes = [
   {
     path: 'header',
     loadChildren: () => import('./componentes/header/header.module').then( m => m.HeaderPageModule)
+  },
+  {
+    path: 'menu-admin',
+    loadChildren: () => import('./componentes/menu-admin/menu-admin.module').then( m => m.MenuAdminPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
   }
 
 ];
