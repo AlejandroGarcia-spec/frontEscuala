@@ -23,7 +23,7 @@ export class MenuAdminPage  {
   }
   navigateToPerfil() {
     this.menu.close().then(() => {
-      this.router.navigateByUrl('/admin');
+      this.router.navigateByUrl('/perfil-admin');
     });
   }
   navigateToTutoresFormulario() {
