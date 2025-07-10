@@ -89,6 +89,18 @@ const routes: Routes = [
   {
     path: 'registro',
     loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'perfil-admin',
+    loadChildren: () => import('./pages/perfiles/perfil-admin/perfil-admin.module').then( m => m.PerfilAdminPageModule)
+  },
+  {
+    path: 'perfil-maestro',
+    loadChildren: () => import('./pages/perfiles/perfil-maestro/perfil-maestro.module').then( m => m.PerfilMaestroPageModule)
+  },
+  {
+    path: 'perfil-alumno',
+    loadChildren: () => import('./pages/perfiles/perfil-alumno/perfil-alumno.module').then( m => m.PerfilAlumnoPageModule)
   }
 
 ];
