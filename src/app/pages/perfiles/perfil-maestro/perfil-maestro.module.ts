@@ -15,6 +15,5 @@ import { PerfilMaestroPage } from './perfil-maestro.page';
     IonicModule,
     PerfilMaestroPageRoutingModule
   ],
-  declarations: [PerfilMaestroPage]
 })
 export class PerfilMaestroPageModule {}

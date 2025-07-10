@@ -15,6 +15,5 @@ import { PerfilAdminPage } from './perfil-admin.page';
     IonicModule,
     PerfilAdminPageRoutingModule
   ],
-  declarations: [PerfilAdminPage]
 })
 export class PerfilAdminPageModule {}
