@@ -1,0 +1,43 @@
+ion-footer {
+  margin-top: 20px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: space-around;
+}
+
+.social-links ion-col {
+  display: flex;
+  justify-content: center;
+}
+
+.facebook, .twitter, .google, .instagram {
+  --color: #fff;
+  --background: #007bff;
+  --background-activated: #0056b3;
+}
+
+.facebook {
+  --background: #1877f2;
+  --background-activated: #0a5cb3;
+}
+
+.twitter {
+  --background: #000000;
+  --background-activated: #000000;
+}
+
+.google {
+  --background: #ea4335;
+  --background-activated: #a52714;
+}
+
+.instagram {
+  --background: #833ab4;
+  --background-activated: #4a148c;
+}
+
+.my-button {
+  --background: var(--ion-color-facebook);
+}
