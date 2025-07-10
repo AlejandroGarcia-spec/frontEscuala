@@ -1,0 +1,7 @@
+{
+  "name": "sistema_escolar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
