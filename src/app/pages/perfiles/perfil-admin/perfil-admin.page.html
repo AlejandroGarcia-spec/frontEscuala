@@ -1,13 +1,42 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfil_admin</ion-title>
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <img src="./assets/Imagen3.png" alt="Logo" class="logo">
+        </ion-col>
+        <ion-col size="4">
+          <ion-title>UTVCO</ion-title>
+          <ion-card-subtitle>PERFIL</ion-card-subtitle>
+        </ion-col>
+        <ion-col size="4">
+          <img src="./assets/Imagen4.png" alt="Logo" class="logo">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil_admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="page-usuario">
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center">
+      <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+        <div class="e-card playing">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="infotop">
+            <ion-icon name="person-circle-outline" class="profile-icon"></ion-icon>
+            <h2>{{ nombre }}</h2>
+            <p><strong>Tipo de usuario:</strong> {{ tipo_usuario }}</p>
+            <p><strong>Numero Telefonico:</strong> {{ telefono }}</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<app-footer></app-footer>
