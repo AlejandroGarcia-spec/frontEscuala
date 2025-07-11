@@ -1,15 +1,58 @@
-import { Component,  } from '@angular/core';
-import { IonHeader, IonToolbar, IonContent, IonTitle } from "@ionic/angular/standalone";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-formulario',
+  selector: 'app-formulario-alumno',
   templateUrl: './formulario.page.html',
-  imports: [IonTitle, IonContent, IonToolbar, IonHeader],
-  standalone: true,
   styleUrls: ['./formulario.page.scss'],
+  standalone: true,
+  imports: [IonicModule, ReactiveFormsModule, FormsModule, CommonModule]
 })
-export class FormularioPage {
-  constructor() { }
+export class FormularioPage implements OnInit {
+  alumnoForm!: FormGroup;
+  grupos = [
+    { id: 1, nombre: 'Grupo A' },
+    { id: 2, nombre: 'Grupo B' },
+    // Se puede obtener dinámicamente del backend más adelante
+  ];
+  fotoPreview: string | ArrayBuffer | null = null;
+  fotoArchivo: File | null = null;
 
+  constructor(private fb: FormBuilder) {}
 
+  ngOnInit() {
+    this.alumnoForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      apellido: ['', [Validators.required, Validators.minLength(2)]],
+      correo: ['', [Validators.email]], // Opcional
+      telefono: ['', [Validators.pattern(/^\d{10}$/)]], // Opcional, solo 10 dígitos
+      grupoId: ['', Validators.required]
+    });
+  }
+
+  onImageSelected(event: any) {
+    const archivo = event.target.files[0];
+    if (archivo) {
+      this.fotoArchivo = archivo;
+
+      const lector = new FileReader();
+      lector.onload = () => {
+        this.fotoPreview = lector.result;
+      };
+      lector.readAsDataURL(archivo);
+    }
+  }
+
+  guardarAlumno() {
+    if (this.alumnoForm.valid) {
+      const datos = this.alumnoForm.value;
+      console.log('Datos del alumno:', datos);
+      console.log('Archivo de imagen:', this.fotoArchivo);
+      // Enviar a backend cuando esté disponible
+    } else {
+      console.log('Formulario inválido ❌');
+    }
+  }
 }

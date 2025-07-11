@@ -1,13 +1,92 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>formulario</ion-title>
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <img src="./assets/Imagen3.png" alt="Logo" class="logo">
+        </ion-col>
+        <ion-col size="4">
+          <ion-title>FORMULARIO DEL TUTOR</ion-title>
+          <ion-card-subtitle>REGISTRO DE TUTORES</ion-card-subtitle>
+        </ion-col>
+        <ion-col size="4">
+          <img src="./assets/Imagen4.png" alt="Logo" class="logo">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="tutorForm" (ngSubmit)="guardarTutor()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="tutorForm.get('nombre')?.touched && tutorForm.get('nombre')?.invalid">
+      <p class="ion-padding-start">El nombre es obligatorio</p>
+    </ion-text>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">formulario</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-item>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input formControlName="apellido"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="tutorForm.get('apellido')?.touched && tutorForm.get('apellido')?.invalid">
+      <p class="ion-padding-start">El apellido es obligatorio</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Correo electrónico</ion-label>
+      <ion-input formControlName="correo" type="email"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="tutorForm.get('correo')?.touched && tutorForm.get('correo')?.invalid">
+      <p class="ion-padding-start">Correo válido es obligatorio</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Teléfono</ion-label>
+      <ion-input formControlName="telefono" type="tel"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="tutorForm.get('telefono')?.touched && tutorForm.get('telefono')?.invalid">
+      <p class="ion-padding-start">Teléfono es obligatorio</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label>Grupo</ion-label>
+      <ion-select formControlName="grupoId" (ionChange)="cargarAlumnosDelGrupo()">
+        <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
+          {{ grupo.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-text color="danger" *ngIf="tutorForm.get('grupoId')?.touched && tutorForm.get('grupoId')?.invalid">
+      <p class="ion-padding-start">Debes seleccionar un grupo</p>
+    </ion-text>
+
+    <ion-list *ngIf="alumnos.length > 0">
+      <ion-item *ngFor="let alumno of alumnos; let i = index">
+        <ion-label>{{ alumno.nombre }}</ion-label>
+<ion-checkbox [formControl]="hijosControls[i]"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <ion-text color="danger" *ngIf="tutorForm.get('hijos')?.touched && tutorForm.get('hijos')?.invalid">
+      <p class="ion-padding-start">Selecciona al menos un hijo</p>
+    </ion-text>
+<!-- Imagen del tutor -->
+<ion-item lines="none">
+  <ion-label>Foto del Tutor</ion-label>
+</ion-item>
+
+<ion-item>
+  <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+</ion-item>
+
+<ion-item *ngIf="fotoPreview">
+  <img [src]="fotoPreview" style="width: 100%; max-height: 200px; object-fit: cover;" />
+</ion-item>
+
+    <ion-button expand="full" type="submit">Guardar</ion-button>
+  </form>
 </ion-content>
