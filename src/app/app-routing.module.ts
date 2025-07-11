@@ -101,6 +101,42 @@ const routes: Routes = [
   {
     path: 'perfil-alumno',
     loadChildren: () => import('./pages/perfiles/perfil-alumno/perfil-alumno.module').then( m => m.PerfilAlumnoPageModule)
+  },
+  {
+    path: 'agregar-admin-modal',
+    loadChildren: () => import('./modal/agregar-admin-modal/agregar-admin-modal.module').then( m => m.AgregarAdminModalPageModule)
+  },
+  {
+    path: 'editar-admin-modal',
+    loadChildren: () => import('./modal/editar-admin-modal/editar-admin-modal.module').then( m => m.EditarAdminModalPageModule)
+  },
+  {
+    path: 'eliminar-admin-modal',
+    loadChildren: () => import('./modal/eliminar-admin-modal/eliminar-admin-modal.module').then( m => m.EliminarAdminModalPageModule)
+  },
+  {
+    path: 'agregar-tutor-modal',
+    loadChildren: () => import('./modal/agregar-tutor-modal/agregar-tutor-modal.module').then( m => m.AgregarTutorModalPageModule)
+  },
+  {
+    path: 'editar-tutor-modal',
+    loadChildren: () => import('./modal/editar-tutor-modal/editar-tutor-modal.module').then( m => m.EditarTutorModalPageModule)
+  },
+  {
+    path: 'eliminar-tutor-modal',
+    loadChildren: () => import('./modal/eliminar-tutor-modal/eliminar-tutor-modal.module').then( m => m.EliminarTutorModalPageModule)
+  },
+  {
+    path: 'agregar-alumno-modal',
+    loadChildren: () => import('./modal/agregar-alumno-modal/agregar-alumno-modal.module').then( m => m.AgregarAlumnoModalPageModule)
+  },
+  {
+    path: 'editar-alumno-modal',
+    loadChildren: () => import('./modal/editar-alumno-modal/editar-alumno-modal.module').then( m => m.EditarAlumnoModalPageModule)
+  },
+  {
+    path: 'eliminar-alumno-modal',
+    loadChildren: () => import('./modal/eliminar-alumno-modal/eliminar-alumno-modal.module').then( m => m.EliminarAlumnoModalPageModule)
   }
 
 ];
