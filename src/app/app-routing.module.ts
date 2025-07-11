@@ -137,6 +137,18 @@ const routes: Routes = [
   {
     path: 'eliminar-alumno-modal',
     loadChildren: () => import('./modal/eliminar-alumno-modal/eliminar-alumno-modal.module').then( m => m.EliminarAlumnoModalPageModule)
+  },
+  {
+    path: 'agregar-maestro-modal',
+    loadChildren: () => import('./modal/agregar-maestro-modal/agregar-maestro-modal.module').then( m => m.AgregarMaestroModalPageModule)
+  },
+  {
+    path: 'editar-maestro-modal',
+    loadChildren: () => import('./modal/editar-maestro-modal/editar-maestro-modal.module').then( m => m.EditarMaestroModalPageModule)
+  },
+  {
+    path: 'eliminar-maestro-modal',
+    loadChildren: () => import('./modal/eliminar-maestro-modal/eliminar-maestro-modal.module').then( m => m.EliminarMaestroModalPageModule)
   }
 
 ];
