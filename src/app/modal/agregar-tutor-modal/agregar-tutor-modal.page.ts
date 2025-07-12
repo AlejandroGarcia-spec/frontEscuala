@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component,  } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 
 
 interface Grupo {
@@ -25,7 +25,10 @@ export class AgregarTutorModalPage  {
   grupos: Grupo[] = [];
   alumnos: Alumno[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+        private modalController: ModalController,
+        private toastController: ToastController
+  ) {}
 
   ngOnInit() {
     this.tutorForm = this.fb.group({
@@ -140,5 +143,7 @@ onImageSelected(event: Event) {
     reader.readAsDataURL(this.fotoFile);
   }
 }
-
+  cerrarModal() {
+    this.modalController.dismiss();
+  }
 }

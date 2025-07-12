@@ -1,145 +1,121 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { AgregarTutorModalPage } from 'src/app/modal/agregar-tutor-modal/agregar-tutor-modal.page';
+import { EditarTutorModalPage } from 'src/app/modal/editar-tutor-modal/editar-tutor-modal.page';
+import { EliminarTutorModalPage } from 'src/app/modal/eliminar-tutor-modal/eliminar-tutor-modal.page';
+import { FooterPage } from "src/app/componentes/footer/footer.page";
 
-
-interface Grupo {
-  id: number;
-  nombre: string;
-}
-
-interface Alumno {
-  id: number;
-  nombre: string;
-}
 
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.page.html',
   styleUrls: ['./formulario.page.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule]
+  imports: [IonicModule, ReactiveFormsModule, CommonModule, FooterPage]
 })
-export class FormularioPage implements OnInit {
-  tutorForm!: FormGroup;
-  grupos: Grupo[] = [];
-  alumnos: Alumno[] = [];
+export class FormularioPage{
+  formTutoria!: FormGroup;
+  isEdit: boolean = false;
+  id!: number;
+  diasArray: string[] = [];
+  selectedFile: File | null = null;
+  instructores: any[] = [];
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.tutorForm = this.fb.group({
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly toastController: ToastController,
+    private readonly router: Router,
+    private readonly modalController: ModalController,
+  ) {
+    this.formTutoria = this.fb.group({
+      instructor: ['', Validators.required],
       nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]],
-      telefono: ['', Validators.required],
-      grupoId: [null, Validators.required],
-      hijos: this.fb.array([], Validators.required) // Debe seleccionar al menos 1 hijo
+      descripcion: ['', [Validators.required, Validators.maxLength(200)]],
+      tipo: ['', Validators.required],
+      cantidadDias: ['', [Validators.required, Validators.max(5)]],
+      cupos: ['', Validators.required],
+      imagen: [null, Validators.required]
     });
 
-    this.cargarGrupos();
+    this.formTutoria.get('cantidadDias')?.valueChanges.subscribe((cantidad) => {
+      this.agregarCamposDiasHoras(cantidad);
+    });
+
+  }
+  async mostrarToast(mensaje: string, color: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: color,
+    });
+    toast.present();
   }
 
-get hijosControls(): FormControl[] {
-  return (this.tutorForm.get('hijos') as FormArray).controls as FormControl[];
-}
-
-
-  cargarGrupos() {
-    // Simula carga de grupos (puedes reemplazar con llamada real)
-    this.grupos = [
-      { id: 1, nombre: 'Grupo A' },
-      { id: 2, nombre: 'Grupo B' },
-      { id: 3, nombre: 'Grupo C' },
-    ];
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
   }
 
-  cargarAlumnosDelGrupo() {
-    const grupoId = this.tutorForm.get('grupoId')?.value;
 
-    if (!grupoId) {
-      this.alumnos = [];
-      (this.tutorForm.get('hijos') as FormArray).clear();
-      return;
+  agregarCamposDiasHoras(cantidad: number) {
+    const controls = Object.keys(this.formTutoria.controls);
+    controls.forEach(controlName => {
+      if (controlName.startsWith('dia_') || controlName.startsWith('hora_')) {
+        this.formTutoria.removeControl(controlName);
+      }
+    });
+
+    if (cantidad > 0 && cantidad <= 5) {
+      for (let i = 1; i <= cantidad; i++) {
+        this.formTutoria.addControl('dia_' + i, this.fb.control('lunes', Validators.required));
+        this.formTutoria.addControl('hora_' + i, this.fb.control('07:00', Validators.required));
+      }
+      this.diasArray = Array.from({ length: cantidad }, (_, i) => (i + 1).toString());
     }
-
-    // Simula carga alumnos según grupoId
-    this.alumnos = this.obtenerAlumnosPorGrupo(grupoId);
-
-    // Resetear el FormArray hijos
-    const hijosFormArray = this.tutorForm.get('hijos') as FormArray;
-    hijosFormArray.clear();
-
-    this.alumnos.forEach(() => hijosFormArray.push(new FormControl(false)));
   }
 
-  obtenerAlumnosPorGrupo(grupoId: number): Alumno[] {
-    // Simulación simple, debes obtener datos reales desde backend
-    const todosAlumnos: Alumno[] = [
-      { id: 1, nombre: 'Juan Perez', },
-      { id: 2, nombre: 'Ana Gómez', },
-      { id: 3, nombre: 'Luis Torres', },
-      { id: 4, nombre: 'Maria Lopez', },
-      { id: 5, nombre: 'Carlos Ruiz', },
-    ];
-
-    // Simula filtro por grupo (esto cambia según tu lógica)
-    if (grupoId === 1) return todosAlumnos.slice(0, 2);
-    if (grupoId === 2) return todosAlumnos.slice(2, 4);
-    if (grupoId === 3) return todosAlumnos.slice(4, 5);
-    return [];
+  convertToUpperCase(event: any, controlName: string) {
+    const value = event.target.value.toUpperCase();
+    this.formTutoria.get(controlName)?.setValue(value);
+  }
+  async abrirModalAgregarInstructor() {
+    const modal = await this.modalController.create({
+      component: AgregarTutorModalPage,
+      componentProps: {
+        instructores: this.instructores
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then(() => {
+    });
   }
 
-  guardarTutor() {
-    if (this.tutorForm.invalid) {
-      this.tutorForm.markAllAsTouched();
-      alert('Por favor llena correctamente todos los campos y selecciona al menos un hijo');
-      return;
-    }
-
-    const formValue = this.tutorForm.value;
-
-    // Obtener IDs de hijos seleccionados
-    const hijosSeleccionados = this.alumnos
-      .filter((_, i) => formValue.hijos[i])
-      .map(alumno => alumno.id);
-
-    if (hijosSeleccionados.length === 0) {
-      alert('Selecciona al menos un hijo.');
-      return;
-    }
-
-    // Aquí arma el objeto a guardar / enviar al backend
-    const tutor = {
-      nombre: formValue.nombre,
-      apellido: formValue.apellido,
-      correo: formValue.correo,
-      telefono: formValue.telefono,
-      grupoId: formValue.grupoId,
-      hijos: hijosSeleccionados
-    };
-
-    console.log('Tutor a guardar:', tutor);
-
-    alert('Tutor guardado con éxito (simulado)');
-    this.tutorForm.reset();
-    this.alumnos = [];
+  async abrirModalEditarInstructor() {
+    const modal = await this.modalController.create({
+      component: EditarTutorModalPage,
+      componentProps: {
+        instructores: this.instructores
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then(() => {
+    });
   }
-  fotoPreview: string | ArrayBuffer | null = null;
-fotoFile: File | null = null;
 
-onImageSelected(event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    this.fotoFile = input.files[0];
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.fotoPreview = reader.result;
-    };
-    reader.readAsDataURL(this.fotoFile);
+  async abrirModalEliminarInstructor() {
+    const modal = await this.modalController.create({
+      component: EliminarTutorModalPage,
+      componentProps: {
+        instructores: this.instructores
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then(() => {
+    });
   }
-}
-
+   cerrarModal() {
+    this.modalController.dismiss();
+  }
 }
