@@ -46,6 +46,16 @@ export class MenuAdminPage  {
       this.router.navigateByUrl('/alumnos/formulario');
     });
   }
+  navigateToRegistroGrupos() {
+    this.menu.close().then(() => {
+      this.router.navigateByUrl('/grupos');
+    });
+  }
+  navigateToMaestros() {
+    this.menu.close().then(() => {
+      this.router.navigateByUrl('/maestros/registro');
+    });
+  }
 
   logout() {
     this.menu.close().then(() => {

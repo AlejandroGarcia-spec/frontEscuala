@@ -149,8 +149,15 @@ const routes: Routes = [
   {
     path: 'eliminar-maestro-modal',
     loadChildren: () => import('./modal/eliminar-maestro-modal/eliminar-maestro-modal.module').then( m => m.EliminarMaestroModalPageModule)
+  },
+  {
+    path: 'grupos',
+    loadChildren: () => import('./pages/grupos/grupos.module').then( m => m.GruposPageModule)
+  },
+  {
+    path: 'maestros/registro',
+    loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
   }
-
 ];
 
 @NgModule({
