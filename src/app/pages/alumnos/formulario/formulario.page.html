@@ -6,7 +6,7 @@
           <img src="./assets/Imagen3.png" alt="Logo" class="logo">
         </ion-col>
         <ion-col size="4">
-          <ion-title>FORMULARIO DE ALUMNOS</ion-title>
+          <ion-title>CREDENCIAL DIGITAL</ion-title>
           <ion-card-subtitle>REGISTRO DE ALUMNOS</ion-card-subtitle>
         </ion-col>
         <ion-col size="4">
@@ -19,63 +19,51 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <form [formGroup]="alumnoForm" (ngSubmit)="guardarAlumno()">
-    <!-- Datos del alumno -->
- <ion-item>
-  <ion-label position="floating">Nombre</ion-label>
-  <ion-input formControlName="nombre"></ion-input>
-</ion-item>
-<ion-text color="danger" *ngIf="alumnoForm.get('nombre')?.invalid && alumnoForm.get('nombre')?.touched">
-  El nombre es requerido y debe tener mínimo 2 letras
-</ion-text>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de Alumnos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div style="overflow-x: auto;">
+        <table style="min-width: 900px; border-collapse: collapse; width: 100%;">
+          <thead>
+            <tr>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">ID</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Nombre</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellidos</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Email</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Teléfono</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let instructor of instructores">
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.id }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.nombre }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido1 }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.email }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card-content>
 
-<ion-item>
-  <ion-label position="floating">Apellido</ion-label>
-  <ion-input formControlName="apellido"></ion-input>
-</ion-item>
-<ion-text color="danger" *ngIf="alumnoForm.get('apellido')?.invalid && alumnoForm.get('apellido')?.touched">
-  El apellido es requerido y debe tener mínimo 2 letras
-</ion-text>
+  </ion-card>
 
-<ion-item>
-  <ion-label position="floating">Correo (opcional)</ion-label>
-  <ion-input type="email" formControlName="correo"></ion-input>
-</ion-item>
-<ion-text color="danger" *ngIf="alumnoForm.get('correo')?.invalid && alumnoForm.get('correo')?.touched">
-  El correo no es válido
-</ion-text>
-
-<ion-item>
-  <ion-label position="floating">Teléfono (opcional)</ion-label>
-  <ion-input type="tel" formControlName="telefono"></ion-input>
-</ion-item>
-<ion-text color="danger" *ngIf="alumnoForm.get('telefono')?.invalid && alumnoForm.get('telefono')?.touched">
-  El teléfono debe tener 10 dígitos
-</ion-text>
-
-<ion-item>
-  <ion-label>Grupo</ion-label>
-  <ion-select formControlName="grupoId">
-    <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
-  </ion-select>
-</ion-item>
-<ion-text color="danger" *ngIf="alumnoForm.get('grupoId')?.invalid && alumnoForm.get('grupoId')?.touched">
-  Selecciona un grupo
-</ion-text>
-
-
-    <!-- Imagen del alumno -->
-    <ion-item lines="none">
-      <ion-label>Foto del Alumno</ion-label>
-    </ion-item>
-    <ion-item>
-      <input type="file" (change)="onImageSelected($event)" accept="image/*" />
-    </ion-item>
-    <ion-item *ngIf="fotoPreview">
-      <img [src]="fotoPreview" style="width: 100%; max-height: 200px; object-fit: cover;" />
-    </ion-item>
-
-    <ion-button expand="full" type="submit" [disabled]="alumnoForm.invalid">Guardar</ion-button>
-  </form>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="4">
+        <ion-button expand="block" color="primary" (click)="abrirModalAgregarInstructor()" >Agregar Alumno</ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button expand="block" color="warning" (click)="abrirModalEditarInstructor()" >Modificar Alumno</ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button expand="block" color="danger" (click)="abrirModalEliminarInstructor()" >Eliminar Alumno</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<app-footer></app-footer>
