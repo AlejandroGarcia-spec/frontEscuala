@@ -15,7 +15,7 @@
 
       <!-- Instructor -->
       <ion-item>
-        <ion-label>Seleccionar Instructor</ion-label>
+        <ion-label>Seleccionar Alumno</ion-label>
         <ion-select (ionChange)="onInstructorChange($event)" formControlName="id">
           <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
             {{ instructor.nombre }}

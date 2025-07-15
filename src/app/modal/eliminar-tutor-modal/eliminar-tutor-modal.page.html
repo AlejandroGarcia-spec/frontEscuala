@@ -12,7 +12,7 @@
   <form [formGroup]="formEliminar" (ngSubmit)="confirmarEliminacion()">
     <ion-list>
       <ion-item>
-        <ion-label>Seleccionar Instructor</ion-label>
+        <ion-label>Seleccionar Tutor</ion-label>
         <ion-select formControlName="id">
           <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
             {{ instructor.nombre }}

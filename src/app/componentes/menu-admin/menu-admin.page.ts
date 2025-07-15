@@ -31,11 +31,6 @@ export class MenuAdminPage  {
       this.router.navigateByUrl('/tutores/formulario');
     });
   }
-  navigateToAdminsFormulario() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/alumnos/formulario');
-    });
-  }
   navigateToRegistroMaestros() {
     this.menu.close().then(() => {
       this.router.navigateByUrl('/maestros/registro');

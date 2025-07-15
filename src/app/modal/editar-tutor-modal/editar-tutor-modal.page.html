@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Modificar Instructor</ion-title>
+    <ion-title>Modificar Tutor</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrarModal()">
         <ion-icon name="close"></ion-icon>
@@ -13,7 +13,7 @@
   <form [formGroup]="tutorForm" (ngSubmit)="guardarTutor()">
     <ion-list>
       <ion-item>
-        <ion-label>Seleccionar Instructor</ion-label>
+        <ion-label>Seleccionar Tutor</ion-label>
         <ion-select (ionChange)="onInstructorChange($event)" formControlName="id">
           <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
             {{ instructor.nombre }}
