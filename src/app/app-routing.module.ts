@@ -157,6 +157,18 @@ const routes: Routes = [
   {
     path: 'maestros/registro',
     loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'agregar-grupo-modal',
+    loadChildren: () => import('./modal/agregar-grupo-modal/agregar-grupo-modal.module').then( m => m.AgregarGrupoModalPageModule)
+  },
+  {
+    path: 'editar-grupo-modal',
+    loadChildren: () => import('./modal/editar-grupo-modal/editar-grupo-modal.module').then( m => m.EditarGrupoModalPageModule)
+  },
+  {
+    path: 'eliminar-grupo-modal',
+    loadChildren: () => import('./modal/eliminar-grupo-modal/eliminar-grupo-modal.module').then( m => m.EliminarGrupoModalPageModule)
   }
 ];
 
