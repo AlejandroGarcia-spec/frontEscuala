@@ -31,11 +31,6 @@ export class MenuAdminPage  {
       this.router.navigateByUrl('/tutores/formulario');
     });
   }
-  navigateToAdminsFormulario() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/alumnos/formulario');
-    });
-  }
   navigateToRegistroMaestros() {
     this.menu.close().then(() => {
       this.router.navigateByUrl('/maestros/registro');
@@ -44,6 +39,16 @@ export class MenuAdminPage  {
   navigateToRegistroAlumnos() {
     this.menu.close().then(() => {
       this.router.navigateByUrl('/alumnos/formulario');
+    });
+  }
+  navigateToRegistroGrupos() {
+    this.menu.close().then(() => {
+      this.router.navigateByUrl('/grupos');
+    });
+  }
+  navigateToMaestros() {
+    this.menu.close().then(() => {
+      this.router.navigateByUrl('/maestros/registro');
     });
   }
 

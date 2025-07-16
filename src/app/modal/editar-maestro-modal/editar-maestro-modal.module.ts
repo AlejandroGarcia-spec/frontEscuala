@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { EditarMaestroModalPageRoutingModule } from './editar-maestro-modal-routing.module';
 
-import { EditarMaestroModalPage } from './editar-maestro-modal.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,5 @@ import { EditarMaestroModalPage } from './editar-maestro-modal.page';
     IonicModule,
     EditarMaestroModalPageRoutingModule
   ],
-  declarations: [EditarMaestroModalPage]
 })
 export class EditarMaestroModalPageModule {}

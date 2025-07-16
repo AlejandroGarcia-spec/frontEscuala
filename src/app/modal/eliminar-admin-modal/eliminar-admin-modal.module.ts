@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { EliminarAdminModalPageRoutingModule } from './eliminar-admin-modal-routing.module';
 
-import { EliminarAdminModalPage } from './eliminar-admin-modal.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,5 @@ import { EliminarAdminModalPage } from './eliminar-admin-modal.page';
     IonicModule,
     EliminarAdminModalPageRoutingModule
   ],
-  declarations: [EliminarAdminModalPage]
 })
 export class EliminarAdminModalPageModule {}

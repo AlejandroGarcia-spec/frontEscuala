@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AgregarMaestroModalPageRoutingModule } from './agregar-maestro-modal-routing.module';
 
-import { AgregarMaestroModalPage } from './agregar-maestro-modal.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { AgregarMaestroModalPage } from './agregar-maestro-modal.page';
     IonicModule,
     AgregarMaestroModalPageRoutingModule
   ],
-  declarations: [AgregarMaestroModalPage]
+
 })
 export class AgregarMaestroModalPageModule {}

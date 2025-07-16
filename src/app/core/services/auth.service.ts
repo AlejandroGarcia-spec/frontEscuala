@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  constructor(private router: Router) {}
   isAuthenticated(): boolean {
   const usuario = this.getUsuario();
   return !!usuario; // retorna true si existe un usuario
@@ -35,8 +37,8 @@ export class AuthService {
   return usuario ? JSON.parse(usuario) : null;
 }
 
-
-  logout() {
+logout() {
     localStorage.removeItem('usuario');
+    this.router.navigate(['/']); // ← Redirige al home (ajusta la ruta si es distinta)
   }
 }

@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { EliminarMaestroModalPageRoutingModule } from './eliminar-maestro-modal-routing.module';
 
-import { EliminarMaestroModalPage } from './eliminar-maestro-modal.page';
+
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { EliminarMaestroModalPage } from './eliminar-maestro-modal.page';
     IonicModule,
     EliminarMaestroModalPageRoutingModule
   ],
-  declarations: [EliminarMaestroModalPage]
+
 })
 export class EliminarMaestroModalPageModule {}
