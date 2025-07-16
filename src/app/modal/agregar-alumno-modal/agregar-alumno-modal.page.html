@@ -1,13 +1,68 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>agregar-alumno-modal</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Agregar Alumno</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="alumnoForm" (ngSubmit)="guardarAlumno()">
+    <!-- Datos del alumno -->
+ <ion-item>
+  <ion-label position="floating">Nombre</ion-label>
+  <ion-input formControlName="nombre"></ion-input>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('nombre')?.invalid && alumnoForm.get('nombre')?.touched">
+  El nombre es requerido y debe tener mínimo 2 letras
+</ion-text>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">agregar-alumno-modal</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-item>
+  <ion-label position="floating">Apellido</ion-label>
+  <ion-input formControlName="apellido"></ion-input>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('apellido')?.invalid && alumnoForm.get('apellido')?.touched">
+  El apellido es requerido y debe tener mínimo 2 letras
+</ion-text>
+
+<ion-item>
+  <ion-label position="floating">Correo (opcional)</ion-label>
+  <ion-input type="email" formControlName="correo"></ion-input>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('correo')?.invalid && alumnoForm.get('correo')?.touched">
+  El correo no es válido
+</ion-text>
+
+<ion-item>
+  <ion-label position="floating">Teléfono (opcional)</ion-label>
+  <ion-input type="tel" formControlName="telefono"></ion-input>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('telefono')?.invalid && alumnoForm.get('telefono')?.touched">
+  El teléfono debe tener 10 dígitos
+</ion-text>
+
+<ion-item>
+  <ion-label>Grupo</ion-label>
+  <ion-select formControlName="grupoId">
+    <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('grupoId')?.invalid && alumnoForm.get('grupoId')?.touched">
+  Selecciona un grupo
+</ion-text>
+    <!-- Imagen del alumno -->
+    <ion-item lines="none">
+      <ion-label>Foto del Alumno</ion-label>
+    </ion-item>
+    <ion-item>
+      <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+    </ion-item>
+    <ion-item *ngIf="fotoPreview">
+      <img [src]="fotoPreview" style="width: 100%; max-height: 200px; object-fit: cover;" />
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="alumnoForm.invalid">Guardar</ion-button>
+  </form>
 </ion-content>
