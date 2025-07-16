@@ -169,7 +169,11 @@ const routes: Routes = [
   {
     path: 'eliminar-grupo-modal',
     loadChildren: () => import('./modal/eliminar-grupo-modal/eliminar-grupo-modal.module').then( m => m.EliminarGrupoModalPageModule)
+  },  {
+    path: 'menu-maestro',
+    loadChildren: () => import('./componentes/menu-maestro/menu-maestro.module').then( m => m.MenuMaestroPageModule)
   }
+
 ];
 
 @NgModule({

@@ -8,12 +8,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminPageModule } from './pages/admin/admin.module';
 import { MenuAdminPage } from './componentes/menu-admin/menu-admin.page';
+import { MenuMaestroPage } from "./componentes/menu-maestro/menu-maestro.page";
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AdminPageModule,
-    HttpClientModule,MenuAdminPage],
+     MenuAdminPage, MenuMaestroPage],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
