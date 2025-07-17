@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   isInstructor() {
-    return this.router.url.startsWith('/home-instructor');
+    return this.router.url.startsWith('/dashboard') || this.router.url.startsWith('/docente');
   }
 
   isAlumno() {
@@ -24,42 +24,5 @@ export class AppComponent {
   }
   toggleMenu() {
     this.menu.toggle();
-  }
-
-  navigateToPerfil() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/usuario');
-    });
-  }
-  navigateToRegistro() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/registuto');
-    });
-  }
-  navigateToDeportiva() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/deportiva');
-    });
-  }
-  navigateToCultural() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/cultural');
-    });
-  }
-  navigateToCarreras() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/carreras');
-    });
-  }
-  navigateToGrupos() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/grupos-carreras');
-    });
-  }
-
-  logout() {
-    this.menu.close().then(() => {
-      this.router.navigateByUrl('/login');
-    });
   }
 }

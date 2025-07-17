@@ -1,7 +1,6 @@
 import { Component, } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController } from '@ionic/angular';
-import { MenuAdminPage } from "src/app/componentes/menu-admin/menu-admin.page";
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './admin.page.html',
   standalone: true,
   styleUrls: ['./admin.page.scss'],
-  imports: [IonicModule, MenuAdminPage]
+  imports: [IonicModule]
 
 })
 export class AdminPage  {
