@@ -5,9 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PadresHomePageRoutingModule } from './padres-home-routing.module';
-
-import { PadresHomePage } from './padres-home.page';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +12,5 @@ import { PadresHomePage } from './padres-home.page';
     IonicModule,
     PadresHomePageRoutingModule
   ],
-  declarations: [PadresHomePage]
 })
 export class PadresHomePageModule {}
