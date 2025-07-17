@@ -33,10 +33,6 @@ rol: string = '';
     this.router.navigate(['/asistencias/registro']);
   }
 
-  navigateToEntradaQRAlumnos() {
-    this.router.navigate(['/entradas/escanear-qr']);
-  }
-
   navigateToSalidaQRAlumnos() {
     this.router.navigate(['/salidas/escanear-qr']);
   }
