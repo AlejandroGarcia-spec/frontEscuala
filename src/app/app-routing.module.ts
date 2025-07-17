@@ -169,10 +169,16 @@ const routes: Routes = [
   {
     path: 'eliminar-grupo-modal',
     loadChildren: () => import('./modal/eliminar-grupo-modal/eliminar-grupo-modal.module').then( m => m.EliminarGrupoModalPageModule)
-  },  {
+  },
+  {
     path: 'menu-maestro',
     loadChildren: () => import('./componentes/menu-maestro/menu-maestro.module').then( m => m.MenuMaestroPageModule)
-  }
+  },  {
+    path: 'padres-home',
+    loadChildren: () => import('./pages/padres-home/padres-home.module').then( m => m.PadresHomePageModule)
+  },
+
+  
 
 ];
 
