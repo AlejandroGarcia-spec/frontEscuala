@@ -67,6 +67,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'login/tutor',
+    loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
+  },
+
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
@@ -76,7 +81,7 @@ const routes: Routes = [
   },
   {
   path: 'auth/:perfil', // <- así capturamos admin, maestro o tutor
-  loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
+  loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule)
 },
   {
     path: 'header',
