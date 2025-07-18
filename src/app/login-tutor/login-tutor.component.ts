@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonLabel, IonHeader, IonToolbar, IonContent } from "@ionic/angular/standalone";
 import { IonicModule } from '@ionic/angular'; 
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
+
+import { AuthService } from 'src/app/core/services/auth.service';
+
 @Component({
   selector: 'app-login-tutor',
   standalone: true,
@@ -18,7 +22,11 @@ import { CommonModule } from '@angular/common';
 export class LoginTutorComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private auth: AuthService
+  ) {
     this.loginForm = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', Validators.required]
@@ -28,8 +36,15 @@ export class LoginTutorComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { usuario, password } = this.loginForm.value;
-      console.log('Tutor login:', { usuario, password });
-      
+
+      const success = this.auth.login(usuario, password);
+
+      if (success) {
+        
+        this.router.navigate(['/tutores/lista']);
+      } else {
+        alert('Usuario o contraseña incorrectos o no eres tutor.');
+      }
     } else {
       this.loginForm.markAllAsTouched();
     }
