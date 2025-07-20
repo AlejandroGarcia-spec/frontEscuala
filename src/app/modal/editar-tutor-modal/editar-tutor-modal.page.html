@@ -47,7 +47,13 @@
       <ion-text color="danger" *ngIf="tutorForm.get('correo')?.touched && tutorForm.get('correo')?.invalid">
         <p class="ion-padding-start">Correo válido es obligatorio</p>
       </ion-text>
-
+ <ion-item>
+        <ion-input label="CONTRASEÑA" placeholder="..." labelPlacement="floating" formControlName="password" required [type]="showPassword ? 'text' : 'password'" required></ion-input>
+        <ion-icon slot="end" name="eye" (click)="togglePasswordVisibility()"></ion-icon>
+        <ion-note color="medium" *ngIf="tutorForm.get('password')?.hasError('minlength')">
+          La contraseña debe tener al menos 8 caracteres.
+        </ion-note>
+      </ion-item>
       <!-- Teléfono -->
       <ion-item>
         <ion-label position="floating">Teléfono</ion-label>
