@@ -173,12 +173,26 @@ const routes: Routes = [
   {
     path: 'menu-maestro',
     loadChildren: () => import('./componentes/menu-maestro/menu-maestro.module').then( m => m.MenuMaestroPageModule)
-  },  {
+  },
+  {
     path: 'padres-home',
     loadChildren: () => import('./pages/padres-home/padres-home.module').then( m => m.PadresHomePageModule)
   },
-
+  {
+    path: 'menu-padre',
+    loadChildren: () => import('./componentes/menu-padre/menu-padre.module').then( m => m.MenuPadrePageModule)
+  },
   
+  {
+    path: 'perfil-padre',
+    loadChildren: () => import('./pages/perfiles/perfil-padre/perfil-padre.module').then( m => m.PerfilPadrePageModule)
+  },  {
+    path: 'qralumno',
+    loadChildren: () => import('./modal/qralumno/qralumno.module').then( m => m.QRAlumnoPageModule)
+  },
+
+
+
 
 ];
 

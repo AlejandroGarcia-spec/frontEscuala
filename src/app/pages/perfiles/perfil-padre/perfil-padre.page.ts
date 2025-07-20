@@ -1,19 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicModule, ToastController } from '@ionic/angular';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-perfil-admin',
-  standalone: true,
   imports: [IonicModule, FooterPage],
-  templateUrl: './perfil-admin.page.html',
-  styleUrls: ['./perfil-admin.page.scss'],
+  standalone:true,
+  selector: 'app-perfil-padre',
+  templateUrl: './perfil-padre.page.html',
+  styleUrls: ['./perfil-padre.page.scss'],
 })
-export class PerfilAdminPage {
+export class PerfilPadrePage  {
  nombre: string = "";
+ apellido: string = "";
   tipo_usuario: string = "";
   telefono: string = "";
+  correo: string = "";
+  hijos: string = "";
+  hijo_grupo: string = "";
+  qrCode: string = ""; // Variable para almacenar la URL del QR
+  id!: number;
+    imagen: string = "";
+
 
   constructor(private authService: AuthService, private toastController: ToastController) {}
 
