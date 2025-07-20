@@ -23,6 +23,7 @@ interface Alumno {
 export class AgregarTutorModalPage  {
   tutorForm!: FormGroup;
   grupos: Grupo[] = [];
+  showPassword: boolean = false;
   alumnos: Alumno[] = [];
 
   constructor(private fb: FormBuilder,
@@ -36,6 +37,7 @@ export class AgregarTutorModalPage  {
       apellido: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       grupoId: [null, Validators.required],
       hijos: this.fb.array([], Validators.required) // Debe seleccionar al menos 1 hijo
     });
@@ -145,5 +147,8 @@ onImageSelected(event: Event) {
 }
   cerrarModal() {
     this.modalController.dismiss();
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

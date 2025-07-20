@@ -44,7 +44,7 @@ export class LoginPage {
     } else if (this.rol === 'maestro') {
       this.router.navigate(['/dashboard']);
     } else if (this.rol === 'tutor') {
-      this.router.navigate(['/home']); // o su propio módulo
+      this.router.navigate(['/padres-home']); // o su propio módulo
     } else {
       alert('Rol desconocido');
     }

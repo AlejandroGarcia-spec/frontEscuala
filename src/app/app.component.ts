@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,9 @@ export class AppComponent {
 
   isInstructor() {
     return this.router.url.startsWith('/dashboard') || this.router.url.startsWith('/docente');
+  }
+  isPadre() {
+    return this.router.url.startsWith('/padres-home') || this.router.url.startsWith('/padre');
   }
 
   isAlumno() {

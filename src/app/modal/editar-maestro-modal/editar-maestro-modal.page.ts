@@ -3,7 +3,10 @@ import { Component, } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
-
+interface Grupo {
+  id: number;
+  nombre: string;
+}
 @Component({
   selector: 'app-editar-maestro-modal',
   standalone: true,
@@ -18,6 +21,7 @@ export class EditarMaestroModalPage  {
   showPassword: boolean = false;
 fotoPreview: string | ArrayBuffer | null = null;
   fotoArchivo: File | null = null;
+      grupos: Grupo[] = [];
   constructor(
     private fb: FormBuilder,
     private _Service: AuthService,
@@ -31,6 +35,8 @@ fotoPreview: string | ArrayBuffer | null = null;
       nombre: ['', [Validators.required,Validators.maxLength(30)]],
       apellido1: ['', [Validators.required,Validators.maxLength(30)]],
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(10)]],
+      grupoId: [null, Validators.required],
+
     });
   }
 
@@ -64,6 +70,10 @@ onImageSelected(event: any) {
   }
 
   onInstructorChange(event: any) {
+  }
+   cargarAlumnosDelGrupo() {
+    const grupoId = this.formInstructor.get('grupoId')?.value;
+
   }
 
 }
