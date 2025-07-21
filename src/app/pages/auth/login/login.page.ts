@@ -8,7 +8,7 @@ import { HeaderPage } from "src/app/componentes/header/header.page";
   selector: 'app-login',
   templateUrl: './login.page.html',
   standalone: true,
-  imports: [IonicModule, FormsModule, HeaderPage],
+  imports: [IonicModule, FormsModule],
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
@@ -44,9 +44,8 @@ export class LoginPage {
     } else if (this.rol === 'maestro') {
       this.router.navigate(['/dashboard']);
     } else if (this.rol === 'tutor') {
-      this.router.navigate(['/home']); // o su propio módulo
+      this.router.navigate(['/login/tutor']); 
     } else {
       alert('Rol desconocido');
     }
-  }
-}
+  }}

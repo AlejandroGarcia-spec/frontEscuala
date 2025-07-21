@@ -15,7 +15,12 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
-      }
+      },
+      {
+      path: 'login/tutor',
+      loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
+  },
+
     ]
   },
 
@@ -66,11 +71,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tutores/formulario/formulario.module').then(m => m.FormularioPageModule)
   },
 
-  {
-    path: 'login/tutor',
-    loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
-  },
-
+  
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
