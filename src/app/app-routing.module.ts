@@ -18,7 +18,8 @@ const routes: Routes = [
       },
       {
       path: 'login/tutor',
-      loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
+       loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
+       
   },
 
     ]
