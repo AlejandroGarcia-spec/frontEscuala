@@ -1,31 +1,21 @@
-
-
-<ion-header [translucent]="true">
+<ion-header center >
   <ion-toolbar color="primary">
-    <ion-title class="ion-text-center">Login Tutor</ion-title>
+    <ion-title>Iniciar sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<ion-content class="ion-padding">
+  <form (ngSubmit)="iniciarSesion()">
     <ion-item>
       <ion-label position="floating">Usuario</ion-label>
-      <ion-input type="text" formControlName="usuario"></ion-input>
+      <ion-input [(ngModel)]="usuario" name="usuario" required></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="loginForm.get('usuario')?.touched && loginForm.get('usuario')?.invalid">
-      <p class="ion-padding-start">Usuario requerido</p>
-    </ion-text>
 
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+      <ion-input [(ngModel)]="contrasena" name="contrasena" type="password" required></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-      <p class="ion-padding-start">Contraseña requerida</p>
-    </ion-text>
 
-    <ion-button routerLinkActive="tutores/lista" expand="block" type="submit" class="ion-margin-top" [disabled]="loginForm.invalid">
-      Iniciar Sesión
-    </ion-button>
+    <ion-button expand="block" type="submit">Entrar</ion-button>
   </form>
 </ion-content>

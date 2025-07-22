@@ -11,31 +11,25 @@ import { CommonModule } from '@angular/common';
   imports: [IonicModule,CommonModule]
 })
 export class ListaPage  {
- grupos: any[] = [];
+ tutor = {
+    nombre: 'Juan Pérez',
+    hijos: [
+      { nombre: 'Luis Pérez', grado: '2°', codigo: '' },
+      { nombre: 'Ana Pérez', grado: '3°', codigo: '' }
+    ]
+  };
 
-  constructor(private router: Router) {
-    // Simulación de grupos con tutores
-    for (let i = 1; i <= 10; i++) {
-      this.grupos.push({
-        id: i,
-        abierto: false,
-        tutores: [
-          { nombre: `Tutor A del Grupo ${i}` },
-          { nombre: `Tutor B del Grupo ${i}` },
-          { nombre: `Tutor C del Grupo ${i}` }
-        
-        ]
-      });
-    }
+  constructor(private router: Router) {}
+
+
+  generarCodigo(index: number) {
+    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase(); 
+    this.tutor.hijos[index].codigo = codigoGenerado;
   }
 
-  toggleGrupo(id: number) {
-    const grupo = this.grupos.find(g => g.id === id);
-    if (grupo) grupo.abierto = !grupo.abierto;
-  }
-
-  irAlFormulario() {
-    this.router.navigate(['/tutores/formulario']);
+  cerrarSesion() {
+    localStorage.removeItem('logueado');
+    this.router.navigate(['/auth/login/tutor']);
   }
 }
 

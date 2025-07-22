@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { IonicModule } from '@ionic/angular'; 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { AlertController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -20,33 +20,37 @@ import { AuthService } from 'src/app/core/services/auth.service';
   ]
 })
 export class LoginTutorComponent {
-  loginForm: FormGroup;
+  usuario: string = '';
+  contrasena: string = '';
+
+  
+  usuariosValidos = [
+    { usuario: 'tutor1', contrasena: '1234', grado: 2 },
+    { usuario: 'tutor2', contrasena: '5678', grado: 3 }
+  ];
 
   constructor(
-    private fb: FormBuilder,
     private router: Router,
-    private auth: AuthService
-  ) {
-    this.loginForm = this.fb.group({
-      usuario: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+    private alertController: AlertController
+  ) {}
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const { usuario, password } = this.loginForm.value;
+  async iniciarSesion() {
+    const tutor = this.usuariosValidos.find(
+      u => u.usuario === this.usuario && u.contrasena === this.contrasena
+    );
 
-      const success = this.auth.login(usuario, password);
+    if (tutor) {
+      localStorage.setItem('logueado', 'true');
+      localStorage.setItem('grado', tutor.grado.toString());
 
-      if (success) {
-        
-        this.router.navigate(['/tutores/lista']);
-      } else {
-        alert('Usuario o contraseña incorrectos o no eres tutor.');
-      }
+      this.router.navigate(['/tutores/perfil']);
     } else {
-      this.loginForm.markAllAsTouched();
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Usuario o contraseña incorrectos',
+        buttons: ['OK'],
+      });
+      await alert.present();
     }
   }
 }

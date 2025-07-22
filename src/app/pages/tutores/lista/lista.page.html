@@ -1,28 +1,30 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Tutores por Grupo</ion-title>
+    <ion-title>Perfil del Tutor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarSesion()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" *ngFor="let grupo of grupos">
-        <ion-card (click)="toggleGrupo(grupo.id)">
-          <ion-card-header>
-            <ion-card-title>Grupo {{ grupo.id }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content *ngIf="grupo.abierto">
-            <ion-list>
-              <ion-item *ngFor="let tutor of grupo.tutores">
-                <ion-label>
-                  {{ tutor.nombre }}
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <h2>Bienvenido, {{ tutor.nombre }}</h2>
+
+  <ion-card *ngFor="let hijo of tutor.hijos; let i = index">
+    <ion-card-header>
+      <ion-card-title>{{ hijo.nombre }}</ion-card-title>
+      <ion-card-subtitle>Grado: {{ hijo.grado }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button expand="block" (click)="generarCodigo(i)">
+        Generar código de recogida
+      </ion-button>
+      <div *ngIf="hijo.codigo">
+        <p><strong>Código generado:</strong> {{ hijo.codigo }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

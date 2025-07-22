@@ -21,7 +21,6 @@ const routes: Routes = [
        loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
        
   },
-
     ]
   },
 
@@ -63,8 +62,9 @@ const routes: Routes = [
   },
 
   {
-    path: 'tutores/lista',
-    loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule)
+    path: 'tutores/perfil',
+    loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule),
+    canActivate:[authGuard]
   },
 
   {
@@ -75,16 +75,13 @@ const routes: Routes = [
   
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    canActivate:[authGuard]
   },
   {
     path: 'footer',
     loadChildren: () => import('./componentes/footer/footer.module').then( m => m.FooterPageModule)
   },
-  {
-  path: 'auth/:perfil', // <- así capturamos admin, maestro o tutor
-  loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule)
-},
   {
     path: 'header',
     loadChildren: () => import('./componentes/header/header.module').then( m => m.HeaderPageModule)
