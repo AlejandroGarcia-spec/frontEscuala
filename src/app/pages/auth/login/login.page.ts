@@ -40,21 +40,21 @@ export class LoginPage {
 
     if (this.rol === 'admin') {
       usuario = {
-        email: res.admin.correo,
+        correo: res.admin.correo,
         nombre: res.admin.nombre,
         rol: this.rol
       };
       this.router.navigate(['/admin']);
     } else if (this.rol === 'maestro') {
       usuario = {
-        email: res.maestro.correo,
+        correo: res.maestro.correo,
         nombre: res.maestro.nombre,
         rol: this.rol
       };
       this.router.navigate(['/dashboard']);
     } else if (this.rol === 'tutor') {
       usuario = {
-        email: res.tutor.correo,
+        correo: res.tutor.correo,
         nombre: res.tutor.nombre,
         rol: this.rol
       };

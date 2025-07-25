@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertController, IonicModule, ModalController, ToastController } from '@ionic/angular';
@@ -14,29 +15,32 @@ export class EliminarGrupoModalPage  {
   eliminarForm!: FormGroup;
   carreras: any[] = [];
   grupos: any[] = [];
+  grupoCarreraId: number = 0; // Nueva propiedad para almacenar el ID del grupo seleccionado
+
 constructor(
     private modalController: ModalController,
     private alertController: AlertController,
     private toastController: ToastController,
-    private formBuilder: FormBuilder
-  ) {}
-
-  ngOnInit() {
-    this.loadCarreras();
+    private formBuilder: FormBuilder,
+     private http: HttpClient
+  ) {
+     this.loadGrupos();
     this.eliminarForm = this.formBuilder.group({
-      selectedCarreraId: ['', Validators.required],
       grupoCarreraId: ['', Validators.required]
     });
   }
-
-  loadCarreras() {
-
+ loadGrupos() {
+  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
+    next: (data) => this.grupos = data,
+    error: () => this.mostrarToastError('Error al cargar los grupos')
+  });
+}
+  onGrupoChange(event: any) {
+    const grupo = this.grupos.find(g => g.id === event.detail.value);
+    if (grupo) {
+      this.eliminarForm.patchValue({ grupoCarreraId: grupo.id });
+    }
   }
-
-  onCarreraChange(event: any) {
-
-  }
-
   async confirmarEliminacion() {
     const alert = await this.alertController.create({
       header: 'Confirmar Eliminación',
@@ -60,10 +64,35 @@ constructor(
   }
 
   eliminarGrupo(id: number) {
-    
+    this.http.delete(`http://localhost:3000/grupos/delete/${id}`).subscribe({
+      next: () => {
+        this.mostrarToastSuccess('Grupo eliminado con éxito');
+        this.loadGrupos();
+      },
+      error: () => this.mostrarToastError('Error al eliminar el grupo')
+    });
   }
 
   cerrarModal() {
     this.modalController.dismiss();
   }
+  async mostrarToastSuccess(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 2000,
+    position: 'top',
+    color: 'success'
+  });
+  toast.present();
+}
+
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 2000,
+    position: 'top',
+    color: 'danger'
+  });
+  toast.present();
+}
 }

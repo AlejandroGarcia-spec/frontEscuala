@@ -11,7 +11,7 @@
 <ion-content>
   <ion-item>
     <ion-label>Seleccionar Grupo</ion-label>
-    <ion-select [(ngModel)]="grupoCarreraId">
+    <ion-select [(ngModel)]="grupoCarreraId" (ionChange)="onGrupoChange($event)">
       <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.id + ' - ' + grupo.nombre }}</ion-select-option>
     </ion-select>
   </ion-item>
