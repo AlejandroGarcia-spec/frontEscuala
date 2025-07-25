@@ -3,22 +3,25 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HeaderPage } from "src/app/componentes/header/header.page";
+import { ApiService } from 'src/app/core/services/api.service';
+  // ajusta ruta según tu estructura
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   standalone: true,
-  imports: [IonicModule, FormsModule, HeaderPage],
+  imports: [IonicModule, FormsModule],
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = '';
-  password: string = '';
+  correo: string = '';
+  contrasena: string = '';
   rol: string = '';
 
   constructor(
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly apiService: ApiService
   ) {
     this.route.queryParams.subscribe(params => {
       this.rol = params['rol'];
@@ -26,27 +29,47 @@ export class LoginPage {
   }
 
   onSubmit() {
-    if (!this.email || !this.password) {
+    if (!this.correo || !this.contrasena) {
       alert('Por favor completa todos los campos');
       return;
     }
 
-    // Simulamos login y guardamos el usuario con rol
-    const usuario = {
-      email: this.email,
-      rol: this.rol // este rol lo recibimos desde la URL
-    };
-    localStorage.setItem('usuario', JSON.stringify(usuario));
+ this.apiService.login(this.correo, this.contrasena, this.rol).subscribe({
+  next: (res: any) => {
+    let usuario;
 
-    // Redirigir por rol
     if (this.rol === 'admin') {
+      usuario = {
+        email: res.admin.correo,
+        nombre: res.admin.nombre,
+        rol: this.rol
+      };
       this.router.navigate(['/admin']);
     } else if (this.rol === 'maestro') {
+      usuario = {
+        email: res.maestro.correo,
+        nombre: res.maestro.nombre,
+        rol: this.rol
+      };
       this.router.navigate(['/dashboard']);
     } else if (this.rol === 'tutor') {
-      this.router.navigate(['/padres-home']); // o su propio módulo
+      usuario = {
+        email: res.tutor.correo,
+        nombre: res.tutor.nombre,
+        rol: this.rol
+      };
+      this.router.navigate(['/padres-home']);
     } else {
       alert('Rol desconocido');
+      return;
     }
+
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+  },
+  error: (err) => {
+    alert('Correo o contraseña incorrectos');
+    console.error(err);
+  }
+});
   }
 }

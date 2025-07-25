@@ -11,40 +11,39 @@ import { FooterPage } from "src/app/componentes/footer/footer.page";
   styleUrls: ['./perfil-admin.page.scss'],
 })
 export class PerfilAdminPage {
- nombre: string = "";
-  tipo_usuario: string = "";
-  telefono: string = "";
+  nombre: string = "";
+  correo: string = "";
 
-  constructor(private authService: AuthService, private toastController: ToastController) {}
+  constructor(
+    private authService: AuthService,
+    private toastController: ToastController
+  ) {
+    this.cargarAdminAutenticado();
+  }
 
-  /* cargarAdminAutenticado() {
-    const admin = this.authService.getUserData3();
-   // console.log('Admin from localStorage:', admin); // Log para verificar los datos en localStorage
-    if (admin && admin.id) {
-      this.authService.getAdminById(admin.id).subscribe(
+  cargarAdminAutenticado() {
+    const admin = this.authService.getUsuario(); // <-- asume que aquí se guarda el admin logueado
+    if (admin && admin.correo) {
+      this.authService.getAdminByCorreo(admin.correo).subscribe(
         (resp: any) => {
-       //   console.log('Response from API:', resp); // Log para verificar la respuesta de la API
           this.nombre = resp.nombre;
-          this.tipo_usuario = resp.tipo_usuario;
-          this.telefono = resp.telefono;
+          this.correo = resp.correo;
         },
         (error) => {
-          //console.error('Error al obtener la información del usuario:', error);
           this.presentToast('Error al obtener la información del administrador');
         }
       );
     } else {
-      //console.error('No se pudo obtener la información del usuario');
       this.presentToast('No se pudo obtener la información del administrador');
     }
   }
-*/
+
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
       position: 'top',
-      color: 'danger'
+      color: 'danger',
     });
     await toast.present();
   }
