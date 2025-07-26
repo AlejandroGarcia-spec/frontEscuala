@@ -16,6 +16,18 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card>
     <ion-card-header>
+      <ion-card-title>Selecciona un grupo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-select placeholder="Elige un grupo" [(ngModel)]="grupoSeleccionado" (ionChange)="filtrarAlumnosPorGrupo()">
+        <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
+          {{ grupo.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
       <ion-card-title>Lista de Alumnos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -31,12 +43,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let instructor of instructores">
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.id }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.nombre }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido1 }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.email }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
+            <tr *ngFor="let alumno of alumnosFiltrados">
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.id }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.nombre }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.apellido }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.email }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.telefono }}</td>
             </tr>
           </tbody>
         </table>

@@ -45,9 +45,10 @@
 
 <ion-item>
   <ion-label>Grupo</ion-label>
-  <ion-select formControlName="grupoId">
-    <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
-  </ion-select>
+  <ion-select formControlName="grupoId" placeholder="Selecciona un grupo">
+  <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
+</ion-select>
+
 </ion-item>
 <ion-text color="danger" *ngIf="alumnoForm.get('grupoId')?.invalid && alumnoForm.get('grupoId')?.touched">
   Selecciona un grupo
