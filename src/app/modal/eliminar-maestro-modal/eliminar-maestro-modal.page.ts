@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component,  } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertController, IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { MaestrosService } from 'src/app/core/services/maestros.service';
 
 @Component({
   selector: 'app-eliminar-maestro-modal',
@@ -18,6 +19,7 @@ export class EliminarMaestroModalPage  {
     private toastController: ToastController,
     private modalController: ModalController,
     private alertController: AlertController,
+    private maestrosService: MaestrosService // 👈 agrega el servicio aquí
   ) { }
    ngOnInit() {
     this.formEliminar = this.fb.group({
@@ -26,9 +28,22 @@ export class EliminarMaestroModalPage  {
     this.obtenerInstructores();
   }
 
-  obtenerInstructores() {
+obtenerInstructores() {
+  this.maestrosService.obtenerMaestros().subscribe({
+    next: (res: any) => {
+      this.instructores = res;
+    },
+    error: async () => {
+      const toast = await this.toastController.create({
+        message: 'Error al cargar docentes',
+        duration: 2000,
+        color: 'danger',
+      });
+      toast.present();
+    }
+  });
+}
 
-  }
 
   async confirmarEliminacion() {
     const alert = await this.alertController.create({
@@ -52,9 +67,28 @@ export class EliminarMaestroModalPage  {
     await alert.present();
   }
 
-  eliminarInstructor() {
-
-  }
+ eliminarInstructor() {
+  const id = this.formEliminar.value.id;
+  this.maestrosService.eliminarMaestro(id).subscribe({
+    next: async () => {
+      const toast = await this.toastController.create({
+        message: 'Docente eliminado exitosamente',
+        duration: 2000,
+        color: 'success',
+      });
+      toast.present();
+      this.cerrarModal(); // Cierra modal después de eliminar
+    },
+    error: async () => {
+      const toast = await this.toastController.create({
+        message: 'Error al eliminar el docente',
+        duration: 2000,
+        color: 'danger',
+      });
+      toast.present();
+    }
+  });
+}
 
   cerrarModal() {
     this.modalController.dismiss();

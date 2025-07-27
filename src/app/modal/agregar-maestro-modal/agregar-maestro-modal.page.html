@@ -13,15 +13,11 @@
   <form [formGroup]="formInstructor" (ngSubmit)="agregarInstructor()">
     <ion-list>
       <ion-item>
-        <ion-input label="MATRICULA DOCENTE" type="text" placeholder="...." labelPlacement="floating" placeholder="MATRICULA DOCENTE" formControlName="matricula"  (input)="convertToUpperCase($event, 'matricula')"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
         <ion-input label="NOMBRE" type="text" placeholder="...." labelPlacement="floating" placeholder="NOMBRE DEL INSTRUCTOR" formControlName="nombre"  (input)="convertToUpperCase($event, 'nombre')"
         ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="APELLIDOS" type="text" placeholder="...." labelPlacement="floating" placeholder="APELLIDOS" formControlName="apellido1"  (input)="convertToUpperCase($event, 'apellido1')"
+        <ion-input label="APELLIDOS" type="text" placeholder="...." labelPlacement="floating" placeholder="APELLIDOS" formControlName="apellido"  (input)="convertToUpperCase($event, 'apellido')"
         ></ion-input>
       </ion-item>
       <ion-item>
@@ -34,12 +30,12 @@
         </ion-note>
       </ion-item>
       <ion-item>
-        <ion-input label="CORREO ELECTRONICO" placeholder="Correo electrónico" placeholder="...." labelPlacement="floating"  formControlName="email" type="email"></ion-input>
+        <ion-input label="CORREO ELECTRONICO" placeholder="Correo electrónico" placeholder="...." labelPlacement="floating"  formControlName="correo" type="email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="CONTRASEÑA" placeholder="..." labelPlacement="floating" formControlName="password" required [type]="showPassword ? 'text' : 'password'" required></ion-input>
+        <ion-input label="CONTRASEÑA" placeholder="..." labelPlacement="floating" formControlName="contrasena" required [type]="showPassword ? 'text' : 'password'" required></ion-input>
         <ion-icon slot="end" name="eye" (click)="togglePasswordVisibility()"></ion-icon>
-        <ion-note color="medium" *ngIf="formInstructor.get('password')?.hasError('minlength')">
+        <ion-note color="medium" *ngIf="formInstructor.get('contrasena')?.hasError('minlength')">
           La contraseña debe tener al menos 8 caracteres.
         </ion-note>
       </ion-item>
