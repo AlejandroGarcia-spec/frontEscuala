@@ -101,6 +101,7 @@ guardarAlumno() {
     const alumnoConFoto = {
       ...datos,
   grupoId: Number(datos.grupoId),  // convertir a número explícitamente
+  tutorId: Number(datos.tutorId),  // convertir a número explícitamente
   imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
     };
 

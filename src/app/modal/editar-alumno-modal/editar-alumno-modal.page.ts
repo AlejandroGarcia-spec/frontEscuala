@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { AlumnosService } from 'src/app/core/services/alumnos.service';
 import { GrupoService } from 'src/app/core/services/grupo.service';
+import { TutoresService } from 'src/app/core/services/tutores.service';
 
 interface Grupo {
   id: number;
@@ -28,7 +29,7 @@ interface Alumno {
   styleUrls: ['./editar-alumno-modal.page.scss'],
 })
 export class EditarAlumnoModalPage implements OnInit {
-
+ tutores: any[] = [];
   @Input() alumno!: Alumno; // Recibir el alumno a editar como input
   alumnoForm!: FormGroup;
   grupos: Grupo[] = [];
@@ -42,7 +43,8 @@ export class EditarAlumnoModalPage implements OnInit {
   private toastController: ToastController,
   private modalController: ModalController,
   private grupoService: GrupoService,
-  private alumnosService: AlumnosService
+  private alumnosService: AlumnosService,
+  private tutorService: TutoresService // Asegúrate de importar el servicio de tutores
 ) {}
 
 
@@ -54,13 +56,29 @@ export class EditarAlumnoModalPage implements OnInit {
     apellido: ['', [Validators.required, Validators.minLength(2)]],
     correo: ['', [Validators.email]],
     telefono: ['', [Validators.pattern(/^\d{10}$/)]],
-      grupoId: ['', Validators.required],
+    grupoId: ['', Validators.required],
+    tutorId: ['', Validators.required] // <-- nuevo campo
   });
-
+  this.cargarTutores(); // <-- aquí llamamos
   this.cargarGrupos();
   this.cargarAlumnos();
 }
-
+cargarTutores() {
+  this.tutorService.obtenerTutores().subscribe({
+    next: (res: any) => {
+      this.tutores = res;
+    },
+    error: async (err) => {
+      const toast = await this.toastController.create({
+        message: 'Error al cargar tutores',
+        duration: 2000,
+        color: 'danger',
+      });
+      toast.present();
+      console.error(err);
+    }
+  });
+}
 cargarGrupos() {
   this.grupoService.obtenerGrupos().subscribe({
     next: (res: any) => {
@@ -115,10 +133,9 @@ cargarAlumnos() {
   correo: datos.correo,
   telefono: datos.telefono,
   grupoId: datos.grupoId,
+  tutorId: datos.tutorId,  // convertir a número explícitamente
   imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
 };
-
-
     this.alumnosService.actualizarAlumno(datos.id, alumnoActualizado).subscribe({
       next: async () => {
         const toast = await this.toastController.create({
