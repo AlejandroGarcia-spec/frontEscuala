@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { AlumnosService } from 'src/app/core/services/alumnos.service';
 import { GrupoService } from 'src/app/core/services/grupo.service';
+import { TutoresService } from 'src/app/core/services/tutores.service';
 
 @Component({
   selector: 'app-agregar-alumno-modal',
@@ -17,13 +18,14 @@ export class AgregarAlumnoModalPage implements OnInit {
   grupos: any[] = [];
   fotoPreview: string | ArrayBuffer | null = null;
   fotoArchivo: File | null = null;
-
+  tutores: any[] = [];
   constructor(
     private fb: FormBuilder,
     private toastController: ToastController,
     private modalController: ModalController,
     private grupoService: GrupoService,
-    private alumnosService: AlumnosService // Asegúrate de importar el servicio de alumnos
+    private alumnosService: AlumnosService, // Asegúrate de importar el servicio de alumnos,
+      private tutorService: TutoresService // <-- aquí
   ) {}
 
   ngOnInit() {
@@ -33,11 +35,28 @@ export class AgregarAlumnoModalPage implements OnInit {
       correo: ['', [Validators.email]],
       telefono: ['', [Validators.pattern(/^\d{10}$/)]],
       grupoId: ['', Validators.required],  // <-- grupoId es string aquí porque el input es texto o select
-    });
+      tutorId: ['', Validators.required] // <-- nuevo campo
 
+    });
+    this.cargarTutores(); // <-- aquí llamamos
     this.cargarGrupos();
   }
-
+cargarTutores() {
+  this.tutorService.obtenerTutores().subscribe({
+    next: (res: any) => {
+      this.tutores = res;
+    },
+    error: async (err) => {
+      const toast = await this.toastController.create({
+        message: 'Error al cargar tutores',
+        duration: 2000,
+        color: 'danger',
+      });
+      toast.present();
+      console.error(err);
+    }
+  });
+}
   cargarGrupos() {
     this.grupoService.obtenerGrupos().subscribe({
       next: (res: any) => {

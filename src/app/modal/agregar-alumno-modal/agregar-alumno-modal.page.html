@@ -53,6 +53,18 @@
 <ion-text color="danger" *ngIf="alumnoForm.get('grupoId')?.invalid && alumnoForm.get('grupoId')?.touched">
   Selecciona un grupo
 </ion-text>
+<ion-item>
+  <ion-label>Tutor</ion-label>
+  <ion-select formControlName="tutorId" placeholder="Selecciona un tutor">
+    <ion-select-option *ngFor="let tutor of tutores" [value]="tutor.id">
+      {{ tutor.nombre }} {{ tutor.apellido }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('tutorId')?.invalid && alumnoForm.get('tutorId')?.touched">
+  Selecciona un tutor
+</ion-text>
+
     <!-- Imagen del alumno -->
     <ion-item lines="none">
       <ion-label>Foto del Alumno</ion-label>
