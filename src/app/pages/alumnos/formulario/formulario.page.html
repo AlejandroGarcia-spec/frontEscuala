@@ -50,7 +50,9 @@
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.apellido }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.correo }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.telefono }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ alumno.tutorId }}</td>
+<td style="padding: 10px; border-bottom: 1px solid #ddd;">
+  {{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellido }}
+</td>
             </tr>
           </tbody>
         </table>
