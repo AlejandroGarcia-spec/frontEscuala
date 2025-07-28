@@ -30,7 +30,7 @@ export class EditarTutorModalPage implements OnInit {
   tutor_id: ['', Validators.required],
   nombre: ['', Validators.required],
   apellido: ['', Validators.required],
-  email: ['', [Validators.required, Validators.email]],
+  correo: ['', [Validators.required, Validators.email]],
   telefono: ['', Validators.required],
   contrasena: ['', [Validators.required, Validators.minLength(8)]],
   imagenBase64: ['']
@@ -56,7 +56,7 @@ export class EditarTutorModalPage implements OnInit {
   tutor_id: tutor.id,
   nombre: tutor.nombre,
   apellido: tutor.apellido,
-  email: tutor.email,
+  correo: tutor.correo,
   telefono: tutor.telefono,
   contrasena: tutor.contrasena,
   imagenBase64: tutor.imagenBase64 || ''
