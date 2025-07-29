@@ -12,9 +12,9 @@
   <form [formGroup]="eliminarForm">
     <ion-item>
       <ion-label>Seleccionar Grupo</ion-label>
-      <ion-select formControlName="grupoCarreraId">
-        <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.id + ' - ' + grupo.nombre }}</ion-select-option>
-      </ion-select>
+     <ion-select [(ngModel)]="grupoCarreraId" (ionChange)="onGrupoChange($event)">
+      <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.id + ' - ' + grupo.nombre }}</ion-select-option>
+    </ion-select>
     </ion-item>
     <ion-button expand="block" color="danger" (click)="confirmarEliminacion()" [disabled]="!eliminarForm.valid">Eliminar</ion-button>
   </form>

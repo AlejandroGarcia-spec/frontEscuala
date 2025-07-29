@@ -6,6 +6,7 @@ import { AgregarGrupoModalPage } from 'src/app/modal/agregar-grupo-modal/agregar
 import { EditarGrupoModalPage } from 'src/app/modal/editar-grupo-modal/editar-grupo-modal.page';
 import { EliminarGrupoModalPage } from 'src/app/modal/eliminar-grupo-modal/eliminar-grupo-modal.page';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
+import { GrupoService } from 'src/app/core/services/grupo.service';
 
 @Component({
   selector: 'app-grupos',
@@ -22,19 +23,22 @@ export class GruposPage  {
 
   constructor(
     private modalController: ModalController,
-    private toastController: ToastController
-  ) {
-    this.loadCarreras();
-
+    private toastController: ToastController,
+    private grupoService: GrupoService  ) {
+    this.actualizarGrupos(); // cargar grupos al iniciar
   }
 
-  loadCarreras() {
+  actualizarGrupos() {
+    this.grupoService.obtenerGrupos().subscribe(
+      (data) => {
+        this.grupos = data as any[];
+      },
+      (error) => {
+        console.error('Error al obtener grupos:', error);
+        this.grupos = [];
+      }
+    );
   }
-
-
-  onCarreraChange(event: any) {
-  }
-
 
   async abrirModalAgregarGrupo() {
     const modal = await this.modalController.create({
@@ -75,8 +79,6 @@ export class GruposPage  {
     });
   }
 
-  private actualizarGrupos() {
 
-  }
 }
 

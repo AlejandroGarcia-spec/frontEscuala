@@ -47,25 +47,6 @@
     <ion-text color="danger" *ngIf="tutorForm.get('telefono')?.touched && tutorForm.get('telefono')?.invalid">
       <p class="ion-padding-start">Teléfono es obligatorio</p>
     </ion-text>
-
-    <ion-item>
-      <ion-label>Grupo</ion-label>
-      <ion-select formControlName="grupoId" (ionChange)="cargarAlumnosDelGrupo()">
-        <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
-          {{ grupo.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-text color="danger" *ngIf="tutorForm.get('grupoId')?.touched && tutorForm.get('grupoId')?.invalid">
-      <p class="ion-padding-start">Debes seleccionar un grupo</p>
-    </ion-text>
-
-    <ion-list *ngIf="alumnos.length > 0">
-      <ion-item *ngFor="let alumno of alumnos; let i = index">
-        <ion-label>{{ alumno.nombre }}</ion-label>
-<ion-checkbox [formControl]="hijosControls[i]"></ion-checkbox>
-      </ion-item>
-    </ion-list>
     <ion-text color="danger" *ngIf="tutorForm.get('hijos')?.touched && tutorForm.get('hijos')?.invalid">
       <p class="ion-padding-start">Selecciona al menos un hijo</p>
     </ion-text>

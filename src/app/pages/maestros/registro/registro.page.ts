@@ -7,6 +7,7 @@ import { AgregarMaestroModalPage } from 'src/app/modal/agregar-maestro-modal/agr
 import { EditarMaestroModalPage } from 'src/app/modal/editar-maestro-modal/editar-maestro-modal.page';
 import { EliminarMaestroModalPage } from 'src/app/modal/eliminar-maestro-modal/eliminar-maestro-modal.page';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro',
@@ -29,29 +30,16 @@ export class RegistroPage {
     private toastController: ToastController,
     private router: Router,
     private modalController: ModalController,
+    private http: HttpClient
   ) {
-    this.formTutoria = this.fb.group({
-      instructor: ['', Validators.required],
-      nombre: ['', Validators.required],
-      descripcion: ['', [Validators.required, Validators.maxLength(200)]],
-      tipo: ['', Validators.required],
-      cantidadDias: ['', [Validators.required, Validators.max(5)]],
-      cupos: ['', Validators.required],
-      imagen: [null, Validators.required]
-    });
-
-
-
-
-  }
-
-  ngOnInit() {
     this.obtenerInstructores();
   }
 
-  obtenerInstructores() {
-
-  }
+obtenerInstructores() {
+  this.http.get<any[]>('http://localhost:3000/maestros').subscribe(data => {
+    this.instructores = data;
+  });
+}
 
   async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({

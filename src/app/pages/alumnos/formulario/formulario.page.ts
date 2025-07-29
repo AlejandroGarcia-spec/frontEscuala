@@ -6,6 +6,8 @@ import { FooterPage } from "src/app/componentes/footer/footer.page";
 import { AgregarAlumnoModalPage } from 'src/app/modal/agregar-alumno-modal/agregar-alumno-modal.page';
 import { EditarAlumnoModalPage } from 'src/app/modal/editar-alumno-modal/editar-alumno-modal.page';
 import { EliminarAlumnoModalPage } from 'src/app/modal/eliminar-alumno-modal/eliminar-alumno-modal.page';
+import { AlumnosService } from 'src/app/core/services/alumnos.service';
+import { GrupoService } from 'src/app/core/services/grupo.service';
 
 @Component({
   selector: 'app-formulario-alumno',
@@ -18,30 +20,53 @@ export class FormularioPage  {
   formTutoria!: FormGroup;
   isEdit: boolean = false;
   id!: number;
-  diasArray: string[] = [];
   selectedFile: File | null = null;
-  instructores: any[] = [];
+  grupos: any[] = [];
+alumnos: any[] = [];
+alumnosFiltrados: any[] = [];
+grupoSeleccionado: number | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly toastController: ToastController,
     private readonly modalController: ModalController,
+    private readonly grupoService: GrupoService,
+    private readonly alumnoService: AlumnosService
   ) {
-    this.formTutoria = this.fb.group({
-      instructor: ['', Validators.required],
-      nombre: ['', Validators.required],
-      descripcion: ['', [Validators.required, Validators.maxLength(200)]],
-      tipo: ['', Validators.required],
-      cantidadDias: ['', [Validators.required, Validators.max(5)]],
-      cupos: ['', Validators.required],
-      imagen: [null, Validators.required]
-    });
-
-    this.formTutoria.get('cantidadDias')?.valueChanges.subscribe((cantidad) => {
-      this.agregarCamposDiasHoras(cantidad);
-    });
-
+     this.obtenerGrupos();
+  this.obtenerAlumnos();
   }
+  obtenerGrupos() {
+  this.grupoService.obtenerGrupos().subscribe((res) => {
+    this.grupos = res as any[];
+  });
+}
+obtenerAlumnos() {
+  this.alumnoService.obtenerAlumnos().subscribe({
+    next: (data) => {
+      this.alumnos = data;
+      this.filtrarAlumnosPorGrupo(); // ✅ Se actualiza después de cargar
+    },
+    error: (error) => {
+      console.error('Error al obtener alumnos:', error);
+    }
+  });
+}
+
+filtrarAlumnosPorGrupo() {
+  if (this.grupoSeleccionado) {
+    this.alumnosFiltrados = this.alumnos.filter(alumno => {
+      if (!alumno.grupo) return false;
+      if (typeof alumno.grupo === 'number') return alumno.grupo === this.grupoSeleccionado;
+      if (typeof alumno.grupo === 'object') return alumno.grupo.id === this.grupoSeleccionado;
+      return false;
+    });
+  } else {
+    this.alumnosFiltrados = [];
+  }
+}
+
+
   async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -56,23 +81,6 @@ export class FormularioPage  {
   }
 
 
-  agregarCamposDiasHoras(cantidad: number) {
-    const controls = Object.keys(this.formTutoria.controls);
-    controls.forEach(controlName => {
-      if (controlName.startsWith('dia_') || controlName.startsWith('hora_')) {
-        this.formTutoria.removeControl(controlName);
-      }
-    });
-
-    if (cantidad > 0 && cantidad <= 5) {
-      for (let i = 1; i <= cantidad; i++) {
-        this.formTutoria.addControl('dia_' + i, this.fb.control('lunes', Validators.required));
-        this.formTutoria.addControl('hora_' + i, this.fb.control('07:00', Validators.required));
-      }
-      this.diasArray = Array.from({ length: cantidad }, (_, i) => (i + 1).toString());
-    }
-  }
-
   convertToUpperCase(event: any, controlName: string) {
     const value = event.target.value.toUpperCase();
     this.formTutoria.get(controlName)?.setValue(value);
@@ -81,36 +89,42 @@ export class FormularioPage  {
     const modal = await this.modalController.create({
       component: AgregarAlumnoModalPage,
       componentProps: {
-        instructores: this.instructores
+        alumnos: this.alumnos
       }
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
-    });
+  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+});
+
   }
 
   async abrirModalEditarInstructor() {
     const modal = await this.modalController.create({
       component: EditarAlumnoModalPage,
       componentProps: {
-        instructores: this.instructores
+        alumnos: this.alumnos
       }
     });
     await modal.present();
-    modal.onDidDismiss().then(() => {
-    });
+  modal.onDidDismiss().then(() => {
+  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+});
+
   }
 
   async abrirModalEliminarInstructor() {
     const modal = await this.modalController.create({
       component: EliminarAlumnoModalPage,
       componentProps: {
-        instructores: this.instructores
+        alumnos: this.alumnos
       }
     });
     await modal.present();
-    modal.onDidDismiss().then(() => {
-    });
+   modal.onDidDismiss().then(() => {
+  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+});
+
   }
    cerrarModal() {
     this.modalController.dismiss();
