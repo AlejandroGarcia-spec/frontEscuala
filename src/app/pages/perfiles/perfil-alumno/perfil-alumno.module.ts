@@ -6,14 +6,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { PerfilAlumnoPageRoutingModule } from './perfil-alumno-routing.module';
 
-import { PerfilAlumnoPage } from './perfil-alumno.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilAlumnoPageRoutingModule
+    PerfilAlumnoPageRoutingModule,
+
   ],
 })
 export class PerfilAlumnoPageModule {}

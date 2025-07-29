@@ -17,10 +17,6 @@ export class PerfilAdminPage {
 
   constructor(private authService: AuthService, private toastController: ToastController) {}
 
-  ngOnInit() {
-    //this.cargarAdminAutenticado();
-  }
-
   /* cargarAdminAutenticado() {
     const admin = this.authService.getUserData3();
    // console.log('Admin from localStorage:', admin); // Log para verificar los datos en localStorage

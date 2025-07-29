@@ -54,6 +54,15 @@
           La contraseña debe tener al menos 8 caracteres.
         </ion-note>
       </ion-item>
+       <!-- Grupo -->
+      <ion-item>
+        <ion-label>Grupo</ion-label>
+        <ion-select formControlName="grupoId" (ionChange)="cargarAlumnosDelGrupo()">
+          <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
+            {{ grupo.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
        <!-- Imagen del docente -->
     <ion-item lines="none">
       <ion-label>FOTO DEL DOCENTE</ion-label>

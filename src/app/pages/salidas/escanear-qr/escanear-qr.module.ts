@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { EscanearQrPageRoutingModule } from './escanear-qr-routing.module';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
@@ -13,7 +14,8 @@ import { EscanearQrPageRoutingModule } from './escanear-qr-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    EscanearQrPageRoutingModule
+    EscanearQrPageRoutingModule,
+    ZXingScannerModule
   ],
 
 })

@@ -1,8 +1,14 @@
 <ion-app>
   <ion-menu *ngIf="isAdmin()" side="start" menuId="admin-menu" contentId="main-content">
-    <app-menu-admin>
-    </app-menu-admin>
+    <app-menu-admin></app-menu-admin>
   </ion-menu>
+  <ion-menu *ngIf="isInstructor()" side="start" menuId="docente-menu" contentId="main-content">
+    <app-menu-maestro></app-menu-maestro>
+  </ion-menu>
+  <ion-menu *ngIf="isPadre()" side="start" menuId="padre-menu" contentId="main-content">
+    <app-menu-padre></app-menu-padre>
+  </ion-menu>
+
   <div class="ion-page" id="main-content">
     <ion-router-outlet></ion-router-outlet>
   </div>
