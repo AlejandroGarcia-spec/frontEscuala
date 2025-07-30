@@ -30,14 +30,14 @@ export class FormularioPage{
     private readonly toastController: ToastController,
     private readonly router: Router,
     private readonly modalController: ModalController,
-    private readonly tutoresService: TutoresService, // <== INYECTAR SERVICIO
+    private readonly tutoresService: TutoresService,
   ) {
-this.cargarTutores(); // <== Llama cuando cargue la vista
+this.cargarTutores();
   }
     cargarTutores() {
     this.tutoresService.obtenerTutores().subscribe({
       next: (respuesta: any) => {
-        this.instructores = respuesta; // Asigna al arreglo
+        this.instructores = respuesta;
       },
       error: (err) => {
         console.error('Error al obtener tutores:', err);
@@ -66,7 +66,7 @@ this.cargarTutores(); // <== Llama cuando cargue la vista
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
-        this.cargarTutores(); // <== Recargar lista
+        this.cargarTutores();
     });
   }
 
@@ -79,7 +79,7 @@ this.cargarTutores(); // <== Llama cuando cargue la vista
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
-        this.cargarTutores(); // <== Recargar lista
+        this.cargarTutores();
     });
   }
 
@@ -92,10 +92,17 @@ this.cargarTutores(); // <== Llama cuando cargue la vista
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
-        this.cargarTutores(); // <== Recargar lista
+        this.cargarTutores();
     });
   }
    cerrarModal() {
     this.modalController.dismiss();
   }
+  obtenerNombresHijos(tutor: any): string {
+  if (!tutor.alumno || tutor.alumno.length === 0) {
+    return 'Sin hijos';
+  }
+  return tutor.alumno.map((a: any) => a.nombre).join(', ');
+}
+
 }

@@ -28,6 +28,7 @@
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellidos</th>
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Email</th>
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Teléfono</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Hijo(s)</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +38,7 @@
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.correo }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ obtenerNombresHijos(instructor) }}</td>
             </tr>
           </tbody>
         </table>
