@@ -10,11 +10,11 @@ import { EditarMaestroModalPage } from './editar-maestro-modal.page';
 
 @NgModule({
   imports: [
+    IonicModule,
     CommonModule,
     FormsModule,
     IonicModule,
     EditarMaestroModalPageRoutingModule
   ],
-  declarations: [EditarMaestroModalPage]
 })
 export class EditarMaestroModalPageModule {}

@@ -15,6 +15,5 @@ import { AgregarMaestroModalPage } from './agregar-maestro-modal.page';
     IonicModule,
     AgregarMaestroModalPageRoutingModule
   ],
-  declarations: [AgregarMaestroModalPage]
 })
 export class AgregarMaestroModalPageModule {}

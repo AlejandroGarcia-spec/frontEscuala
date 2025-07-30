@@ -23,18 +23,49 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Bienvenido, Admin</h2>
-  <ion-list>
-    <ion-item routerLink="/admin/usuarios" routerDirection="forward">
-      Gestión de Usuarios
-    </ion-item>
-    <ion-item routerLink="/admin/reportes" routerDirection="forward">
-      Reportes
-    </ion-item>
-    <ion-item routerLink="/admin/configuracion" routerDirection="forward">
-      Configuración
-    </ion-item>
-  </ion-list>
+  <h2 class="has-text-centered">Bienvenido Admin</h2>
+  <ion-grid>
+  <ion-row>
+    <ion-col size="12">
+      <ion-button 
+        expand="block" 
+        routerLink="/admin/usuarios" 
+        routerDirection="forward"
+        color="primary"
+        class="menu-button"
+      >
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        Gestión de Usuarios
+      </ion-button>
+    </ion-col>
+    
+    <ion-col size="12">
+      <ion-button 
+        expand="block" 
+        routerLink="/admin/reportes" 
+        routerDirection="forward"
+        color="secondary"
+        class="menu-button"
+      >
+        <ion-icon slot="start" name="document-text-outline"></ion-icon>
+        Reportes
+      </ion-button>
+    </ion-col>
+    
+    <ion-col size="12">
+      <ion-button 
+        expand="block" 
+        routerLink="/admin/configuracion" 
+        routerDirection="forward"
+        color="tertiary"
+        class="menu-button"
+      >
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
+        Configuración
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 </ion-content>
 
 <ion-router-outlet id="main-content"></ion-router-outlet>

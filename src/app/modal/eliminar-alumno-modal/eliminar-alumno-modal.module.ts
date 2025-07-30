@@ -15,6 +15,5 @@ import { EliminarAlumnoModalPage } from './eliminar-alumno-modal.page';
     IonicModule,
     EliminarAlumnoModalPageRoutingModule
   ],
-  declarations: [EliminarAlumnoModalPage]
 })
 export class EliminarAlumnoModalPageModule {}

@@ -15,6 +15,5 @@ import { EliminarTutorModalPage } from './eliminar-tutor-modal.page';
     IonicModule,
     EliminarTutorModalPageRoutingModule
   ],
-  declarations: [EliminarTutorModalPage]
 })
 export class EliminarTutorModalPageModule {}

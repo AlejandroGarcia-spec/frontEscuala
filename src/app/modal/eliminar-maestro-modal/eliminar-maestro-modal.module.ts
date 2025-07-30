@@ -15,6 +15,5 @@ import { EliminarMaestroModalPage } from './eliminar-maestro-modal.page';
     IonicModule,
     EliminarMaestroModalPageRoutingModule
   ],
-  declarations: [EliminarMaestroModalPage]
 })
 export class EliminarMaestroModalPageModule {}

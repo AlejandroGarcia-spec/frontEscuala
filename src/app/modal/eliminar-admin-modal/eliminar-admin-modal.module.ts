@@ -15,6 +15,5 @@ import { EliminarAdminModalPage } from './eliminar-admin-modal.page';
     IonicModule,
     EliminarAdminModalPageRoutingModule
   ],
-  declarations: [EliminarAdminModalPage]
 })
 export class EliminarAdminModalPageModule {}
