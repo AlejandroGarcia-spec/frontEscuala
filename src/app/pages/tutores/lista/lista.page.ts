@@ -33,7 +33,7 @@ export class ListaPage {
 
   cerrarSesion() {
     localStorage.removeItem('logueado');
-    this.router.navigate(['/auth/login/tutor']);
+    this.router.navigate(['/home']);
   }
 
   trackByHijo(index: number, hijo: any): any {

@@ -24,11 +24,6 @@
 
   <!-- Lista de hijos -->
   <div class="children-section">
-    <h2 class="section-title">
-      <ion-icon name="people-outline"></ion-icon>
-      Mis Hijos ({{ tutor.hijos?.length || 0 }})
-    </h2>
-
     <ion-card 
       *ngFor="let hijo of tutor.hijos; let i = index; trackBy: trackByHijo" 
       class="child-card"
@@ -49,7 +44,6 @@
             </div>
           </div>
           
-          <!-- Badge de estado -->
           <ion-badge 
             [color]="hijo.codigo ? 'success' : 'medium'" 
             class="status-badge">
@@ -132,17 +126,5 @@
         </div>
       </ion-card-content>
     </ion-card>
-
-    <!-- Estado vacío -->
-    <div *ngIf="!tutor.hijos || tutor.hijos.length === 0" class="empty-state">
-      <ion-icon name="people-outline" size="large" color="medium"></ion-icon>
-      <h3>No hay hijos registrados</h3>
-      <p>Agrega información de tus hijos para generar códigos de acceso</p>
-      <ion-button fill="outline" color="primary">
-        <ion-icon name="add-outline" slot="start"></ion-icon>
-        Agregar hijo
-      </ion-button>
-    </div>
   </div>
 </ion-content>
-
