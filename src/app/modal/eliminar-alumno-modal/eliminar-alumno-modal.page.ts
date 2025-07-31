@@ -14,7 +14,8 @@ import { AlumnosService } from 'src/app/core/services/alumnos.service';
 })
 export class EliminarAlumnoModalPage  {
 formEliminar!: FormGroup;
-alumnos: any[] = []; // Lista de alumnos para el select
+alumnos: any[] = [];
+alumnoId!: number;
 constructor(
     private fb: FormBuilder,
     private toastController: ToastController,
@@ -28,6 +29,9 @@ constructor(
       id: ['', Validators.required]
     });
     this.cargarAlumnos();
+  if (this.alumnoId) {
+  this.formEliminar.patchValue({ id: this.alumnoId });
+}
   }
 
 

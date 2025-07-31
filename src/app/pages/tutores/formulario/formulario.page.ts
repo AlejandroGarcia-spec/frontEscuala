@@ -18,10 +18,10 @@ import { TutoresService } from 'src/app/core/services/tutores.service';
   imports: [IonicModule, ReactiveFormsModule, CommonModule, FooterPage]
 })
 export class FormularioPage{
+
   formTutoria!: FormGroup;
   isEdit: boolean = false;
   id!: number;
-  diasArray: string[] = [];
   selectedFile: File | null = null;
   instructores: any[] = [];
 
@@ -70,24 +70,24 @@ this.cargarTutores();
     });
   }
 
-  async abrirModalEditarInstructor() {
-    const modal = await this.modalController.create({
-      component: EditarTutorModalPage,
-      componentProps: {
-        instructores: this.instructores
-      }
-    });
+  async abrirModalEditarInstructor(tutor: any) {
+  const modal = await this.modalController.create({
+    component: EditarTutorModalPage,
+    componentProps: {
+      tutorSeleccionado: tutor
+    }
+  });
     await modal.present();
     modal.onDidDismiss().then(() => {
         this.cargarTutores();
     });
   }
 
-  async abrirModalEliminarInstructor() {
+  async abrirModalEliminarInstructor(tutor: any) {
     const modal = await this.modalController.create({
       component: EliminarTutorModalPage,
       componentProps: {
-        instructores: this.instructores
+        tutorId: tutor.id
       }
     });
     await modal.present();

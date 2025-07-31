@@ -12,6 +12,7 @@ import { TutoresService } from 'src/app/core/services/tutores.service';
   styleUrls: ['./eliminar-tutor-modal.page.scss'],
 })
 export class EliminarTutorModalPage {
+  tutorId!: number;
   formEliminar!: FormGroup;
   instructores: any[] = []
   constructor(
@@ -26,6 +27,10 @@ export class EliminarTutorModalPage {
       id: ['', Validators.required]
     });
     this.obtenerTutores();
+    if (this.tutorId) {
+  this.formEliminar.patchValue({ id: this.tutorId });
+}
+
   }
 
   obtenerTutores() {
@@ -77,7 +82,7 @@ export class EliminarTutorModalPage {
   this.tutorService.eliminarTutor(id).subscribe({
     next: () => {
       this.mostrarToast('Tutor eliminado correctamente.');
-      this.cerrarModal(); // Opcional, cierra el modal tras eliminar
+      this.cerrarModal(); 
     },
     error: () => {
       this.mostrarToast('Error al eliminar el tutor.');

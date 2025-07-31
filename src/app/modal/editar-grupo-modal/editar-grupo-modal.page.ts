@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-editar-grupo-modal',
@@ -12,12 +12,19 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
   styleUrls: ['./editar-grupo-modal.page.scss'],
 })
 export class EditarGrupoModalPage  {
-
+grupoSeleccionado: any;
  nombre: string = '';
-  grupoCarreraId: number = 0; // Nueva propiedad para almacenar el ID del grupo seleccionado
+  grupoCarreraId: number = 0;
   grupos: any[] = [];
   selectedGrupoId: string='';
-  constructor(private modalController: ModalController, private toastController: ToastController,  private http: HttpClient) {
+  constructor(private modalController: ModalController,
+    private toastController: ToastController,
+    private http: HttpClient,
+    private readonly navParams: NavParams
+  ) {
+      this.grupoSeleccionado = this.navParams.get('grupoSeleccionado');
+      this.nombre = this.grupoSeleccionado.nombre;
+      this.grupoCarreraId = this.grupoSeleccionado.carreraId;
       this.loadGrupos();
   }
   loadGrupos() {
@@ -26,6 +33,7 @@ export class EditarGrupoModalPage  {
     error: () => this.mostrarToastError('Error al cargar los grupos')
   });
 }
+
 modificarGrupo() {
   const grupoActualizado = {
     nombre: this.nombre
