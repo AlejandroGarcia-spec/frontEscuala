@@ -26,20 +26,21 @@
             <tr>
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">ID</th>
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Nombre</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellido Paterno</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellido Materno</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Email</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellidos</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Correo</th>
               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Teléfono</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Grupo</th>
+
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let instructor of instructores">
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.id }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.nombre }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido1 }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido2 }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.email }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.correo }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.grupo?.nombre || 'Sin grupo' }}</td>
             </tr>
           </tbody>
         </table>

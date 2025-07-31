@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>QR del Alumno</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="qr-container">
+    <qrcode
+      [qrdata]="datosQR"
+      [width]="256"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </div>
+</ion-content>

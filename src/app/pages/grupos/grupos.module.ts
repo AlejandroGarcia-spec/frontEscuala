@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { GruposPageRoutingModule } from './grupos-routing.module';
 
-import { GruposPage } from './grupos.page';
 
 @NgModule({
   imports: [

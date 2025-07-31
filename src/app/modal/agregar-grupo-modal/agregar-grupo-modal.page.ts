@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { GrupoService } from 'src/app/core/services/grupo.service';
 
 @Component({
   selector: 'app-agregar-grupo-modal',
@@ -12,22 +13,29 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 })
 export class AgregarGrupoModalPage  {
 nombre: string = '';
-carreras: any[] = [];
 selectedCarreraId: any;
 constructor(private modalController: ModalController,
-    private toastController: ToastController,
+  private toastController: ToastController,
+  private grupoService: GrupoService
   ) {
-    this.loadCarreras();
   }
-  loadCarreras() {
-
-  }
-
-
-  agregarGrupo() {
-
+agregarGrupo() {
+  if (!this.nombre.trim()) {
+    this.mostrarToast2();
+    return;
   }
 
+  this.grupoService.crearGrupo({ nombre: this.nombre.toUpperCase() }).subscribe({
+    next: (res) => {
+      this.mostrarToast();
+      this.cerrarModal();
+    },
+    error: (err) => {
+      console.error(err);
+      this.mostrarToast2();
+    },
+  });
+}
   async mostrarToast() {
     const toast = await this.toastController.create({
       message: `Grupo ${this.nombre.toUpperCase()} creado de manera exitosa`,
@@ -46,12 +54,6 @@ constructor(private modalController: ModalController,
     });
     toast.present();
   }
-
-
-  getCarreraNombre() {
-    return this.carreras.find(carrera => carrera.id === this.selectedCarreraId)?.nombre || "";
-  }
-
 
   cerrarModal() {
     this.modalController.dismiss();

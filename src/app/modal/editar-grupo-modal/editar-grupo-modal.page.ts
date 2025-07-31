@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-editar-grupo-modal',
@@ -11,30 +12,71 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
   styleUrls: ['./editar-grupo-modal.page.scss'],
 })
 export class EditarGrupoModalPage  {
-
+grupoSeleccionado: any;
  nombre: string = '';
-  id: number = 0;
-  carreraId: number = 0;
-  grupoCarreraId: number = 0; // Nueva propiedad para almacenar el ID del grupo seleccionado
-  carreras: any[] = [];
+  grupoCarreraId: number = 0;
   grupos: any[] = [];
   selectedGrupoId: string='';
-  selectedCarreraId: string = '';
-  constructor(private modalController: ModalController, private toastController: ToastController) {
-
-      this.id = 0;
-      this.carreraId = 0;
-      this.grupoCarreraId = 0;
+  constructor(private modalController: ModalController,
+    private toastController: ToastController,
+    private http: HttpClient,
+    private readonly navParams: NavParams
+  ) {
+      this.grupoSeleccionado = this.navParams.get('grupoSeleccionado');
+      this.nombre = this.grupoSeleccionado.nombre;
+      this.grupoCarreraId = this.grupoSeleccionado.carreraId;
+      this.loadGrupos();
   }
-
-  onCarreraChange(event: any) {
+  loadGrupos() {
+  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
+    next: (data) => this.grupos = data,
+    error: () => this.mostrarToastError('Error al cargar los grupos')
+  });
 }
 
 modificarGrupo() {
+  const grupoActualizado = {
+    nombre: this.nombre
+  };
 
+  this.http.patch(`http://localhost:3000/grupos/update/${this.grupoCarreraId}`, grupoActualizado)
+    .subscribe({
+      next: () => {
+        this.mostrarToastSuccess('Grupo modificado correctamente');
+        this.cerrarModal();
+      },
+      error: () => this.mostrarToastError('Error al modificar el grupo')
+    });
+}
+
+  onGrupoChange(event: any) {
+  const grupo = this.grupos.find(g => g.id === this.grupoCarreraId);
+  if (grupo) {
+    this.nombre = grupo.nombre;
   }
+}
 
   cerrarModal() {
     this.modalController.dismiss();
   }
+  async mostrarToastSuccess(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 2000,
+    position: 'top',
+    color: 'success'
+  });
+  toast.present();
+}
+
+async mostrarToastError(mensaje: string) {
+  const toast = await this.toastController.create({
+    message: mensaje,
+    duration: 2000,
+    position: 'top',
+    color: 'danger'
+  });
+  toast.present();
+}
+
 }

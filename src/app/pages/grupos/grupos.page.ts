@@ -6,6 +6,7 @@ import { AgregarGrupoModalPage } from 'src/app/modal/agregar-grupo-modal/agregar
 import { EditarGrupoModalPage } from 'src/app/modal/editar-grupo-modal/editar-grupo-modal.page';
 import { EliminarGrupoModalPage } from 'src/app/modal/eliminar-grupo-modal/eliminar-grupo-modal.page';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
+import { GrupoService } from 'src/app/core/services/grupo.service';
 
 @Component({
   selector: 'app-grupos',
@@ -21,20 +22,23 @@ export class GruposPage  {
   selectedCarreraId: string = '';
 
   constructor(
-    private modalController: ModalController,
-    private toastController: ToastController
-  ) {
-    this.loadCarreras();
-
+    private readonly modalController: ModalController,
+    private readonly toastController: ToastController,
+    private readonly grupoService: GrupoService  ) {
+    this.actualizarGrupos();
   }
 
-  loadCarreras() {
+  actualizarGrupos() {
+    this.grupoService.obtenerGrupos().subscribe(
+      (data) => {
+        this.grupos = data as any[];
+      },
+      (error) => {
+        console.error('Error al obtener grupos:', error);
+        this.grupos = [];
+      }
+    );
   }
-
-
-  onCarreraChange(event: any) {
-  }
-
 
   async abrirModalAgregarGrupo() {
     const modal = await this.modalController.create({
@@ -49,11 +53,12 @@ export class GruposPage  {
     });
   }
 
-  async abrirModalEditarGrupo() {
+  async abrirModalEditarGrupo(grupo: any) {
     const modal = await this.modalController.create({
       component: EditarGrupoModalPage,
       componentProps: {
-        carreras: this.carreras
+        grupoCarreraId: grupo.id ,
+        grupoSeleccionado: grupo
       }
     });
     await modal.present();
@@ -62,12 +67,13 @@ export class GruposPage  {
     });
   }
 
-  async abrirModalEliminarGrupo() {
+  async abrirModalEliminarGrupo(grupo: any) {
     const modal = await this.modalController.create({
       component: EliminarGrupoModalPage,
       componentProps: {
-        carreras: this.carreras
-      }
+        grupoId: grupo.id,
+    grupoCarreraId: grupo.id
+          }
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
@@ -75,8 +81,6 @@ export class GruposPage  {
     });
   }
 
-  private actualizarGrupos() {
 
-  }
 }
 

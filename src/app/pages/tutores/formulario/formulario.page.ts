@@ -7,6 +7,7 @@ import { AgregarTutorModalPage } from 'src/app/modal/agregar-tutor-modal/agregar
 import { EditarTutorModalPage } from 'src/app/modal/editar-tutor-modal/editar-tutor-modal.page';
 import { EliminarTutorModalPage } from 'src/app/modal/eliminar-tutor-modal/eliminar-tutor-modal.page';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
+import { TutoresService } from 'src/app/core/services/tutores.service';
 
 
 @Component({
@@ -17,10 +18,10 @@ import { FooterPage } from "src/app/componentes/footer/footer.page";
   imports: [IonicModule, ReactiveFormsModule, CommonModule, FooterPage]
 })
 export class FormularioPage{
+
   formTutoria!: FormGroup;
   isEdit: boolean = false;
   id!: number;
-  diasArray: string[] = [];
   selectedFile: File | null = null;
   instructores: any[] = [];
 
@@ -29,21 +30,20 @@ export class FormularioPage{
     private readonly toastController: ToastController,
     private readonly router: Router,
     private readonly modalController: ModalController,
+    private readonly tutoresService: TutoresService,
   ) {
-    this.formTutoria = this.fb.group({
-      instructor: ['', Validators.required],
-      nombre: ['', Validators.required],
-      descripcion: ['', [Validators.required, Validators.maxLength(200)]],
-      tipo: ['', Validators.required],
-      cantidadDias: ['', [Validators.required, Validators.max(5)]],
-      cupos: ['', Validators.required],
-      imagen: [null, Validators.required]
+this.cargarTutores();
+  }
+    cargarTutores() {
+    this.tutoresService.obtenerTutores().subscribe({
+      next: (respuesta: any) => {
+        this.instructores = respuesta;
+      },
+      error: (err) => {
+        console.error('Error al obtener tutores:', err);
+        this.mostrarToast('Error al cargar tutores', 'danger');
+      }
     });
-
-    this.formTutoria.get('cantidadDias')?.valueChanges.subscribe((cantidad) => {
-      this.agregarCamposDiasHoras(cantidad);
-    });
-
   }
   async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
@@ -57,29 +57,6 @@ export class FormularioPage{
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
   }
-
-
-  agregarCamposDiasHoras(cantidad: number) {
-    const controls = Object.keys(this.formTutoria.controls);
-    controls.forEach(controlName => {
-      if (controlName.startsWith('dia_') || controlName.startsWith('hora_')) {
-        this.formTutoria.removeControl(controlName);
-      }
-    });
-
-    if (cantidad > 0 && cantidad <= 5) {
-      for (let i = 1; i <= cantidad; i++) {
-        this.formTutoria.addControl('dia_' + i, this.fb.control('lunes', Validators.required));
-        this.formTutoria.addControl('hora_' + i, this.fb.control('07:00', Validators.required));
-      }
-      this.diasArray = Array.from({ length: cantidad }, (_, i) => (i + 1).toString());
-    }
-  }
-
-  convertToUpperCase(event: any, controlName: string) {
-    const value = event.target.value.toUpperCase();
-    this.formTutoria.get(controlName)?.setValue(value);
-  }
   async abrirModalAgregarInstructor() {
     const modal = await this.modalController.create({
       component: AgregarTutorModalPage,
@@ -89,33 +66,43 @@ export class FormularioPage{
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
+        this.cargarTutores();
     });
   }
 
-  async abrirModalEditarInstructor() {
-    const modal = await this.modalController.create({
-      component: EditarTutorModalPage,
-      componentProps: {
-        instructores: this.instructores
-      }
-    });
+  async abrirModalEditarInstructor(tutor: any) {
+  const modal = await this.modalController.create({
+    component: EditarTutorModalPage,
+    componentProps: {
+      tutorSeleccionado: tutor
+    }
+  });
     await modal.present();
     modal.onDidDismiss().then(() => {
+        this.cargarTutores();
     });
   }
 
-  async abrirModalEliminarInstructor() {
+  async abrirModalEliminarInstructor(tutor: any) {
     const modal = await this.modalController.create({
       component: EliminarTutorModalPage,
       componentProps: {
-        instructores: this.instructores
+        tutorId: tutor.id
       }
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
+        this.cargarTutores();
     });
   }
    cerrarModal() {
     this.modalController.dismiss();
   }
+  obtenerNombresHijos(tutor: any): string {
+  if (!tutor.alumno || tutor.alumno.length === 0) {
+    return 'Sin hijos';
+  }
+  return tutor.alumno.map((a: any) => a.nombre).join(', ');
+}
+
 }

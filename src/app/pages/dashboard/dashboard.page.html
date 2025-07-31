@@ -1,12 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-title>CREDENCIAL DIGITAL</ion-title>
+          <ion-card-subtitle>Docentes</ion-card-subtitle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-buttons slot="start">
+      <ion-button (click)="toggleMenu()">
+        <ion-icon slot="icon-only" name="menu"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Bienvenido, {{ nombreUsuario }}</h2>
-  <ion-button routerLink="/alumnos/lista">Ver lista de alumnos</ion-button>
-  <ion-button routerLink="/asistencias/registro">Registrar asistencia</ion-button>
-  <ion-button routerLink="/salidas/escanear-qr">Escanear QR para salida</ion-button>
+  <h2>Bienvenido, Docente</h2>
 </ion-content>
+
+<ion-router-outlet id="main-content"></ion-router-outlet>

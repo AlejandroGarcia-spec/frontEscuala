@@ -12,13 +12,11 @@
 <ion-content class="ion-padding">
   <form [formGroup]="alumnoForm" (ngSubmit)="guardarAlumno()">
     <ion-list>
-
-      <!-- Instructor -->
       <ion-item>
         <ion-label>Seleccionar Alumno</ion-label>
-        <ion-select (ionChange)="onInstructorChange($event)" formControlName="id">
-          <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
-            {{ instructor.nombre }}
+        <ion-select (ionChange)="onAlumnoChange($event)" formControlName="id">
+          <ion-select-option *ngFor="let alumno of alumnos" [value]="alumno.id">
+            {{ alumno.nombre }}
           </ion-select-option>
         </ion-select>
       </ion-item>
@@ -62,15 +60,24 @@
       <!-- Grupo -->
       <ion-item>
         <ion-label>Grupo</ion-label>
-        <ion-select formControlName="grupoId">
-          <ion-select-option *ngFor="let grupo1 of grupos1" [value]="grupo1.id">
-            {{ grupo1.nombre }}
-          </ion-select-option>
-        </ion-select>
+       <ion-select formControlName="grupoId" placeholder="Selecciona un grupo">
+  <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
+</ion-select>
       </ion-item>
       <ion-text color="danger" *ngIf="alumnoForm.get('grupoId')?.invalid && alumnoForm.get('grupoId')?.touched">
         <p class="ion-padding-start">Selecciona un grupo</p>
       </ion-text>
+<ion-item>
+  <ion-label>Tutor</ion-label>
+  <ion-select formControlName="tutorId" placeholder="Selecciona un tutor">
+    <ion-select-option *ngFor="let tutor of tutores" [value]="tutor.id">
+      {{ tutor.nombre }} {{ tutor.apellido }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-text color="danger" *ngIf="alumnoForm.get('tutorId')?.invalid && alumnoForm.get('tutorId')?.touched">
+  Selecciona un tutor
+</ion-text>
 
       <!-- Foto del alumno -->
       <ion-item lines="none">

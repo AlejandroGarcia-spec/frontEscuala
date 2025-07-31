@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HeaderPage } from "src/app/componentes/header/header.page";
+import { ApiService } from 'src/app/core/services/api.service';
+  // ajusta ruta según tu estructura
 
 @Component({
   selector: 'app-login',
@@ -12,24 +14,26 @@ import { HeaderPage } from "src/app/componentes/header/header.page";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = '';
-  password: string = '';
+  correo: string = '';
+  contrasena: string = '';
   rol: string = '';
+  email: string = ''; // Nuevo campo para el emailmostrarContrasena: boolean = false;
+mostrarContrasena: boolean = false;
 
   constructor(
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly apiService: ApiService
   ) {
     this.route.queryParams.subscribe(params => {
       this.rol = params['rol'];
     });
   }
-
-  onSubmit() {
-    if (!this.email || !this.password) {
-      alert('Por favor completa todos los campos');
-      return;
-    }
+onSubmit() {
+  if (!this.correo || !this.contrasena) {
+    alert('Por favor completa todos los campos');
+    return;
+  }
 
     // Simulamos login y guardamos el usuario con rol
     const usuario = {
@@ -44,8 +48,9 @@ export class LoginPage {
     } else if (this.rol === 'maestro') {
       this.router.navigate(['/dashboard']);
     } else if (this.rol === 'tutor') {
-      this.router.navigate(['/login/tutor']); 
+      this.router.navigate(['/home']); // o su propio módulo
     } else {
       alert('Rol desconocido');
     }
-  }}
+  }
+}

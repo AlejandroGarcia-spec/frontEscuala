@@ -14,7 +14,7 @@
     <ion-list>
       <ion-item>
         <ion-label>Seleccionar Tutor</ion-label>
-        <ion-select (ionChange)="onInstructorChange($event)" formControlName="id">
+<ion-select (ionChange)="onInstructorChange($event)" formControlName="tutor_id">
           <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
             {{ instructor.nombre }}
           </ion-select-option>
@@ -40,14 +40,21 @@
       </ion-text>
 
       <!-- Correo -->
-      <ion-item>
-        <ion-label position="floating">Correo electrónico</ion-label>
-        <ion-input formControlName="correo" type="email"></ion-input>
-      </ion-item>
+    <ion-item>
+  <ion-label position="floating">Correo electrónico</ion-label>
+  <ion-input formControlName="correo" type="email"></ion-input>
+</ion-item>
       <ion-text color="danger" *ngIf="tutorForm.get('correo')?.touched && tutorForm.get('correo')?.invalid">
         <p class="ion-padding-start">Correo válido es obligatorio</p>
       </ion-text>
-
+ <!-- Contraseña -->
+<ion-item>
+  <ion-input label="CONTRASEÑA" placeholder="..." labelPlacement="floating" formControlName="contrasena" required [type]="showPassword ? 'text' : 'password'"></ion-input>
+  <ion-icon slot="end" name="eye" (click)="togglePasswordVisibility()"></ion-icon>
+  <ion-note color="medium" *ngIf="tutorForm.get('contrasena')?.hasError('minlength')">
+    La contraseña debe tener al menos 8 caracteres.
+  </ion-note>
+</ion-item>
       <!-- Teléfono -->
       <ion-item>
         <ion-label position="floating">Teléfono</ion-label>
@@ -55,30 +62,6 @@
       </ion-item>
       <ion-text color="danger" *ngIf="tutorForm.get('telefono')?.touched && tutorForm.get('telefono')?.invalid">
         <p class="ion-padding-start">Teléfono es obligatorio</p>
-      </ion-text>
-
-      <!-- Grupo -->
-      <ion-item>
-        <ion-label>Grupo</ion-label>
-        <ion-select formControlName="grupoId" (ionChange)="cargarAlumnosDelGrupo()">
-          <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
-            {{ grupo.nombre }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-text color="danger" *ngIf="tutorForm.get('grupoId')?.touched && tutorForm.get('grupoId')?.invalid">
-        <p class="ion-padding-start">Debes seleccionar un grupo</p>
-      </ion-text>
-
-      <!-- Alumnos -->
-      <ion-list *ngIf="alumnos.length > 0">
-        <ion-item *ngFor="let alumno of alumnos; let i = index">
-          <ion-label>{{ alumno.nombre }}</ion-label>
-          <ion-checkbox [formControl]="hijosControls[i]"></ion-checkbox>
-        </ion-item>
-      </ion-list>
-      <ion-text color="danger" *ngIf="tutorForm.get('hijos')?.touched && tutorForm.get('hijos')?.invalid">
-        <p class="ion-padding-start">Selecciona al menos un hijo</p>
       </ion-text>
 
       <!-- Foto -->
