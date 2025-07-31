@@ -40,6 +40,7 @@ export class LoginTutorComponent {
     );
 
     if (tutor) {
+      (document.activeElement as HTMLElement)?.blur();
       localStorage.setItem('logueado', 'true');
       localStorage.setItem('grado', tutor.grado.toString());
 
