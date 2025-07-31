@@ -15,7 +15,8 @@ export class EliminarGrupoModalPage  {
   eliminarForm!: FormGroup;
   carreras: any[] = [];
   grupos: any[] = [];
-  grupoCarreraId: number = 0; // Nueva propiedad para almacenar el ID del grupo seleccionado
+  grupoCarreraId: number = 0;
+  grupoId!: number;
 
 constructor(
     private modalController: ModalController,
@@ -24,17 +25,24 @@ constructor(
     private formBuilder: FormBuilder,
      private http: HttpClient
   ) {
-     this.loadGrupos();
-    this.eliminarForm = this.formBuilder.group({
-      grupoCarreraId: ['', Validators.required]
-    });
+  this.eliminarForm = this.formBuilder.group({
+    grupoCarreraId: ['', Validators.required]
+  });
+
+  this.loadGrupos();
   }
- loadGrupos() {
+loadGrupos() {
   this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
-    next: (data) => this.grupos = data,
+    next: (data) => {
+      this.grupos = data;
+      if (this.grupoCarreraId) {
+        this.eliminarForm.patchValue({ grupoCarreraId: this.grupoCarreraId });
+      }
+    },
     error: () => this.mostrarToastError('Error al cargar los grupos')
   });
 }
+
   onGrupoChange(event: any) {
     const grupo = this.grupos.find(g => g.id === event.detail.value);
     if (grupo) {
