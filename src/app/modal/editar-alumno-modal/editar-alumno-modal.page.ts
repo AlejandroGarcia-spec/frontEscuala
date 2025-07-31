@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { AlumnosService } from 'src/app/core/services/alumnos.service';
 import { GrupoService } from 'src/app/core/services/grupo.service';
 import { TutoresService } from 'src/app/core/services/tutores.service';
@@ -18,7 +18,7 @@ interface Alumno {
   correo?: string;
   telefono?: string;
   grupoId: number;
-  imagenBase64?: string; // o URL si así lo manejas
+  imagenBase64?: string;
 }
 
 @Component({
@@ -30,11 +30,11 @@ interface Alumno {
 })
 export class EditarAlumnoModalPage implements OnInit {
  tutores: any[] = [];
-  @Input() alumno!: Alumno; // Recibir el alumno a editar como input
+  @Input() alumno!: Alumno;
   alumnoForm!: FormGroup;
   grupos: Grupo[] = [];
-  alumnos: Alumno[] = []; // Lista de alumnos para el select
-
+  alumnos: Alumno[] = [];
+  alumnoSeleccionado: any;
   fotoPreview: string | ArrayBuffer | null = null;
   fotoArchivo: File | null = null;
 
@@ -44,22 +44,36 @@ export class EditarAlumnoModalPage implements OnInit {
   private modalController: ModalController,
   private grupoService: GrupoService,
   private alumnosService: AlumnosService,
-  private tutorService: TutoresService // Asegúrate de importar el servicio de tutores
+  private tutorService: TutoresService,
+  private readonly navParams: NavParams
 ) {}
 
 
  ngOnInit() {
-  // Inicializa el formulario sin datos aún
+  this.alumnoSeleccionado = this.navParams.get('alumnoSeleccionado');
   this.alumnoForm = this.fb.group({
-    id: [null, Validators.required],  // Para seleccionar alumno
+    id: [null, Validators.required],
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
     correo: ['', [Validators.email]],
     telefono: ['', [Validators.pattern(/^\d{10}$/)]],
     grupoId: ['', Validators.required],
-    tutorId: ['', Validators.required] // <-- nuevo campo
+    tutorId: ['', Validators.required]
   });
-  this.cargarTutores(); // <-- aquí llamamos
+
+  if (this.alumnoSeleccionado) {
+    this.alumnoForm.patchValue({
+      id: this.alumnoSeleccionado.id,
+      nombre: this.alumnoSeleccionado.nombre,
+      apellido: this.alumnoSeleccionado.apellido,
+      correo: this.alumnoSeleccionado.correo,
+      telefono: this.alumnoSeleccionado.telefono,
+      grupoId: this.alumnoSeleccionado.grupoId,
+      tutorId: this.alumnoSeleccionado.tutorId
+    });
+    this.fotoPreview = this.alumnoSeleccionado.imagenBase64;
+  }
+  this.cargarTutores();
   this.cargarGrupos();
   this.cargarAlumnos();
 }

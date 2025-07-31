@@ -9,10 +9,18 @@ export class ApiService {
   private readonly backendUrl = 'http://localhost:3000'; // Cambiar si se sube a producción
 
   constructor(private readonly http: HttpClient) { }
- login(correo: string, contrasena: string, rol: string) {
-  const endpoint = `/administradores/login/${rol}`;
-  return this.http.post(this.backendUrl + endpoint, { correo, contrasena });
+login(correo: string, contrasena: string) {
+  return this.http.post(this.backendUrl + '/administradores/login/admin', { correo, contrasena });
 }
+
+loginTutor(correo: string, contrasena: string) {
+  return this.http.post(this.backendUrl + '/tutores/login/tutor', { correo, contrasena });
+}
+
+loginMaestro(correo: string, contrasena: string) {
+  return this.http.post(this.backendUrl + '/maestros/login/maestro', { correo, contrasena });
+}
+
 
 
 }

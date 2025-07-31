@@ -62,7 +62,7 @@ guardarTutor(): void {
     nombre: this.tutorForm.value.nombre,
     apellido: this.tutorForm.value.apellido,
     telefono: Number(this.tutorForm.value.telefono),
-    email: this.tutorForm.value.correo,
+    correo: this.tutorForm.value.correo,
     contrasena: this.tutorForm.value.password,
     imagenBase64: this.tutor.imagenBase64 || null,
   };

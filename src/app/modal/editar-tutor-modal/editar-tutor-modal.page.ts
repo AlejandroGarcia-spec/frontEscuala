@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { TutoresService } from 'src/app/core/services/tutores.service';
 
 @Component({
@@ -12,33 +12,49 @@ import { TutoresService } from 'src/app/core/services/tutores.service';
   imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
 export class EditarTutorModalPage implements OnInit {
+
   tutorForm!: FormGroup;
   instructores: any[] = [];
   showPassword: boolean = false;
   fotoPreview: string | ArrayBuffer | null = null;
   fotoFile: File | null = null;
+  tutorSeleccionado: any;
+
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly toastController: ToastController,
     private readonly modalController: ModalController,
-    private readonly tutorService: TutoresService
+    private readonly tutorService: TutoresService,
+    private readonly navParams: NavParams
   ) {}
 
   ngOnInit() {
+  this.tutorSeleccionado = this.navParams.get('tutorSeleccionado');
   this.tutorForm = this.fb.group({
   tutor_id: ['', Validators.required],
   nombre: ['', Validators.required],
   apellido: ['', Validators.required],
-  email: ['', [Validators.required, Validators.email]],
+  correo: ['', [Validators.required, Validators.email]],
   telefono: ['', Validators.required],
   contrasena: ['', [Validators.required, Validators.minLength(8)]],
   imagenBase64: ['']
 });
 
+  if (this.tutorSeleccionado) {
+    this.tutorForm.patchValue({
+      tutor_id: this.tutorSeleccionado.id,
+      nombre: this.tutorSeleccionado.nombre,
+      apellido: this.tutorSeleccionado.apellido,
+      correo: this.tutorSeleccionado.correo,
+      telefono: this.tutorSeleccionado.telefono,
+      contrasena: this.tutorSeleccionado.contrasena,
+      imagenBase64: this.tutorSeleccionado.imagenBase64 || ''
+    });
+    this.fotoPreview = this.tutorSeleccionado.imagenBase64;
     this.obtenerTutores();
   }
-
+  }
   obtenerTutores() {
     this.tutorService.obtenerTutores().subscribe({
       next: (res: any) => {
@@ -56,7 +72,7 @@ export class EditarTutorModalPage implements OnInit {
   tutor_id: tutor.id,
   nombre: tutor.nombre,
   apellido: tutor.apellido,
-  email: tutor.email,
+  correo: tutor.correo,
   telefono: tutor.telefono,
   contrasena: tutor.contrasena,
   imagenBase64: tutor.imagenBase64 || ''
@@ -68,7 +84,7 @@ export class EditarTutorModalPage implements OnInit {
 
  guardarTutor() {
   const datos = this.tutorForm.value;
-  datos.telefono = Number(datos.telefono); // importante
+  datos.telefono = Number(datos.telefono);
 
   if (this.fotoFile) {
     const reader = new FileReader();
@@ -83,7 +99,7 @@ export class EditarTutorModalPage implements OnInit {
 }
 enviarActualizacion(datos: any) {
   const id = datos.tutor_id;
-  delete datos.tutor_id; // lo quitamos para evitar validación fallida
+  delete datos.tutor_id; 
 
   this.tutorService.editarTutor(id, datos).subscribe({
     next: () => {

@@ -4,7 +4,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-title>CREDENCIAL DIGITAL</ion-title>
-          <ion-card-subtitle>SESION ADMIN</ion-card-subtitle>
+          <ion-card-subtitle>LOGIN</ion-card-subtitle>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -19,10 +19,19 @@
       <ion-label position="floating">Correo</ion-label>
       <ion-input type="email" [(ngModel)]="correo" name="correo" required></ion-input>
     </ion-item>
-
-    <ion-item>
+  <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="contrasena" name="contrasena" required></ion-input>
+      <ion-input
+        [type]="mostrarContrasena ? 'text' : 'password'"
+        [(ngModel)]="contrasena"
+        name="contrasena"
+        required>
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="mostrarContrasena = !mostrarContrasena">
+          <ion-icon [name]="mostrarContrasena ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
 
     <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</ion-button>

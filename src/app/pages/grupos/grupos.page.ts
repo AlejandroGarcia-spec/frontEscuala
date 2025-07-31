@@ -22,10 +22,10 @@ export class GruposPage  {
   selectedCarreraId: string = '';
 
   constructor(
-    private modalController: ModalController,
-    private toastController: ToastController,
-    private grupoService: GrupoService  ) {
-    this.actualizarGrupos(); // cargar grupos al iniciar
+    private readonly modalController: ModalController,
+    private readonly toastController: ToastController,
+    private readonly grupoService: GrupoService  ) {
+    this.actualizarGrupos();
   }
 
   actualizarGrupos() {
@@ -53,11 +53,12 @@ export class GruposPage  {
     });
   }
 
-  async abrirModalEditarGrupo() {
+  async abrirModalEditarGrupo(grupo: any) {
     const modal = await this.modalController.create({
       component: EditarGrupoModalPage,
       componentProps: {
-        carreras: this.carreras
+        grupoCarreraId: grupo.id ,
+        grupoSeleccionado: grupo
       }
     });
     await modal.present();
@@ -66,12 +67,13 @@ export class GruposPage  {
     });
   }
 
-  async abrirModalEliminarGrupo() {
+  async abrirModalEliminarGrupo(grupo: any) {
     const modal = await this.modalController.create({
       component: EliminarGrupoModalPage,
       componentProps: {
-        carreras: this.carreras
-      }
+        grupoId: grupo.id,
+    grupoCarreraId: grupo.id
+          }
     });
     await modal.present();
     modal.onDidDismiss().then(() => {

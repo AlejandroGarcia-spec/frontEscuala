@@ -85,7 +85,7 @@ filtrarAlumnosPorGrupo() {
     const value = event.target.value.toUpperCase();
     this.formTutoria.get(controlName)?.setValue(value);
   }
-  async abrirModalAgregarInstructor() {
+  async abrirModalAgregarAlumno() {
     const modal = await this.modalController.create({
       component: AgregarAlumnoModalPage,
       componentProps: {
@@ -94,35 +94,35 @@ filtrarAlumnosPorGrupo() {
     });
     await modal.present();
     modal.onDidDismiss().then(() => {
-  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+  this.obtenerAlumnos();
 });
 
   }
 
-  async abrirModalEditarInstructor() {
+  async abrirModalEditarAlumno(alumno: any) {
     const modal = await this.modalController.create({
       component: EditarAlumnoModalPage,
       componentProps: {
-        alumnos: this.alumnos
+        alumnoSeleccionado: alumno
       }
     });
     await modal.present();
   modal.onDidDismiss().then(() => {
-  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+  this.obtenerAlumnos();
 });
 
   }
 
-  async abrirModalEliminarInstructor() {
+  async abrirModalEliminarAlumno(alumno: any) {
     const modal = await this.modalController.create({
       component: EliminarAlumnoModalPage,
       componentProps: {
-        alumnos: this.alumnos
+        alumnoId: alumno.id
       }
     });
     await modal.present();
    modal.onDidDismiss().then(() => {
-  this.obtenerAlumnos(); // Vuelve a traer la lista actualizada
+  this.obtenerAlumnos();
 });
 
   }
