@@ -20,7 +20,14 @@ loginTutor(correo: string, contrasena: string) {
 loginMaestro(correo: string, contrasena: string) {
   return this.http.post(this.backendUrl + '/maestros/login/maestro', { correo, contrasena });
 }
+getPerfilMaestroPorCorreo(correo: string) {
+  return this.http.get<any>(`${this.backendUrl}/maestros/perfil/${correo}`);
+}
 
+
+getAlumnosPorGrupo(idGrupo: number) {
+  return this.http.get<any[]>(`${this.backendUrl}/alumnos/grupo/${idGrupo}`);
+}
 
 
 }
