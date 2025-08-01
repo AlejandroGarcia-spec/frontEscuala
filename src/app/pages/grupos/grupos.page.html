@@ -1,63 +1,66 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary" class="ion-text-center">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-title>CREDENCIAL DIGITAL</ion-title>
+          <ion-card-subtitle>Grupos</ion-card-subtitle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>CREDENCIAL DIGITAL</ion-title>
-    <ion-card-subtitle>Gestión de Grupos</ion-card-subtitle>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Listado de Grupos</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background-color: var(--ion-color-primary); color: white;">
-            <th style="padding: 8px; border: 1px solid #ddd;">ID</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Grupo</th>
-            <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let grupo of grupos">
-            <td style="padding: 8px; border: 1px solid #ddd;">{{ grupo.id }}</td>
-            <td style="padding: 8px; border: 1px solid #ddd;">{{ grupo.nombre }}</td>
-            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
-              <ion-button size="small" color="warning" fill="solid" (click)="abrirModalEditarGrupo(grupo)">
-                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-              </ion-button>
-              <ion-button size="small" color="danger" fill="solid" (click)="abrirModalEliminarGrupo(grupo)">
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-              </ion-button>
-            </td>
-          </tr>
-          <tr *ngIf="grupos.length === 0">
-            <td colspan="3" style="padding: 8px; border: 1px solid #ddd; text-align: center; color: var(--ion-color-danger);">
-              No se encontraron grupos registrados.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-grid fixed class="ion-padding-top">
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
-        <ion-button expand="block" color="success" (click)="abrirModalAgregarGrupo()">
-          <ion-icon slot="start" name="person-add-outline"></ion-icon>
-          Agregar Nuevo Grupo
-        </ion-button>
+             <ion-card>
+          <ion-card-content>
+            <ion-card-title color="info">GRUPOS</ion-card-title>
+            <ion-list>
+              <ion-item >
+                <ion-label color="info" >Id</ion-label>
+                <ion-label color="info" >Grupo</ion-label>
+                <ion-label color="info" >Acciones</ion-label>
+              </ion-item>
+               <ion-list *ngIf="grupos.length > 0">
+          <ion-item *ngFor="let grupo of grupos">
+            <ion-label>{{ grupo.id }}</ion-label>
+            <ion-label>{{ grupo.nombre }}</ion-label>
+            <ion-button size="small" color="warning" (click)="abrirModalEditarGrupo(grupo)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" color="danger" (click)="abrirModalEliminarGrupo(grupo)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        <ion-note *ngIf="grupos.length === 0" color="danger">No se encontraron grupos.</ion-note>
       </ion-col>
+
+    </ion-row>
+  </ion-grid>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" color="primary" (click)="abrirModalAgregarGrupo()" >Agregar Grupo</ion-button>
+      </ion-col>
+ <!---    <ion-col size="4">
+        <ion-button expand="block" color="warning" (click)="abrirModalEditarGrupo()" >Modificar Grupo</ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button expand="block" color="danger" (click)="abrirModalEliminarGrupo()" >Eliminar Grupo</ion-button>
+      </ion-col>
+      -->
     </ion-row>
   </ion-grid>
 
 </ion-content>
-
 <app-footer></app-footer>

@@ -3,6 +3,7 @@ import { AlertController, IonicModule, MenuController, ModalController, ToastCon
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-perfil-maestro',
@@ -15,21 +16,53 @@ export class PerfilMaestroPage {
  qrCode: string = ""; // Variable para almacenar la URL del QR
   id!: number;
   nombre: string = "";
-  tipo_usuario: string = "";
   telefono: string = "";
   correo: string = "";
   grupo: string = "";
+  tipo_usuario: string = 'Maestro';
   imagen: string = "";
   mostrarModalQR: boolean = false; // Controla la visibilidad del modal
-  constructor(private authService: AuthService,
-    private authS: AuthService,
+
+constructor(
+  private api: ApiService,
+  private authS: AuthService,
     private router: Router,
     private toastController: ToastController,
     private menu: MenuController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController
+) {}
 
-  ) {}
+ngOnInit() {
+  const usuario = JSON.parse(localStorage.getItem('usuario')!);
+  if (usuario && usuario.rol === 'maestro') {
+    this.obtenerGrupoPorCorreo(usuario.correo);
+  }
+}
+
+ obtenerGrupoPorCorreo(correo: string) {
+  this.api.getPerfilMaestroPorCorreo(correo).subscribe({
+    next: (maestro) => {
+      console.log('Perfil del maestro:', maestro);
+      
+      // Asignar datos a las propiedades para el template
+      this.nombre = maestro.nombre;
+      this.correo = maestro.correo;
+      this.telefono = maestro.telefono;
+      this.grupo = `Grupo ${maestro.grupoId}`;
+      this.imagen = maestro.imagenBase64 
+        ? `data:image/jpeg;base64,${maestro.imagenBase64}`
+        : 'assets/img/avatar.png';
+
+      // Si vas a obtener alumnos también, puedes usar:
+      // this.idGrupo = maestro.grupoId;
+      // this.obtenerAlumnosPorGrupo();
+    },
+    error: (err) => {
+      console.error('Error al obtener el perfil del maestro:', err);
+    }
+  });
+}
 
   async presentToast2(message: string) {
     const toast = await this.toastController.create({

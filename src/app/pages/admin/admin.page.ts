@@ -13,9 +13,9 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class AdminPage  {
 
-  constructor(private readonly router: Router,
-    private readonly authService: AuthService,
-      private readonly menu: MenuController,
+  constructor(private router: Router,
+    private authService: AuthService,
+      private menu: MenuController,
 
   ) { }
   logout() {
@@ -25,21 +25,6 @@ export class AdminPage  {
   toggleMenu() {
     this.menu.toggle();
   }
-  // 👉 Métodos de navegación
-  irATutores() {
-    this.router.navigate(['/tutores/formulario']);
-  }
 
-  irAAlumnos() {
-    this.router.navigate(['/alumnos/formulario']);
-  }
-
-  irAGrupos() {
-    this.router.navigate(['/grupos']);
-  }
-
-  irAMaestros() {
-    this.router.navigate(['/maestros/registro']);
-  }
 
 }
