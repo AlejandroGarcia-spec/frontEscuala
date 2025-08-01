@@ -27,7 +27,7 @@ export class ListaPage {
   ) {}
 
   generarCodigo(index: number) {
-    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase(); 
+    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase();
     this.tutor.hijos[index].codigo = codigoGenerado;
   }
 
