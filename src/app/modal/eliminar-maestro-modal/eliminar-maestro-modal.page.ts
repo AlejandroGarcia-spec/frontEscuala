@@ -19,7 +19,7 @@ export class EliminarMaestroModalPage  {
     private toastController: ToastController,
     private modalController: ModalController,
     private alertController: AlertController,
-    private maestrosService: MaestrosService // 👈 agrega el servicio aquí
+    private maestrosService: MaestrosService
   ) { }
    ngOnInit() {
     this.formEliminar = this.fb.group({
@@ -77,7 +77,7 @@ obtenerInstructores() {
         color: 'success',
       });
       toast.present();
-      this.cerrarModal(); // Cierra modal después de eliminar
+      this.cerrarModal(); 
     },
     error: async () => {
       const toast = await this.toastController.create({
