@@ -78,7 +78,6 @@ loadGrupos() {
       this.loadGrupos();
     },
     error: (error) => {
-      // Aquí validamos el mensaje del backend para mostrar alerta específica
       if (error.status === 400 && error.error?.message) {
         this.mostrarToastError(error.error.message);
       } else {

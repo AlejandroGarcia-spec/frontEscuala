@@ -1,76 +1,65 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary" class="ion-text-center">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-title>CREDENCIAL DIGITAL</ion-title>
-          <ion-card-subtitle>REGISTRO DE TUTORES</ion-card-subtitle>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
+    <ion-title class="ion-text-center">CREDENCIAL DIGITAL</ion-title>
+    <ion-card-subtitle class="ion-text-center" style="color: white; font-weight: 500;">Registro de Tutores</ion-card-subtitle>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-card>
+
+  <ion-card class="ion-no-margin" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
     <ion-card-header>
-      <ion-card-title>Lista de Tutores</ion-card-title>
+      <ion-card-title class="ion-text-center">Lista de Tutores</ion-card-title>
     </ion-card-header>
+
     <ion-card-content>
       <div style="overflow-x: auto;">
-        <table style="min-width: 900px; border-collapse: collapse; width: 100%;">
-          <thead>
+        <table style="min-width: 900px; width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden;">
+          <thead style="background-color: #f1f1f1;">
             <tr>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">ID</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Nombre</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Apellidos</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Email</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Teléfono</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Hijo(s)</th>
-              <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Acciones</th>
-
+              <th class="tabla-th">ID</th>
+              <th class="tabla-th">Nombre</th>
+              <th class="tabla-th">Apellidos</th>
+              <th class="tabla-th">Email</th>
+              <th class="tabla-th">Teléfono</th>
+              <th class="tabla-th">Hijo(s)</th>
+              <th class="tabla-th">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let instructor of instructores">
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.id }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.nombre }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.apellido }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.correo }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ obtenerNombresHijos(instructor) }}</td>
-              <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                <ion-button size="small" color="warning" (click)="abrirModalEditarInstructor(instructor)">
+              <td class="tabla-td">{{ instructor.id }}</td>
+              <td class="tabla-td">{{ instructor.nombre }}</td>
+              <td class="tabla-td">{{ instructor.apellido }}</td>
+              <td class="tabla-td">{{ instructor.correo }}</td>
+              <td class="tabla-td">{{ instructor.telefono }}</td>
+              <td class="tabla-td">{{ obtenerNombresHijos(instructor) }}</td>
+              <td class="tabla-td">
+                <ion-button size="small" fill="clear" color="warning" (click)="abrirModalEditarInstructor(instructor)">
                   <ion-icon slot="icon-only" name="create-outline"></ion-icon>
                 </ion-button>
-                <ion-button size="small" color="danger" (click)="abrirModalEliminarInstructor(instructor)">
+                <ion-button size="small" fill="clear" color="danger" (click)="abrirModalEliminarInstructor(instructor)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
                 </ion-button>
               </td>
-
             </tr>
           </tbody>
         </table>
       </div>
     </ion-card-content>
-
   </ion-card>
 
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12">
-        <ion-button expand="block" color="primary" (click)="abrirModalAgregarInstructor()" >Agregar Tutor</ion-button>
-      </ion-col>
-     <!--  <ion-col size="4">
-       <ion-button expand="block" color="warning" (click)="abrirModalEditarInstructor()" >Modificar Tutor</ion-button>
-      </ion-col>
-      <ion-col size="4">
-        <ion-button expand="block" color="danger" (click)="abrirModalEliminarInstructor()" >Eliminar Tutor</ion-button>
-      </ion-col>-->
-    </ion-row>
-  </ion-grid>
+  <ion-row class="ion-padding-top">
+    <ion-col size="12">
+      <ion-button expand="block" color="success" (click)="abrirModalAgregarInstructor()">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Agregar Tutor
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>
 
 <app-footer></app-footer>

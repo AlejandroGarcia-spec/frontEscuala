@@ -62,7 +62,11 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
-        <ion-button expand="block" color="primary" (click)="abrirModalAgregarMaestro()" >Agregar Maestro</ion-button>
+        <ion-button expand="block" color="primary" (click)="abrirModalAgregarMaestro()" >
+          <ion-icon slot="start" name="person-add-outline"></ion-icon>
+          Agregar Maestro
+        </ion-button>
+
       </ion-col>
    <!--    <ion-col size="4">
        <ion-button expand="block" color="warning" (click)="abrirModalEditarMaestro()" >Modificar Maestro</ion-button>
