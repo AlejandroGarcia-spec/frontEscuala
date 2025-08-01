@@ -16,11 +16,11 @@ export class EliminarMaestroModalPage  {
   instructores: any[] = []
   maestroId!: number;
   constructor(
-    private fb: FormBuilder,
-    private toastController: ToastController,
-    private modalController: ModalController,
-    private alertController: AlertController,
-    private maestrosService: MaestrosService // 👈 agrega el servicio aquí
+    private readonly fb: FormBuilder,
+    private readonly toastController: ToastController,
+    private readonly modalController: ModalController,
+    private readonly alertController: AlertController,
+    private readonly maestrosService: MaestrosService
   ) { }
    ngOnInit() {
     this.formEliminar = this.fb.group({
@@ -47,7 +47,6 @@ obtenerInstructores() {
     }
   });
 }
-
 
   async confirmarEliminacion() {
     const alert = await this.alertController.create({
@@ -81,7 +80,7 @@ obtenerInstructores() {
         color: 'success',
       });
       toast.present();
-      this.cerrarModal(); // Cierra modal después de eliminar
+      this.cerrarModal();
     },
     error: async () => {
       const toast = await this.toastController.create({
