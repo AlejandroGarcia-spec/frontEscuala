@@ -14,6 +14,7 @@ import { MaestrosService } from 'src/app/core/services/maestros.service';
 export class EliminarMaestroModalPage  {
  formEliminar!: FormGroup;
   instructores: any[] = []
+  maestroId!: number;
   constructor(
     private fb: FormBuilder,
     private toastController: ToastController,
@@ -25,6 +26,9 @@ export class EliminarMaestroModalPage  {
     this.formEliminar = this.fb.group({
       id: ['', Validators.required]
     });
+     if (this.maestroId) {
+  this.formEliminar.patchValue({ id: this.maestroId });
+}
     this.obtenerInstructores();
   }
 

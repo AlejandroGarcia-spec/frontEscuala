@@ -69,7 +69,7 @@ obtenerInstructores() {
       component: EditarMaestroModalPage,
       componentProps: {
         maestroSeleccionado: instructor
-      
+
       }
     });
     await modal.present();
@@ -82,7 +82,7 @@ obtenerInstructores() {
     const modal = await this.modalController.create({
       component: EliminarMaestroModalPage,
       componentProps: {
-        instructores: this.instructores
+        maestroId: instructor.id
       }
     });
     await modal.present();
