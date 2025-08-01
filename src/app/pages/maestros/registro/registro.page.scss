@@ -1,152 +1,100 @@
-.profile-card {
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
+/* Contenedor para scroll horizontal en móviles */
+ion-card-content > div {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.profile-icon {
-  font-size: 100px;
-  color: #ffffff;
-}
-
-.profile-bio {
-  margin-top: 10px;
+/* Tabla con estilo profesional */
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-family: var(--ion-font-family, Arial, sans-serif);
   font-size: 14px;
-  color: #ffffff; /* Color del texto */
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.img {
-  height: auto;
-  max-width: 100%;
+/* Encabezados */
+thead tr {
+  background-color: var(--ion-color-primary);
+  color: white;
 }
-.img-container {
+
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Celdas */
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+/* Hover en filas */
+tbody tr:hover {
+  background-color: var(--ion-color-primary-tint);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Columna acciones: centrar botones */
+tbody td:last-child {
   text-align: center;
-  margin-bottom: 20px;
+  white-space: nowrap;
 }
-.logo {
-  height: 40px;
-  width: auto;
+
+/* Botones Ionic dentro de tabla */
+ion-button {
+  margin: 0 4px;
 }
-.page-usuario {
-  ion-content {
-    --background: #f4f4f4;
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+  table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    min-width: 100%;
+    font-size: 13px;
   }
 
-  .e-card {
-    margin: 10px auto;
-    background: #00703c;
-    box-shadow: 0px 8px 28px -9px rgba(0, 0, 0, 0.45);
-    position: relative;
-    width: 300px;
-    height: 600px;
-    border-radius: 16px;
-    overflow: hidden;
+  thead {
+    display: none; /* ocultar encabezado en móviles para diseño tipo tarjetas */
   }
 
-  .wave {
-    position: absolute;
-    width: 400px;
-    height: 700px;
-    opacity: 0.6;
-    left: 0;
-    top: 0;
-    margin-left: -50%;
-    margin-top: -70%;
-    background: linear-gradient(744deg, #005c2e, #005c2e 60%, #005c2e);
+  tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: #fff;
   }
 
-  .profile-icon {
-    width: 80px;
-    height: 80px;
-    margin: 10px auto;
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: none;
   }
 
-  .infotop {
-    text-align: center;
-    font-size: 20px;
-    position: absolute;
-    top: 5.6em;
-    left: 0;
-    right: 0;
-    color: #ffffff;
+  tbody td:last-child {
+    justify-content: flex-start;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
     font-weight: 600;
-  }
-
-  .infotop h2 {
-    color: #ffffff;
-  }
-
-  .infotop p {
-    color: #ffffff;
-  }
-
-  .infotop p strong {
-    color: #ffd700;
-  }
-
-  .wave:nth-child(2),
-  .wave:nth-child(3) {
-    top: 210px;
-  }
-
-  .playing .wave {
-    border-radius: 40%;
-    animation: wave 3000ms infinite linear;
-  }
-
-  .wave {
-    border-radius: 40%;
-    animation: wave 55s infinite linear;
-  }
-
-  .playing .wave:nth-child(2) {
-    animation-duration: 4000ms;
-  }
-
-  .wave:nth-child(2) {
-    animation-duration: 50s;
-  }
-
-  .playing .wave:nth-child(3) {
-    animation-duration: 5000ms;
-  }
-
-  .wave:nth-child(3) {
-    animation-duration: 45s;
-  }
-
-  @keyframes wave {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
+    color: var(--ion-color-primary);
   }
 }
-ion-avatar {
-  display: flex;
-  justify-content: center;
-  margin: 10px auto;
-  --border-radius: 0 !important; /* Hace que sea cuadrado */
-  width: 100px;
-  height: 100px;
-}
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-.boton {
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  width: 200px; /* Ajusta el ancho del botón */
-  height: 80px; /* Ajusta la altura del botón */
-  font-size: 14px; /* Reduce el tamaño del texto */
-  padding: 5px 10px;
-}
-
-

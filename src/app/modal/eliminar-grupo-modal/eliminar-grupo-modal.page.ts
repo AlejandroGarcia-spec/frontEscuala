@@ -72,14 +72,20 @@ loadGrupos() {
   }
 
   eliminarGrupo(id: number) {
-    this.http.delete(`http://localhost:3000/grupos/delete/${id}`).subscribe({
-      next: () => {
-        this.mostrarToastSuccess('Grupo eliminado con éxito');
-        this.loadGrupos();
-      },
-      error: () => this.mostrarToastError('Error al eliminar el grupo')
-    });
-  }
+  this.http.delete(`http://localhost:3000/grupos/delete/${id}`).subscribe({
+    next: () => {
+      this.mostrarToastSuccess('Grupo eliminado con éxito');
+      this.loadGrupos();
+    },
+    error: (error) => {
+      if (error.status === 400 && error.error?.message) {
+        this.mostrarToastError(error.error.message);
+      } else {
+        this.mostrarToastError('Error al eliminar el grupo');
+      }
+    }
+  });
+}
 
   cerrarModal() {
     this.modalController.dismiss();
