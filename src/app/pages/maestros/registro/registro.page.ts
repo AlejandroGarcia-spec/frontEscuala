@@ -64,12 +64,11 @@ obtenerInstructores() {
     });
   }
 
-  async abrirModalEditarMaestro(instructor: any) {
+  async abrirModalEditarMaestro() {
     const modal = await this.modalController.create({
       component: EditarMaestroModalPage,
       componentProps: {
-        maestroSeleccionado: instructor
-      
+        instructores: this.instructores
       }
     });
     await modal.present();
@@ -78,7 +77,7 @@ obtenerInstructores() {
     });
   }
 
-  async abrirModalEliminarMaestro(instructor: any) {
+  async abrirModalEliminarMaestro() {
     const modal = await this.modalController.create({
       component: EliminarMaestroModalPage,
       componentProps: {

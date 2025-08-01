@@ -17,6 +17,6 @@ import { IonicModule } from '@ionic/angular';
     AdminPageRoutingModule,
     AdminPage
   ],
-
+  // declarations array removed since AdminPage is standalone
 })
 export class AdminPageModule {}
