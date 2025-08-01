@@ -41,6 +41,14 @@
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.correo }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.telefono }}</td>
               <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ instructor.grupo?.nombre || 'Sin grupo' }}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+                <ion-button size="small" color="warning" (click)="abrirModalEditarMaestro(instructor)">
+                  <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button size="small" color="danger" (click)="abrirModalEliminarMaestro(instructor)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -54,12 +62,12 @@
       <ion-col size="4">
         <ion-button expand="block" color="primary" (click)="abrirModalAgregarMaestro()" >Agregar Maestro</ion-button>
       </ion-col>
-      <ion-col size="4">
-        <ion-button expand="block" color="warning" (click)="abrirModalEditarMaestro()" >Modificar Maestro</ion-button>
+   <!--    <ion-col size="4">
+       <ion-button expand="block" color="warning" (click)="abrirModalEditarMaestro()" >Modificar Maestro</ion-button>
       </ion-col>
       <ion-col size="4">
         <ion-button expand="block" color="danger" (click)="abrirModalEliminarMaestro()" >Eliminar Maestro</ion-button>
-      </ion-col>
+      </ion-col>-->
     </ion-row>
   </ion-grid>
 </ion-content>
