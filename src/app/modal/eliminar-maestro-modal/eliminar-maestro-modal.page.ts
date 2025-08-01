@@ -69,7 +69,6 @@ obtenerInstructores() {
 
     await alert.present();
   }
-
  eliminarInstructor() {
   const id = this.formEliminar.value.id;
   this.maestrosService.eliminarMaestro(id).subscribe({
