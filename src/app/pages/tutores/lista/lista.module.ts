@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ListaPageRoutingModule } from './lista-routing.module';
+import { FormularioModalComponent } from 'src/app/modal/formulario-modal/formulario-modal.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { ListaPageRoutingModule } from './lista-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ListaPageRoutingModule
+    ListaPageRoutingModule,
+    FormularioModalComponent
   ],
 
 })

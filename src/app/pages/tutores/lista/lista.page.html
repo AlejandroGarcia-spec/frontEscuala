@@ -126,5 +126,20 @@
         </div>
       </ion-card-content>
     </ion-card>
+<!-- Botón para abrir el modal (añádelo donde lo necesites) -->
+<button id="bottone1" (click)="abrirRegistroFamiliar()">
+  <strong>Registrar Familiar Externo</strong>
+</button>
+
+<!-- Lista de familiares registrados (opcional) -->
+<div *ngIf="familiaresExternos.length > 0">
+  <h3>Familiares Registrados:</h3>
+  <ul>
+    <li *ngFor="let familiar of familiaresExternos">
+      {{ familiar.nombre }} {{ familiar.apellido }}
+    </li>
+  </ul>
+</div>
+  
   </div>
 </ion-content>
