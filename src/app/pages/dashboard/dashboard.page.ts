@@ -15,13 +15,23 @@ export class DashboardPage {
      private authService: AuthService,
        private menu: MenuController,
 
-   ) { }
-   logout() {
-     this.authService.logout();
-     this.router.navigate(['/auth/login']);
-   }
-   toggleMenu() {
-     this.menu.toggle();
-   }
+) { }
+  logout() {
+  this.authService.logout();
+  this.router.navigate(['/auth/login']);
+}
+  toggleMenu() {
+    this.menu.toggle();
+}
+irAsistencias() {
+      this.router.navigate(['/asistencias/registro']);
   }
- 
+
+  irAlumnos() {
+  this.router.navigate(['/alumnos/lista']);
+  }
+
+  irQr() {
+   this.router.navigate(['/salidas/escanear-qr']);
+  }
+}
