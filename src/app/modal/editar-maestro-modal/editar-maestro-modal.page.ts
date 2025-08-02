@@ -34,7 +34,7 @@ constructor(
   private maestrosService: MaestrosService,
   private readonly navParams: NavParams
 ) {
-  
+
   this.maestroSeleccionado = this.navParams.get('maestroSeleccionado');
 
   this.selectedInstructor = this.maestroSeleccionado;
