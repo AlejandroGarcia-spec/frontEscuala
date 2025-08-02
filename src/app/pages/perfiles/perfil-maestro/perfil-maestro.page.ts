@@ -50,9 +50,12 @@ ngOnInit() {
       this.correo = maestro.correo;
       this.telefono = maestro.telefono;
       this.grupo = `Grupo ${maestro.grupoId}`;
-      this.imagen = maestro.imagenBase64 
-        ? `data:image/jpeg;base64,${maestro.imagenBase64}`
-        : 'assets/img/avatar.png';
+      this.imagen = maestro.imagenBase64?.startsWith('data:image')
+      ? maestro.imagenBase64
+      : maestro.imagenBase64
+    ? `data:image/jpeg;base64,${maestro.imagenBase64}`
+    : 'assets/img/avatar.png';
+
 
       // Si vas a obtener alumnos también, puedes usar:
       // this.idGrupo = maestro.grupoId;
