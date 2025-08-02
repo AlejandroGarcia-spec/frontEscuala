@@ -1,38 +1,58 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title class="ion-text-center">Registro de Asistencia</ion-title>
-     <ion-buttons slot="start">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
+    <ion-card-subtitle>REGISTRO DE ASISTENCIAS</ion-card-subtitle>
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Alumnos del Grupo</ion-card-title>
+      <ion-card-title>Lista de Mis Alumnos</ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-list *ngIf="alumnos.length > 0; else sinAlumnos">
-        <ion-item *ngFor="let alumno of alumnos; let i = index">
-          <ion-label>
-            {{ alumno.nombre }} {{ alumno.apellido1 }}
-          </ion-label>
-          <ion-toggle slot="end"
-                      [(ngModel)]="asistencias[i].presente"
-                      (ionChange)="marcarAsistencia(i, $event.detail.checked)">
-          </ion-toggle>
-        </ion-item>
-      </ion-list>
+      <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
+        <table style="min-width: 900px; border-collapse: collapse; width: 100%;">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Tutor</th>
+              <th>Asistencia</th>
+            </tr>
+          </thead>
+         <tbody>
+  <tr *ngFor="let alumno of instructoresFiltrados; let i = index">
+  <td>{{ alumno.id }}</td>
+  <td>{{ alumno.nombre }}</td>
+  <td>{{ alumno.apellido }}</td>
+  <td>{{ alumno.correo }}</td>
+  <td>{{ alumno.telefono }}</td>
+  <td>{{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellidoPaterno }} {{ alumno.tutor?.apellidoMaterno }}</td>
+  <td>
+  <ion-toggle
+  [checked]="asistencias[i].presente"
+  [disabled]="asistencias[i].registrada"
+  (ionChange)="marcarAsistencia(i, $event.detail.checked)">
+</ion-toggle>
 
-      <ng-template #sinAlumnos>
-        <p>No hay alumnos disponibles para este grupo.</p>
-      </ng-template>
+<span *ngIf="asistencias[i].registrada" style="color: green; font-weight: bold;">
+  ✔️ Asistencia Confirmada
+</span>
+  </td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
     </ion-card-content>
   </ion-card>
-
-  <ion-button expand="full" color="success" (click)="guardarAsistencias()">
-    Guardar Asistencia
-  </ion-button>
 </ion-content>
+
+<app-footer></app-footer>
