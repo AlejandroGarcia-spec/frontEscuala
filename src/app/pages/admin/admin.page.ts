@@ -25,7 +25,7 @@ export class AdminPage  {
   toggleMenu() {
     this.menu.toggle();
   }
-  // 👉 Métodos de navegación
+
   irATutores() {
     this.router.navigate(['/tutores/formulario']);
   }

@@ -36,7 +36,7 @@ fotoPreview: string | ArrayBuffer | null = null;
       nombre: ['', [Validators.required,Validators.maxLength(30)]],
       apellido: ['', [Validators.required,Validators.maxLength(30)]],
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(10)]],
-      grupoId: ['', Validators.required],  // <-- grupoId es string aquí porque el input es texto o select
+      grupoId: ['', Validators.required],  
 
     });
       this.cargarGrupos();
@@ -64,7 +64,7 @@ async agregarInstructor() {
     grupoId: Number(formValue.grupoId),
   };
 
-  // Si hay imagen, la convertimos a base64
+
   if (this.fotoArchivo) {
     const base64 = await this.convertirImagenABase64(this.fotoArchivo);
     maestroData.imagenBase64 = base64;
@@ -78,7 +78,7 @@ async agregarInstructor() {
         color: 'success',
       });
       toast.present();
-      this.modalController.dismiss(true); // Puedes enviar true para refrescar lista si es necesario
+      this.modalController.dismiss(true);
     },
     error: async (err) => {
       const toast = await this.toastController.create({
@@ -116,7 +116,7 @@ private convertirImagenABase64(file: File): Promise<string> {
  cargarGrupos() {
     this.grupoService.obtenerGrupos().subscribe({
       next: (res: any) => {
-        this.grupos = res; // Asume que el backend devuelve un array de grupos
+        this.grupos = res;
       },
       error: async (err) => {
         const toast = await this.toastController.create({

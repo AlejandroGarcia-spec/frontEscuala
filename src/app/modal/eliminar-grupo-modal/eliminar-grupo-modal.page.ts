@@ -17,7 +17,7 @@ export class EliminarGrupoModalPage  {
   grupos: any[] = [];
   grupoCarreraId: number = 0;
   grupoId!: number;
-
+ 
 constructor(
     private modalController: ModalController,
     private alertController: AlertController,

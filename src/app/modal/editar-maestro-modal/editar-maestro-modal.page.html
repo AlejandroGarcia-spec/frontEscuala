@@ -12,7 +12,7 @@
 <ion-content>
   <form [formGroup]="formInstructor" (ngSubmit)="agregarInstructor()">
     <ion-list>
-      <!-- Instructor -->
+
       <ion-item>
         <ion-input label="NOMBRE" type="text" placeholder="...." labelPlacement="floating" placeholder="NOMBRE DEL INSTRUCTOR" formControlName="nombre"  (input)="convertToUpperCase($event, 'nombre')"
         ></ion-input>
@@ -40,7 +40,7 @@
           La contraseña debe tener al menos 8 caracteres.
         </ion-note>
       </ion-item>
-       <!-- Grupo -->
+
       <ion-item>
         <ion-label>Grupo</ion-label>
         <ion-select formControlName="grupoId" (ionChange)="cargarAlumnosDelGrupo()">
@@ -49,7 +49,7 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
-       <!-- Imagen del docente -->
+    
     <ion-item lines="none">
       <ion-label>FOTO DEL DOCENTE</ion-label>
     </ion-item>

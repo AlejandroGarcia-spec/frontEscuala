@@ -105,4 +105,4 @@ this.cargarTutores();
   return tutor.alumno.map((a: any) => a.nombre).join(', ');
 }
 
-}
+} 

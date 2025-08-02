@@ -34,9 +34,9 @@ constructor(
   private maestrosService: MaestrosService,
   private readonly navParams: NavParams
 ) {
-  // Primero obtenemos el maestro seleccionado
+  
   this.maestroSeleccionado = this.navParams.get('maestroSeleccionado');
-  // Ahora sí asignamos selectedInstructor
+
   this.selectedInstructor = this.maestroSeleccionado;
 
   this.formInstructor = this.fb.group({
@@ -76,7 +76,6 @@ async agregarInstructor() {
 
   const formValue = this.formInstructor.value;
 
-  // Clonar pero eliminar id del cuerpo
   const { id, ...rest } = formValue;
 
   const maestroActualizado: any = {

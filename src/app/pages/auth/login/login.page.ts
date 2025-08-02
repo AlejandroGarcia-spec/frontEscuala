@@ -17,7 +17,7 @@ export class LoginPage {
   correo: string = '';
   contrasena: string = '';
   rol: string = '';
-  email: string = ''; // Nuevo campo para el emailmostrarContrasena: boolean = false;
+  email: string = ''; 
 mostrarContrasena: boolean = false;
 
   constructor(
