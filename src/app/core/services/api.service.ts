@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  private readonly backendUrl = 'http://localhost:3000'; // Cambiar si se sube a producción
+  private readonly backendUrl = 'http://localhost:3000'; 
 
   constructor(private readonly http: HttpClient) { }
 login(correo: string, contrasena: string) {
@@ -31,4 +31,3 @@ getAlumnosPorGrupo(idGrupo: number) {
 
 
 }
- 
