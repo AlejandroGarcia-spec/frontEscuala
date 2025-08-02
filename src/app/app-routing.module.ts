@@ -193,7 +193,11 @@ const routes: Routes = [
   {
     path: 'qralumno',
     loadChildren: () => import('./modal/qralumno/qralumno.module').then( m => m.QRAlumnoPageModule)
+  },  {
+    path: 'ficha-alumno',
+    loadChildren: () => import('./pages/tutores/ficha-alumno/ficha-alumno.module').then( m => m.FichaAlumnoPageModule)
   },
+
 
 
 

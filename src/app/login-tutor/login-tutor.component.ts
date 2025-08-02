@@ -4,7 +4,6 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
