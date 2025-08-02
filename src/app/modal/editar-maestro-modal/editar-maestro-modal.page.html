@@ -15,11 +15,7 @@
 
       <ion-item>
         <ion-label>Seleccionar Docente</ion-label>
-        <ion-select (ionChange)="onInstructorChange($event)" formControlName="id">
-          <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
-            {{ instructor.nombre }}
-          </ion-select-option>
-        </ion-select>
+  
       </ion-item>
       <ion-item>
         <ion-input label="NOMBRE" type="text" placeholder="...." labelPlacement="floating" placeholder="NOMBRE DEL INSTRUCTOR" formControlName="nombre"  (input)="convertToUpperCase($event, 'nombre')"
@@ -57,7 +53,7 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
-    
+
     <ion-item lines="none">
       <ion-label>FOTO DEL DOCENTE</ion-label>
     </ion-item>
