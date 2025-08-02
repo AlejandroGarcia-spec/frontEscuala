@@ -15,7 +15,12 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
-      }
+      },
+      {
+      path: 'login/tutor',
+       loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
+       
+  },
     ]
   },
 
@@ -57,8 +62,9 @@ const routes: Routes = [
   },
 
   {
-    path: 'tutores/lista',
-    loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule)
+    path: 'tutores/perfil',
+    loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule),
+    canActivate:[authGuard]
   },
 
   {
@@ -66,18 +72,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tutores/formulario/formulario.module').then(m => m.FormularioPageModule)
   },
 
+  
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  },
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+   },
   {
     path: 'footer',
     loadChildren: () => import('./componentes/footer/footer.module').then( m => m.FooterPageModule)
   },
-  {
-  path: 'auth/:perfil', // <- así capturamos admin, maestro o tutor
-  loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
-},
   {
     path: 'header',
     loadChildren: () => import('./componentes/header/header.module').then( m => m.HeaderPageModule)
@@ -186,7 +189,8 @@ const routes: Routes = [
   {
     path: 'perfil-padre',
     loadChildren: () => import('./pages/perfiles/perfil-padre/perfil-padre.module').then( m => m.PerfilPadrePageModule)
-  },  {
+  },
+  {
     path: 'qralumno',
     loadChildren: () => import('./modal/qralumno/qralumno.module').then( m => m.QRAlumnoPageModule)
   },
