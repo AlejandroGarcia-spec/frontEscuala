@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import { AlumnosService } from 'src/app/core/services/alumnos.service';
 import { FooterPage } from "src/app/componentes/footer/footer.page";
 import { ApiService } from 'src/app/core/services/api.service';
@@ -21,7 +21,8 @@ asistencias: { id?: number; alumno_id: number; presente: boolean; registrada: bo
 
   constructor(private readonly api: ApiService,
     private readonly asistenciasService: AsistenciasService,
-   private readonly toastController: ToastController) {
+   private readonly toastController: ToastController,
+    private alertController: AlertController,) {
     const usuario = JSON.parse(localStorage.getItem('usuario')!);
     if (usuario && usuario.rol === 'maestro') {
       this.obtenerGrupoPorCorreo(usuario.correo);
@@ -156,24 +157,6 @@ modificarAsistencia(entrada: any, presente: boolean) {
     }
   }
 }
-eliminarEntrada(id: number) {
-  this.asistenciasService.eliminarEntrada(id).subscribe({
-    next: () => {
-      // Actualiza el arreglo para reflejar eliminación
-      const idx = this.asistencias.findIndex(a => a.id === id);
-      if (idx !== -1) {
-        this.asistencias[idx].presente = false;
-        this.asistencias[idx].registrada = false;
-        this.asistencias[idx].id = 0;
-      }
-      this.mostrarToast('Asistencia eliminada');
-    },
-    error: (err) => {
-      this.mostrarToast('Error al eliminar asistencia', 'danger');
-      console.error(err);
-    }
-  });
-}
 toggleAsistencia(entrada: any, presente: boolean) {
   if (presente) {
     // Registrar asistencia si no está registrada
@@ -222,5 +205,44 @@ eliminarAsistencia(entrada: any) {
     }
   });
 }
+ // Método modificado para pedir confirmación antes de eliminar
+  async confirmarYEliminarEntrada(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Seguro que quieres eliminar esta asistencia?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.eliminarEntrada(id);
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
+
+  eliminarEntrada(id: number) {
+    this.asistenciasService.eliminarEntrada(id).subscribe({
+      next: () => {
+        const idx = this.asistencias.findIndex(a => a.id === id);
+        if (idx !== -1) {
+          this.asistencias[idx].presente = false;
+          this.asistencias[idx].registrada = false;
+          this.asistencias[idx].id = 0;
+        }
+        this.mostrarToast('Asistencia eliminada');
+      },
+      error: (err) => {
+        this.mostrarToast('Error al eliminar asistencia', 'danger');
+        console.error(err);
+      }
+    });
+  }
 }
