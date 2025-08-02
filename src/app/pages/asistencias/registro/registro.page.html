@@ -35,17 +35,21 @@
   <td>{{ alumno.correo }}</td>
   <td>{{ alumno.telefono }}</td>
   <td>{{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellidoPaterno }} {{ alumno.tutor?.apellidoMaterno }}</td>
-  <td>
+<td>
   <ion-toggle
-  [checked]="asistencias[i].presente"
-  [disabled]="asistencias[i].registrada"
-  (ionChange)="marcarAsistencia(i, $event.detail.checked)">
-</ion-toggle>
+    [checked]="asistencias[i].presente"
+    (ionChange)="toggleAsistencia(asistencias[i], $event.detail.checked)"
+  ></ion-toggle>
 
-<span *ngIf="asistencias[i].registrada" style="color: green; font-weight: bold;">
-  ✔️ Asistencia Confirmada
-</span>
-  </td>
+  <span *ngIf="asistencias[i].registrada" style="color: green; font-weight: bold;">
+    ✔️ Asistencia Confirmada
+  </span>
+
+  <ion-button *ngIf="asistencias[i].registrada" color="danger" size="small" (click)="eliminarAsistencia(asistencias[i])">
+    Eliminar
+  </ion-button>
+</td>
+
 </tr>
 </tbody>
 

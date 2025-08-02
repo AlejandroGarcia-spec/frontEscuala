@@ -16,12 +16,12 @@ import { AsistenciasService } from 'src/app/core/services/asistencias.service';
 })
 export class RegistroPage {
   instructoresFiltrados: any[] = [];
-  asistencias: { alumno_id: number; presente: boolean; registrada: boolean }[] = [];
+asistencias: { id?: number; alumno_id: number; presente: boolean; registrada: boolean }[] = [];
   idGrupo: number = 0;
 
-  constructor(private api: ApiService,
-    private asistenciasService: AsistenciasService,
-   private toastController: ToastController) {
+  constructor(private readonly api: ApiService,
+    private readonly asistenciasService: AsistenciasService,
+   private readonly toastController: ToastController) {
     const usuario = JSON.parse(localStorage.getItem('usuario')!);
     if (usuario && usuario.rol === 'maestro') {
       this.obtenerGrupoPorCorreo(usuario.correo);
@@ -114,6 +114,113 @@ error: (err) => {
     position: 'bottom'
   });
   await toast.present();
+}
+obtenerEntradasRegistradas() {
+  this.asistenciasService.getEntradasPorGrupo(this.idGrupo).subscribe({
+    next: (entradas) => {
+      this.asistencias = this.instructoresFiltrados.map(alumno => {
+        const entrada = entradas.find(e => e.alumno.id === alumno.id);
+        return {
+          id: entrada?.id || 0,
+          alumno_id: alumno.id,
+          presente: !!entrada,
+          registrada: !!entrada,
+        };
+      });
+    },
+    error: (err) => {
+      console.error('Error al obtener entradas:', err);
+    }
+  });
+}
+modificarAsistencia(entrada: any, presente: boolean) {
+  if (!entrada.id) {
+    // No existe la entrada, crear una nueva (igual que antes)
+    this.asistenciasService.registrarEntrada(entrada.alumno_id).subscribe({
+      next: () => {
+        entrada.presente = true;
+        entrada.registrada = true;
+        this.mostrarToast('Asistencia registrada');
+      },
+      error: (err) => {
+        this.mostrarToast('Error al registrar asistencia', 'danger');
+      },
+    });
+  } else {
+    if (!presente) {
+      // Si desmarca, eliminar asistencia
+      this.eliminarEntrada(entrada.id);
+    } else {
+      // Si quieres permitir cambiar datos, implementa update aquí.
+      // Por ahora, solo dejamos toggle para eliminar o crear.
+    }
+  }
+}
+eliminarEntrada(id: number) {
+  this.asistenciasService.eliminarEntrada(id).subscribe({
+    next: () => {
+      // Actualiza el arreglo para reflejar eliminación
+      const idx = this.asistencias.findIndex(a => a.id === id);
+      if (idx !== -1) {
+        this.asistencias[idx].presente = false;
+        this.asistencias[idx].registrada = false;
+        this.asistencias[idx].id = 0;
+      }
+      this.mostrarToast('Asistencia eliminada');
+    },
+    error: (err) => {
+      this.mostrarToast('Error al eliminar asistencia', 'danger');
+      console.error(err);
+    }
+  });
+}
+toggleAsistencia(entrada: any, presente: boolean) {
+  if (presente) {
+    // Registrar asistencia si no está registrada
+    if (!entrada.registrada) {
+      this.asistenciasService.registrarEntrada(entrada.alumno_id).subscribe({
+        next: (respuesta) => {
+          entrada.presente = true;
+          entrada.registrada = true;
+          entrada.id = respuesta.id; // guardamos el id de la asistencia registrada
+          this.mostrarToast('Asistencia registrada');
+        },
+        error: (err) => {
+          if (err.status === 409) {
+            this.mostrarToast('Asistencia ya registrada', 'warning');
+            entrada.registrada = true;
+            entrada.presente = true;
+          } else {
+            this.mostrarToast('Error al registrar asistencia', 'danger');
+          }
+        }
+      });
+    }
+  } else {
+    // Si desactiva el toggle, no eliminar automáticamente, espera a que presione el botón Eliminar
+    // Sólo actualizamos localmente el toggle para que refleje el estado real
+    entrada.presente = true;
+    this.mostrarToast('Para eliminar, usa el botón Eliminar', 'warning');
+  }
+}
+
+eliminarAsistencia(entrada: any) {
+  if (!entrada.id) {
+    this.mostrarToast('No hay asistencia registrada para eliminar', 'warning');
+    return;
+  }
+  this.asistenciasService.eliminarEntrada(entrada.id).subscribe({
+    next: () => {
+      entrada.presente = false;
+      entrada.registrada = false;
+      entrada.id = 0;
+      this.mostrarToast('Asistencia eliminada');
+    },
+    error: (err) => {
+      this.mostrarToast('Error al eliminar asistencia', 'danger');
+      console.error(err);
+    }
+  });
 }
 
 }

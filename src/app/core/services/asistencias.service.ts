@@ -13,6 +13,13 @@ export class AsistenciasService {
 registrarEntrada(alumnoId: number): Observable<any> {
   return this.http.post(this.apiUrl, { alumnoId });
 }
+ eliminarEntrada(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getEntradasPorGrupo(idGrupo: number) {
+    return this.http.get<any[]>(`${this.apiUrl}/grupo/${idGrupo}`);
+  }
 
 
 }
