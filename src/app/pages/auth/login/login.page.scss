@@ -141,7 +141,7 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
-  color: #090909; /* Color predeterminado para texto */
+  color: #090909; 
   padding: 0.7em 1.7em;
   cursor: pointer;
   font-size: 18px;
@@ -206,18 +206,18 @@
 
 @media (prefers-color-scheme: dark) {
   .button2 {
-    color: #ffffff; /* Cambiar el color del texto a blanco en modo oscuro */
+    color: #ffffff;
   }
 }
 .button2:disabled {
-  background-color: #cccccc; /* Color de fondo cuando está deshabilitado */
-  color: #666666; /* Color del texto cuando está deshabilitado */
-  cursor: not-allowed; /* Cambiar el cursor para indicar que está deshabilitado */
-  box-shadow: none; /* Eliminar las sombras */
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 .button2:disabled:before,
 .button2:disabled:after {
-  content: none; /* Evitar que las animaciones se muestren cuando está deshabilitado */
+  content: none;
 }
 .icono-ojo {
   font-size: 22px;

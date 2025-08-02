@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GrupoService } from 'src/app/core/services/grupo.service';
 import { MaestrosService } from 'src/app/core/services/maestros.service';
@@ -21,38 +21,72 @@ export class EditarMaestroModalPage  {
   instructores: any[] = [];
   selectedInstructor: any = null;
   showPassword: boolean = false;
-fotoPreview: string | ArrayBuffer | null = null;
+  fotoPreview: string | ArrayBuffer | null = null;
   fotoArchivo: File | null = null;
-      grupos: Grupo[] = [];
-  constructor(
-    private fb: FormBuilder,
-    private _Service: AuthService,
-    private toastController: ToastController,
-    private modalController: ModalController,
-    private grupoService: GrupoService,
-    private maestrosService: MaestrosService
-  ) {
-    this.formInstructor = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', [Validators.required, Validators.minLength(8)]],
-      nombre: ['', [Validators.required,Validators.maxLength(30)]],
-      apellido: ['', [Validators.required,Validators.maxLength(30)]],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(10)]],
-      grupoId: ['', Validators.required],  // <-- grupoId es string aquí porque el input es texto o se
- });
-      this.cargarGrupos();
-      this.cargarMaestros(); // 👈 importante
+  grupos: Grupo[] = [];
+  maestroSeleccionado: any;
+constructor(
+  private fb: FormBuilder,
+  private _Service: AuthService,
+  private toastController: ToastController,
+  private modalController: ModalController,
+  private grupoService: GrupoService,
+  private maestrosService: MaestrosService,
+  private readonly navParams: NavParams
+) {
+  
+  this.maestroSeleccionado = this.navParams.get('maestroSeleccionado');
+
+  this.selectedInstructor = this.maestroSeleccionado;
+
+  this.formInstructor = this.fb.group({
+    id: [null, Validators.required],
+    correo: ['', [Validators.required, Validators.email]],
+    contrasena: ['', [Validators.required, Validators.minLength(8)]],
+    nombre: ['', [Validators.required, Validators.maxLength(30)]],
+    apellido: ['', [Validators.required, Validators.maxLength(30)]],
+    telefono: ['', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(10)]],
+    grupoId: ['', Validators.required],
+  });
+
+  if (this.maestroSeleccionado) {
+    this.formInstructor.patchValue({
+      id: this.maestroSeleccionado.id,
+      nombre: this.maestroSeleccionado.nombre,
+      apellido: this.maestroSeleccionado.apellido,
+      correo: this.maestroSeleccionado.correo,
+      telefono: this.maestroSeleccionado.telefono,
+      grupoId: this.maestroSeleccionado.grupoId,
+      contrasena: this.maestroSeleccionado.contrasena,
+    });
+
+    if (this.maestroSeleccionado.imagenBase64) {
+      const base64 = this.maestroSeleccionado.imagenBase64;
+      this.fotoPreview = base64.startsWith('data:image')
+        ? base64
+        : `data:image/jpeg;base64,${base64}`;
+    }
   }
 
+  this.cargarGrupos();
+  this.cargarMaestros();
+}
 async agregarInstructor() {
   if (!this.selectedInstructor) return;
 
   const formValue = this.formInstructor.value;
 
-  const maestroActualizado = {
-    ...formValue,
-    imagenBase64: this.fotoPreview,
+  const { id, ...rest } = formValue;
+
+  const maestroActualizado: any = {
+    ...rest,
   };
+
+  if (this.fotoPreview) {
+    maestroActualizado.imagenBase64 = this.fotoPreview;
+  }
+
+  console.log('Datos a enviar en PATCH:', maestroActualizado);
 
   this.maestrosService.actualizarMaestro(this.selectedInstructor.id, maestroActualizado).subscribe({
     next: async () => {
@@ -65,16 +99,17 @@ async agregarInstructor() {
       this.cerrarModal();
     },
     error: async (err) => {
+      console.error('Error al actualizar:', err);
       const toast = await this.toastController.create({
         message: 'Error al actualizar el docente',
         duration: 2000,
         color: 'danger',
       });
       toast.present();
-      console.error(err);
     },
   });
 }
+
 
 
   cerrarModal() {
@@ -101,23 +136,6 @@ onImageSelected(event: any) {
       lector.readAsDataURL(archivo);
     }
   }
-onInstructorChange(event: any) {
-  const id = event.detail.value;
-  this.selectedInstructor = this.instructores.find(i => i.id === id);
-
-  if (this.selectedInstructor) {
-    this.formInstructor.patchValue({
-      nombre: this.selectedInstructor.nombre,
-      apellido: this.selectedInstructor.apellido,
-      correo: this.selectedInstructor.correo,
-      telefono: this.selectedInstructor.telefono,
-      contrasena: this.selectedInstructor.contrasena, // si decides mostrarla
-      grupoId: this.selectedInstructor.grupo?.id || null,
-    });
-
-    this.fotoPreview = this.selectedInstructor.imagenBase64 || null;
-  }
-}
 
   cargarMaestros() {
   this.maestrosService.obtenerMaestros().subscribe({
@@ -141,7 +159,7 @@ onInstructorChange(event: any) {
  cargarGrupos() {
     this.grupoService.obtenerGrupos().subscribe({
       next: (res: any) => {
-        this.grupos = res; // Asume que el backend devuelve un array de grupos
+        this.grupos = res;
       },
       error: async (err) => {
         const toast = await this.toastController.create({

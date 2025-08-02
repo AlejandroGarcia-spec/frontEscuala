@@ -25,3 +25,4 @@ export class GrupoService {
     return this.http.patch(`${this.apiUrl}/update/${id}`, data);
   }
 }
+ 

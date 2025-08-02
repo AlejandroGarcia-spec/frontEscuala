@@ -95,4 +95,4 @@ obtenerInstructores() {
   cerrarModal() {
     this.modalController.dismiss();
   }
-}
+} 

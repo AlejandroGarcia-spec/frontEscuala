@@ -82,7 +82,7 @@ export class EliminarTutorModalPage {
   this.tutorService.eliminarTutor(id).subscribe({
     next: () => {
       this.mostrarToast('Tutor eliminado correctamente.');
-      this.cerrarModal(); 
+      this.cerrarModal();
     },
     error: () => {
       this.mostrarToast('Error al eliminar el tutor.');

@@ -147,7 +147,7 @@ cargarAlumnos() {
   correo: datos.correo,
   telefono: datos.telefono,
   grupoId: datos.grupoId,
-  tutorId: datos.tutorId,  // convertir a número explícitamente
+  tutorId: datos.tutorId,
   imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
 };
     this.alumnosService.actualizarAlumno(datos.id, alumnoActualizado).subscribe({
@@ -209,3 +209,4 @@ onAlumnoChange(event: any) {
 }
 
 }
+ 

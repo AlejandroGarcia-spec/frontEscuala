@@ -24,3 +24,4 @@ export class DashboardPage {
      this.menu.toggle();
    }
   }
+ 

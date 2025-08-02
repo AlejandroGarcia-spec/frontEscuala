@@ -99,7 +99,7 @@ export class EditarTutorModalPage implements OnInit {
 }
 enviarActualizacion(datos: any) {
   const id = datos.tutor_id;
-  delete datos.tutor_id; 
+  delete datos.tutor_id;
 
   this.tutorService.editarTutor(id, datos).subscribe({
     next: () => {
@@ -141,3 +141,4 @@ enviarActualizacion(datos: any) {
     toast.present();
   }
 }
+ 
