@@ -12,7 +12,6 @@
 <ion-content>
   <form [formGroup]="formInstructor" (ngSubmit)="agregarInstructor()">
     <ion-list>
-
       <ion-item>
         <ion-input label="NOMBRE" type="text" placeholder="...." labelPlacement="floating" placeholder="NOMBRE DEL INSTRUCTOR" formControlName="nombre"  (input)="convertToUpperCase($event, 'nombre')"
         ></ion-input>
