@@ -1,4 +1,5 @@
 import { FormularioModalComponent } from '../../../modal/formulario-modal/formulario-modal.component';
+import { FamiliaresModalComponent } from '../../../modal/familiares-modal/familiares-modal.component';
 import { Component } from '@angular/core';
 import { IonicModule, ToastController, ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -48,6 +49,23 @@ export class ListaPage {
     return index; // O puedes usar hijo.id si existe
   }
 
+async abrirModalFamiliares(event?: Event) {
+  if (event) {
+    event.preventDefault(); // Previene la recarga de página
+  }
+  
+  console.log('Abriendo modal de familiares');
+  
+  const modal = await this.modalCtrl.create({
+    component: FamiliaresModalComponent,
+    componentProps: {
+      familiares: this.familiaresExternos
+    }
+  });
+
+  await modal.present();
+}
+
   // Método para registrar familiares externos
   async abrirRegistroFamiliar() {
     const modal = await this.modalCtrl.create({
@@ -86,6 +104,12 @@ export class ListaPage {
 
     await alert.present();
   }
+
+  mantenerEnCodigos(event: Event) {
+  event.preventDefault();
+  // No hace nada más, solo previene la recarga
+  console.log('Permaneciendo en página de códigos');
+}
 
   // Métodos para manejo de QR (versiones simplificadas)
   async generarCodigoQR(index: number) {

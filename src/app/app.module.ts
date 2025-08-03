@@ -16,6 +16,7 @@ import { FormularioModalComponent } from './modal/formulario-modal/formulario-mo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,FormularioModalComponent, AdminPageModule,FormsModule,ReactiveFormsModule,
