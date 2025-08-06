@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
@@ -8,7 +9,7 @@ import { QRAlumnoPage } from 'src/app/modal/qralumno/qralumno.page';
 @Component({
   selector: 'app-perfil-alumno',
   standalone: true,
-  imports: [IonicModule, FooterPage,FormsModule,],
+  imports: [IonicModule, FooterPage,FormsModule,CommonModule],
   templateUrl: './perfil-alumno.page.html',
   styleUrls: ['./perfil-alumno.page.scss'],
 })

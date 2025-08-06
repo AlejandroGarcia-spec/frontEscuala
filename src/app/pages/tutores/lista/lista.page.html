@@ -97,11 +97,13 @@
             </div>
             <div class="info-item" *ngIf="hijo.datosQR && hijo.datosQR.autorizadoRecoger">
               <ion-icon 
-                [name]="hijo.datosQR.autorizadoRecoger?.tipo === 'tutor' ? 'person-circle-outline' : 'people-outline'" 
+                [name]="hijo.datosQR.autorizadoRecoger.tipo === 'tutor' ? 'person-circle-outline' : 'people-outline'" 
                 size="small" 
                 color="success">
               </ion-icon>
-              <span>Autorizado: {{ hijo.datosQR.autorizadoRecoger?.nombre }} {{ hijo.datosQR.autorizadoRecoger?.apellido }} ({{ hijo.datosQR.autorizadoRecoger?.parentesco }})</span>
+
+              <span>Autorizado: {{ hijo.datosQR.autorizadoRecoger.nombre }} {{ hijo.datosQR.autorizadoRecoger.apellido }} ({{ hijo.datosQR.autorizadoRecoger.parentesco }})</span>
+
             </div>
             <div class="info-item">
               <ion-icon name="time-outline" size="small" color="warning"></ion-icon>

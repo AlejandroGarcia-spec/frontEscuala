@@ -18,49 +18,54 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
-             <ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="ion-text-center">LISTADO DE GRUPOS</ion-card-title>
+          </ion-card-header>
           <ion-card-content>
-            <ion-card-title color="info">GRUPOS</ion-card-title>
-            <ion-list>
-              <ion-item >
-                <ion-label color="info" >Id</ion-label>
-                <ion-label color="info" >Grupo</ion-label>
-                <ion-label color="info" >Acciones</ion-label>
-              </ion-item>
-               <ion-list *ngIf="grupos.length > 0">
-          <ion-item *ngFor="let grupo of grupos">
-            <ion-label>{{ grupo.id }}</ion-label>
-            <ion-label>{{ grupo.nombre }}</ion-label>
-            <ion-button size="small" color="warning" (click)="abrirModalEditarGrupo(grupo)">
-              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button size="small" color="danger" (click)="abrirModalEliminarGrupo(grupo)">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </ion-list>
-            </ion-list>
+            <div>
+              <table class="tabla-grupos">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Grupo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="grupos.length > 0; else sinGrupos">
+                  <tr *ngFor="let grupo of grupos">
+                    <td data-label="ID">{{ grupo.id }}</td>
+                    <td data-label="Grupo">{{ grupo.nombre }}</td>
+                    <td data-label="Acciones" class="acciones">
+                      <ion-button size="small" fill="clear" color="warning" (click)="abrirModalEditarGrupo(grupo)">
+                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                      </ion-button>
+                      <ion-button size="small" fill="clear" color="danger" (click)="abrirModalEliminarGrupo(grupo)">
+                        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                      </ion-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <ng-template #sinGrupos>
+                <ion-note color="danger" class="mensaje-vacio">No se encontraron grupos.</ion-note>
+              </ng-template>
+            </div>
           </ion-card-content>
         </ion-card>
-        <ion-note *ngIf="grupos.length === 0" color="danger">No se encontraron grupos.</ion-note>
       </ion-col>
-
     </ion-row>
-  </ion-grid>
-  <ion-grid fixed>
+
     <ion-row>
       <ion-col size="12">
-        <ion-button expand="block" color="primary" (click)="abrirModalAgregarGrupo()" >Agregar Grupo</ion-button>
+        <ion-button expand="block" color="success" (click)="abrirModalAgregarGrupo()">
+          <ion-icon slot="start" name="person-add-outline"></ion-icon>
+          Agregar Grupo
+        </ion-button>
       </ion-col>
- <!---    <ion-col size="4">
-        <ion-button expand="block" color="warning" (click)="abrirModalEditarGrupo()" >Modificar Grupo</ion-button>
-      </ion-col>
-      <ion-col size="4">
-        <ion-button expand="block" color="danger" (click)="abrirModalEliminarGrupo()" >Eliminar Grupo</ion-button>
-      </ion-col>
-      -->
     </ion-row>
   </ion-grid>
- 
 </ion-content>
+
 <app-footer></app-footer>
