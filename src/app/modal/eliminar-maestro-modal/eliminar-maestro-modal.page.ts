@@ -14,17 +14,21 @@ import { MaestrosService } from 'src/app/core/services/maestros.service';
 export class EliminarMaestroModalPage  {
  formEliminar!: FormGroup;
   instructores: any[] = []
+  maestroId!: number;
   constructor(
-    private fb: FormBuilder,
-    private toastController: ToastController,
-    private modalController: ModalController,
-    private alertController: AlertController,
-    private maestrosService: MaestrosService // 👈 agrega el servicio aquí
+    private readonly fb: FormBuilder,
+    private readonly toastController: ToastController,
+    private readonly modalController: ModalController,
+    private readonly alertController: AlertController,
+    private readonly maestrosService: MaestrosService
   ) { }
    ngOnInit() {
     this.formEliminar = this.fb.group({
       id: ['', Validators.required]
     });
+     if (this.maestroId) {
+  this.formEliminar.patchValue({ id: this.maestroId });
+}
     this.obtenerInstructores();
   }
 
@@ -43,7 +47,6 @@ obtenerInstructores() {
     }
   });
 }
-
 
   async confirmarEliminacion() {
     const alert = await this.alertController.create({
@@ -66,7 +69,6 @@ obtenerInstructores() {
 
     await alert.present();
   }
-
  eliminarInstructor() {
   const id = this.formEliminar.value.id;
   this.maestrosService.eliminarMaestro(id).subscribe({
@@ -77,7 +79,7 @@ obtenerInstructores() {
         color: 'success',
       });
       toast.present();
-      this.cerrarModal(); // Cierra modal después de eliminar
+      this.cerrarModal();
     },
     error: async () => {
       const toast = await this.toastController.create({
@@ -93,4 +95,4 @@ obtenerInstructores() {
   cerrarModal() {
     this.modalController.dismiss();
   }
-}
+} 

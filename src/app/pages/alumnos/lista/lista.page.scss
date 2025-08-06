@@ -1,0 +1,84 @@
+/* Contenedor con scroll y tamaño fijo */
+.table-container {
+  max-height: 420px; /* Ajusta la altura visible */
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+/* Tabla estilizada */
+table.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 900px; /* Mantener ancho mínimo */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header fijo */
+thead tr {
+  position: sticky;
+  top: 0;
+  background-color: #3880ff; /* Color primario de Ionic */
+  color: white;
+  z-index: 10;
+}
+
+thead th {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #2665d6;
+  box-shadow: inset 0 -1px 0 #2665d6;
+}
+
+/* Anchos específicos por columna */
+thead th.col-id { width: 60px; }
+thead th.col-nombre { width: 150px; }
+thead th.col-apellidos { width: 150px; }
+thead th.col-email { width: 200px; }
+thead th.col-telefono { width: 130px; }
+thead th.col-tutor { width: 200px; }
+thead th.col-asistencia { width: 160px; }
+
+/* Filas */
+tbody tr {
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+tbody tr:hover {
+  background-color: #e1eaff;
+}
+
+tbody td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+/* Texto confirmación asistencia */
+.asistencia-confirmada {
+  color: green;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Ajustes para ion-toggle y botones */
+ion-toggle {
+  vertical-align: middle;
+  --handle-background-checked: #10dc60;
+}
+
+ion-button {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Evitar que el texto se quiebre */
+td, th {
+  white-space: nowrap;
+}

@@ -62,7 +62,20 @@ export class ListaPage {
     private actionSheetCtrl: ActionSheetController
   ) {}
 
+<<<<<<< HEAD
   // Método trackBy requerido por el template
+=======
+  generarCodigo(index: number) {
+    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase();
+    this.tutor.hijos[index].codigo = codigoGenerado;
+  }
+
+  cerrarSesion() {
+    localStorage.removeItem('logueado');
+    this.router.navigate(['/home']);
+  }
+
+>>>>>>> main
   trackByHijo(index: number, hijo: any): any {
     return index;
   }

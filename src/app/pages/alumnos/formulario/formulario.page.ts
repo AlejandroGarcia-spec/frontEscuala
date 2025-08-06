@@ -112,7 +112,7 @@ filtrarAlumnosPorGrupo() {
 });
 
   }
-
+ 
   async abrirModalEliminarAlumno(alumno: any) {
     const modal = await this.modalController.create({
       component: EliminarAlumnoModalPage,

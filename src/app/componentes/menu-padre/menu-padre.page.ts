@@ -34,3 +34,4 @@ rol: string = '';
     this.router.navigate(['/home']);
   }
 }
+ 

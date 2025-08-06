@@ -125,3 +125,32 @@
     }
   }
 }
+.tabla-alumnos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tabla-alumnos th, 
+.tabla-alumnos td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.tabla-alumnos th {
+  background: #f9f9f9;
+  color: #333;
+  font-weight: 600;
+}
+
+.tabla-alumnos tr:hover {
+  background-color: #f0f4f7;
+}
+
+ion-button[fill="clear"] {
+  --padding-start: 0;
+  --padding-end: 0;
+}

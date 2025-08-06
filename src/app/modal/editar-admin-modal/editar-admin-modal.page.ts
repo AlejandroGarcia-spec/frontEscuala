@@ -12,6 +12,6 @@ export class EditarAdminModalPage {
 
   constructor() { }
 
-
+ 
 
 }

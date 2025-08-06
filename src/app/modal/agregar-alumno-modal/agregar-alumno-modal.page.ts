@@ -24,8 +24,8 @@ export class AgregarAlumnoModalPage implements OnInit {
     private toastController: ToastController,
     private modalController: ModalController,
     private grupoService: GrupoService,
-    private alumnosService: AlumnosService, // Asegúrate de importar el servicio de alumnos,
-      private tutorService: TutoresService // <-- aquí
+    private alumnosService: AlumnosService, 
+      private tutorService: TutoresService
   ) {}
 
   ngOnInit() {
@@ -34,11 +34,11 @@ export class AgregarAlumnoModalPage implements OnInit {
       apellido: ['', [Validators.required, Validators.minLength(2)]],
       correo: ['', [Validators.email]],
       telefono: ['', [Validators.pattern(/^\d{10}$/)]],
-      grupoId: ['', Validators.required],  // <-- grupoId es string aquí porque el input es texto o select
-      tutorId: ['', Validators.required] // <-- nuevo campo
+      grupoId: ['', Validators.required],
+      tutorId: ['', Validators.required]
 
     });
-    this.cargarTutores(); // <-- aquí llamamos
+    this.cargarTutores();
     this.cargarGrupos();
   }
 cargarTutores() {
@@ -60,7 +60,7 @@ cargarTutores() {
   cargarGrupos() {
     this.grupoService.obtenerGrupos().subscribe({
       next: (res: any) => {
-        this.grupos = res; // Asume que el backend devuelve un array de grupos
+        this.grupos = res;
       },
       error: async (err) => {
         const toast = await this.toastController.create({
@@ -90,7 +90,7 @@ guardarAlumno() {
   if (this.alumnoForm.valid) {
     const datos = this.alumnoForm.value;
 
-    // Convierte grupoId a string para poder usar trim, o sólo verifica que exista y no sea vacío
+
     const grupoIdStr = datos.grupoId ? datos.grupoId.toString() : '';
 
     if (grupoIdStr === '') {
@@ -100,8 +100,8 @@ guardarAlumno() {
 
     const alumnoConFoto = {
       ...datos,
-  grupoId: Number(datos.grupoId),  // convertir a número explícitamente
-  tutorId: Number(datos.tutorId),  // convertir a número explícitamente
+  grupoId: Number(datos.grupoId),
+  tutorId: Number(datos.tutorId),
   imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
     };
 
