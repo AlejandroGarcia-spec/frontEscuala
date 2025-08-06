@@ -12,11 +12,14 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { MenuPadrePage } from "./componentes/menu-padre/menu-padre.page";
 import { HttpClientModule } from '@angular/common/http';
 import { LoginPage } from './pages/auth/login/login.page';
+import { FormularioModalComponent } from './modal/formulario-modal/formulario-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AdminPageModule,
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,FormularioModalComponent, AdminPageModule,FormsModule,ReactiveFormsModule,
     MenuAdminPage, MenuMaestroPage, ZXingScannerModule, MenuPadrePage,HttpClientModule,LoginPage],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
