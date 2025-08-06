@@ -15,7 +15,6 @@ import * as QRCode from 'qrcode';
 })
 export class ListaPage {
 
-  // Lista original de alumnos simplificada
   tutor = {
     nombre: 'Juan Pérez',
     apellido: 'Pérez',
@@ -29,7 +28,7 @@ export class ListaPage {
         qrDataUrl: '', // Para almacenar la imagen del QR en base64
         datosQR: null as null | {
           estudiante: { nombre: string; grado: string; },
-          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; foto: any; },
+          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; parentesco: any; foto: any; },
           fechaGeneracion: string,
           codigoUnico: string
         } // Para guardar info completa del QR generado
@@ -43,7 +42,7 @@ export class ListaPage {
         qrDataUrl: '', // Para almacenar la imagen del QR en base64
         datosQR: null as null | {
           estudiante: { nombre: string; grado: string; },
-          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; foto: any; },
+          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; parentesco: any; foto: any; },
           fechaGeneracion: string,
           codigoUnico: string
         } // Para guardar info completa del QR generado
@@ -63,15 +62,7 @@ export class ListaPage {
     private cdr: ChangeDetectorRef
   ) {}
 
-
-  generarCodigo(index: number) {
-    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase();
-    this.tutor.hijos[index].codigo = codigoGenerado;
-  }
-
-
-
-
+  // Método trackBy requerido por el template
   trackByHijo(index: number, hijo: any): any {
     return index;
   }
@@ -132,7 +123,7 @@ export class ListaPage {
     });
   }
 
-  // Método principal para generar QR - abre ActionSheet para seleccionar persona
+  // Método principal para generar QR 
   async generarCodigoQR(index: number) {
     const hijo = this.tutor.hijos[index];
     
@@ -155,12 +146,13 @@ export class ListaPage {
     // Agregar familiares a las opciones
     this.familiaresExternos.forEach((familiar) => {
       buttons.push({
-        text: `${familiar.nombre} ${familiar.apellido} (Familiar)`,
+        text: `${familiar.nombre} ${familiar.apellido} (${familiar.parentesco})`,
         icon: 'people',
         handler: () => {
           this.generarQRParaPersona(index, {
             nombre: familiar.nombre,
             apellido: familiar.apellido,
+            parentesco: familiar.parentesco,
             foto: familiar.fotoBase64 || null,
             tipo: 'familiar'
           });
@@ -201,6 +193,7 @@ export class ListaPage {
           nombre: persona.nombre,
           apellido: persona.apellido,
           tipo: persona.tipo,
+          parentesco: persona.parentesco || 'tutor', // Si es tutor, usar 'tutor', si no, el parentesco
           foto: persona.foto
         },
         fechaGeneracion: new Date().toISOString(),
@@ -296,6 +289,7 @@ export class ListaPage {
       this.mostrarToast('Compartir no disponible en este dispositivo', 'warning');
     }
   }
+
   private async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
       message: mensaje,
