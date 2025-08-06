@@ -15,6 +15,6 @@ import { FichaAlumnoPage } from './ficha-alumno.page';
     IonicModule,
     FichaAlumnoPageRoutingModule
   ],
-  declarations: [FichaAlumnoPage]
+  
 })
 export class FichaAlumnoPageModule {}

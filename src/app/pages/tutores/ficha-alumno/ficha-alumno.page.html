@@ -1,13 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>ficha-alumno</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-card *ngIf="datosAlumno">
+  <ion-card-header>
+    <ion-card-title>{{ datosAlumno.alumno.nombreAlumno }}</ion-card-title>
+    <ion-card-subtitle>{{ datosAlumno.alumno.nombreTutor }} - {{ datosAlumno.alumno.grupo.nombreGrupo }}</ion-card-subtitle>
+  </ion-card-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">ficha-alumno</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ion-card-content>
+    <p><strong>Persona que recoge:</strong> {{ datosAlumno.nombreConocido }}</p>
+    <img *ngIf="datosAlumno.fotoConocido" [src]="datosAlumno.fotoConocido" alt="Foto del conocido" />
+  </ion-card-content>
+</ion-card>
+

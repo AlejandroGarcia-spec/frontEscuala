@@ -13,10 +13,11 @@ import * as QRCode from 'qrcode';
 })
 export class ListaPage {
   tutor = {
+    id:1,
     nombre: 'Juan Pérez',
     hijos: [
-      { nombre: 'Luis Pérez', grado: '2°', codigo: '', qrGenerated: false, generandoQR: false },
-      { nombre: 'Ana Pérez', grado: '3°', codigo: '', qrGenerated: false, generandoQR: false }
+      { id:2, nombre: 'Luis Pérez', grado: '2°', codigo: '', qrGenerated: false, generandoQR: false },
+      { id:3, nombre: 'Ana Pérez', grado: '3°', codigo: '', qrGenerated: false, generandoQR: false }
     ]
   };
 
@@ -48,13 +49,10 @@ export class ListaPage {
       this.tutor.hijos[index].codigo = codigo;
 
       const datosQR = {
-        codigo,
-        nombreHijo: this.tutor.hijos[index].nombre,
-        grado: this.tutor.hijos[index].grado,
-        tutor: this.tutor.nombre,
-        timestamp: Date.now(),
-        validoHasta: Date.now() + (24 * 60 * 60 * 1000)
-      };
+       tutorId: this.tutor.id,
+        alumnoId: this.tutor.hijos[index].id
+       };
+
 
       await this.generarQREnCanvas(JSON.stringify(datosQR), index);
 
