@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicModule, AlertController, ToastController } from '@ionic/angular';
+import { FormularioModalComponent } from '../../../modal/formulario-modal/formulario-modal.component';
+import { FamiliaresModalComponent } from '../../../modal/familiares-modal/familiares-modal.component';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { IonicModule, ToastController, ModalController, AlertController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as QRCode from 'qrcode';
@@ -12,194 +14,285 @@ import * as QRCode from 'qrcode';
   imports: [IonicModule, CommonModule]
 })
 export class ListaPage {
+
   tutor = {
     nombre: 'Juan Pérez',
+    apellido: 'Pérez',
     hijos: [
-      { nombre: 'Luis Pérez', grado: '2°', codigo: '', qrGenerated: false, generandoQR: false },
-      { nombre: 'Ana Pérez', grado: '3°', codigo: '', qrGenerated: false, generandoQR: false }
+      { 
+        nombre: 'Luis Pérez', 
+        grado: '2°', 
+        codigo: '', 
+        qrGenerated: false, 
+        generandoQR: false,
+        qrDataUrl: '', // Para almacenar la imagen del QR en base64
+        datosQR: null as null | {
+          estudiante: { nombre: string; grado: string; },
+          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; parentesco: any; foto: any; },
+          fechaGeneracion: string,
+          codigoUnico: string
+        } // Para guardar info completa del QR generado
+      },
+      { 
+        nombre: 'Ana Pérez', 
+        grado: '3°', 
+        codigo: '', 
+        qrGenerated: false, 
+        generandoQR: false,
+        qrDataUrl: '', // Para almacenar la imagen del QR en base64
+        datosQR: null as null | {
+          estudiante: { nombre: string; grado: string; },
+          autorizadoRecoger: { nombre: any; apellido: any; tipo: any; parentesco: any; foto: any; },
+          fechaGeneracion: string,
+          codigoUnico: string
+        } // Para guardar info completa del QR generado
+      }
     ]
   };
+
+  // Lista para familiares externos (mantenida para el modal)
+  familiaresExternos: any[] = [];
 
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  generarCodigo(index: number) {
-    const codigoGenerado = Math.random().toString(36).substring(2, 8).toUpperCase();
-    this.tutor.hijos[index].codigo = codigoGenerado;
-  }
-
-  cerrarSesion() {
-    localStorage.removeItem('logueado');
-    this.router.navigate(['/home']);
-  }
-
+  // Método trackBy requerido por el template
   trackByHijo(index: number, hijo: any): any {
-    return hijo.id || index;
+    return index;
   }
 
-  async generarCodigoQR(index: number) {
-    try {
-      this.tutor.hijos[index].generandoQR = true;
+  mantenerEnCodigos(event: Event) {
+    event.preventDefault();
+    console.log('Permaneciendo en página de códigos');
+  }
 
-      const codigo = this.generarCodigoUnico();
-      this.tutor.hijos[index].codigo = codigo;
-
-      const datosQR = {
-        codigo,
-        nombreHijo: this.tutor.hijos[index].nombre,
-        grado: this.tutor.hijos[index].grado,
-        tutor: this.tutor.nombre,
-        timestamp: Date.now(),
-        validoHasta: Date.now() + (24 * 60 * 60 * 1000)
-      };
-
-      await this.generarQREnCanvas(JSON.stringify(datosQR), index);
-
-      this.tutor.hijos[index].qrGenerated = true;
-      this.tutor.hijos[index].generandoQR = false;
-
-      this.mostrarToast('Código QR generado correctamente', 'success');
-    } catch (error) {
-      console.error('Error generando QR:', error);
-      this.tutor.hijos[index].generandoQR = false;
-      this.mostrarToast('Error al generar el código QR', 'danger');
+  // Método para abrir modal de familiares
+  async abrirModalFamiliares(event?: Event) {
+    if (event) {
+      event.preventDefault();
     }
+    
+    const modal = await this.modalCtrl.create({
+      component: FamiliaresModalComponent,
+      componentProps: {
+        familiares: this.familiaresExternos
+      }
+    });
+
+    await modal.present();
   }
 
-  private generarCodigoUnico(): string {
-    const timestamp = Date.now().toString(36);
-    const random = Math.random().toString(36).substr(2, 5);
-    return `${timestamp}${random}`.toUpperCase();
-  }
+  // Método para registrar familiares externos
+  async abrirRegistroFamiliar() {
+    const modal = await this.modalCtrl.create({
+      component: FormularioModalComponent
+    });
 
-  private async generarQREnCanvas(data: string, index: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
-        try {
-          const canvas = document.getElementById(`qr-canvas-${index}`) as HTMLCanvasElement;
-          if (!canvas) {
-            reject(new Error('Canvas no encontrado'));
-            return;
-          }
-
-          await QRCode.toCanvas(canvas, data, {
-            width: 200,
-            margin: 2,
-            color: {
-              dark: '#000000',
-              light: '#FFFFFF'
-            },
-            errorCorrectionLevel: 'M'
+    modal.onDidDismiss().then(({ data }) => {
+      if (data?.familiar) {
+        // Convertir la foto a base64 si existe
+        if (data.familiar.foto) {
+          this.convertirFotoABase64(data.familiar.foto).then(base64 => {
+            data.familiar.fotoBase64 = base64;
+            this.familiaresExternos.push(data.familiar);
+            this.mostrarToast('Familiar registrado exitosamente', 'success');
           });
-
-          resolve();
-        } catch (error) {
-          reject(error);
+        } else {
+          this.familiaresExternos.push(data.familiar);
+          this.mostrarToast('Familiar registrado exitosamente', 'success');
         }
-      }, 500);
+      }
+    });
+
+    await modal.present();
+  }
+
+  // Convertir archivo de foto a base64
+  private convertirFotoABase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
     });
   }
 
-  async descargarQR(index: number) {
-    try {
-      const canvas = document.getElementById(`qr-canvas-${index}`) as HTMLCanvasElement;
-      if (!canvas) {
-        this.mostrarToast('Error: No se pudo acceder al código QR', 'danger');
-        return;
+  // Método principal para generar QR 
+  async generarCodigoQR(index: number) {
+    const hijo = this.tutor.hijos[index];
+    
+    // Crear las opciones del ActionSheet
+    const buttons: any[] = [
+      {
+        text: `${this.tutor.nombre} ${this.tutor.apellido} (Tutor)`,
+        icon: 'person-circle',
+        handler: () => {
+          this.generarQRParaPersona(index, {
+            nombre: this.tutor.nombre,
+            apellido: this.tutor.apellido,
+            foto: null,
+            tipo: 'tutor'
+          });
+        }
       }
+    ];
 
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = 400;
-      tempCanvas.height = 400;
+    // Agregar familiares a las opciones
+    this.familiaresExternos.forEach((familiar) => {
+      buttons.push({
+        text: `${familiar.nombre} ${familiar.apellido} (${familiar.parentesco})`,
+        icon: 'people',
+        handler: () => {
+          this.generarQRParaPersona(index, {
+            nombre: familiar.nombre,
+            apellido: familiar.apellido,
+            parentesco: familiar.parentesco,
+            foto: familiar.fotoBase64 || null,
+            tipo: 'familiar'
+          });
+        }
+      });
+    });
 
+    // Botón cancelar
+    buttons.push({
+      text: 'Cancelar',
+      icon: 'close',
+      role: 'cancel'
+    });
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: `Generar QR para ${hijo.nombre}`,
+      subHeader: '¿Quién va a recoger al estudiante?',
+      buttons: buttons
+    });
+
+    await actionSheet.present();
+  }
+
+  // Generar QR para la persona seleccionada
+  async generarQRParaPersona(hijoIndex: number, persona: any) {
+    const hijo = this.tutor.hijos[hijoIndex];
+    hijo.generandoQR = true;
+    this.cdr.detectChanges();
+
+    try {
+      // Crear los datos del QR con información completa
       const datosQR = {
-        codigo: this.tutor.hijos[index].codigo,
-        nombreHijo: this.tutor.hijos[index].nombre,
-        grado: this.tutor.hijos[index].grado,
-        tutor: this.tutor.nombre,
-        timestamp: Date.now(),
-        validoHasta: Date.now() + (24 * 60 * 60 * 1000)
+        estudiante: {
+          nombre: hijo.nombre,
+          grado: hijo.grado
+        },
+        autorizadoRecoger: {
+          nombre: persona.nombre,
+          apellido: persona.apellido,
+          tipo: persona.tipo,
+          parentesco: persona.parentesco || 'tutor', // Si es tutor, usar 'tutor', si no, el parentesco
+          foto: persona.foto
+        },
+        fechaGeneracion: new Date().toISOString(),
+        codigoUnico: Math.random().toString(36).substr(2, 8).toUpperCase()
       };
 
-      await QRCode.toCanvas(tempCanvas, JSON.stringify(datosQR), {
-        width: 400,
-        margin: 3,
+      // Convertir a JSON string para el QR
+      const qrData = JSON.stringify(datosQR);
+
+      console.log('Generando QR con datos:', datosQR);
+
+      // Generar el QR como imagen base64
+      const qrDataUrl = await QRCode.toDataURL(qrData, {
+        width: 200,
+        margin: 2,
         color: {
           dark: '#000000',
           light: '#FFFFFF'
         }
       });
 
-      tempCanvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `qr-${this.tutor.hijos[index].nombre}-${new Date().getTime()}.png`;
-          link.href = url;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
+      // Actualizar el estado del hijo
+      hijo.codigo = datosQR.codigoUnico;
+      hijo.qrGenerated = true;
+      hijo.generandoQR = false;
+      hijo.qrDataUrl = qrDataUrl;
+      hijo.datosQR = datosQR; // Guardar los datos completos para mostrar información
 
-          this.mostrarToast('Código QR descargado', 'success');
-        }
-      }, 'image/png');
+      this.cdr.detectChanges();
+      this.mostrarToast(`QR generado para ${persona.nombre} ${persona.apellido}`, 'success');
+
     } catch (error) {
-      console.error('Error descargando QR:', error);
-      this.mostrarToast('Error al descargar el código QR', 'danger');
+      console.error('Error generando QR:', error);
+      hijo.generandoQR = false;
+      this.cdr.detectChanges();
+      this.mostrarToast('Error al generar el QR', 'danger');
     }
   }
 
-  async compartirQR(index: number) {
-    try {
-      const canvas = document.getElementById(`qr-canvas-${index}`) as HTMLCanvasElement;
-      if (!canvas) {
-        this.mostrarToast('Error: No se pudo acceder al código QR', 'danger');
-        return;
-      }
-
-      canvas.toBlob(async (blob) => {
-        if (blob && navigator.share) {
-          try {
-            const file = new File([blob], `qr-${this.tutor.hijos[index].nombre}.png`, {
-              type: 'image/png'
-            });
-
-            await navigator.share({
-              title: `Código QR - ${this.tutor.hijos[index].nombre}`,
-              text: `Código de acceso para ${this.tutor.hijos[index].nombre}`,
-              files: [file]
-            });
-
-            this.mostrarToast('Código QR compartido', 'success');
-          } catch (error) {
-            const err = error as any;
-            if (err.name !== 'AbortError') {
-              console.error('Error compartiendo:', error);
-              this.compartirQRFallback(index);
-            }
+  // Método para cerrar sesión
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar sesión',
+      message: '¿Estás seguro de que quieres salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Salir',
+          handler: () => {
+            localStorage.removeItem('logueado');
+            this.router.navigate(['/login']);
           }
-        } else {
-          this.compartirQRFallback(index);
         }
-      }, 'image/png');
-    } catch (error) {
-      console.error('Error compartiendo QR:', error);
-      this.mostrarToast('Error al compartir el código QR', 'danger');
+      ]
+    });
+
+    await alert.present();
+  }
+
+  // Descargar QR simplificado
+  descargarQR(index: number) {
+    const hijo = this.tutor.hijos[index];
+    if (hijo.qrDataUrl) {
+      const link = document.createElement('a');
+      link.download = `QR-${hijo.nombre}.png`;
+      link.href = hijo.qrDataUrl;
+      link.click();
+      this.mostrarToast('QR descargado', 'success');
     }
   }
 
-  compartirQRFallback(index: number) {
-    this.mostrarToast('Este navegador no permite compartir archivos directamente', 'warning');
+  // Compartir QR simplificado
+  async compartirQR(index: number) {
+    const hijo = this.tutor.hijos[index];
+    if (hijo.qrDataUrl && navigator.share) {
+      try {
+        // Convertir data URL a blob
+        const response = await fetch(hijo.qrDataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `QR-${hijo.nombre}.png`, { type: 'image/png' });
+        
+        await navigator.share({
+          title: `QR de ${hijo.nombre}`,
+          files: [file]
+        });
+      } catch (error) {
+        this.mostrarToast('Error al compartir', 'danger');
+      }
+    } else {
+      this.mostrarToast('Compartir no disponible en este dispositivo', 'warning');
+    }
   }
 
-  async mostrarToast(message: string, color: string) {
+  private async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
-      message,
+      message: mensaje,
       duration: 2000,
       color,
       position: 'bottom'

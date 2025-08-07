@@ -73,7 +73,7 @@ onSubmit() {
           nombre: res.tutor.nombre,
           rol: this.rol
         };
-        this.router.navigate(['/padres-home']);
+        this.router.navigate(['/tutores/perfil']);
       }
 
       localStorage.setItem('usuario', JSON.stringify(usuario));
