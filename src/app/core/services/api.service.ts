@@ -24,9 +24,15 @@ getPerfilMaestroPorCorreo(correo: string) {
   return this.http.get<any>(`${this.backendUrl}/maestros/perfil/${correo}`);
 }
 
+getPerfilTutorPorCorreo(correo: string) {
+  return this.http.get<any>(`${this.backendUrl}/tutores/perfil/${correo}`);
+}
 
 getAlumnosPorGrupo(idGrupo: number) {
   return this.http.get<any[]>(`${this.backendUrl}/alumnos/grupo/${idGrupo}`);
+}
+getHijosByTutorId(tutorId: number) {
+  return this.http.get<any[]>(`http://localhost:3000/alumnos/tutor/${tutorId}`);
 }
 
 
