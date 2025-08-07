@@ -24,11 +24,11 @@
 
   <!-- Lista de hijos -->
   <div class="children-section">
-    <ion-card 
-      *ngFor="let hijo of tutor.hijos; let i = index; trackBy: trackByHijo" 
+    <ion-card
+      *ngFor="let hijo of tutor.hijos; let i = index; trackBy: trackByHijo"
       class="child-card"
       [class.has-code]="hijo.codigo">
-      
+
       <ion-card-header>
         <div class="card-header-content">
           <div class="child-info">
@@ -43,9 +43,9 @@
               </ion-card-subtitle>
             </div>
           </div>
-          
-          <ion-badge 
-            [color]="hijo.codigo ? 'success' : 'medium'" 
+
+          <ion-badge
+            [color]="hijo.codigo ? 'success' : 'medium'"
             class="status-badge">
             {{ hijo.codigo ? 'Activo' : 'Sin código' }}
           </ion-badge>
@@ -57,36 +57,36 @@
         <div *ngIf="hijo.codigo" class="code-section">
           <div class="qr-container">
             <div class="qr-code-wrapper">
-              <canvas 
+              <canvas
                 #qrCanvas
                 [id]="'qr-canvas-' + i"
                 class="qr-canvas"
-                width="200" 
+                width="200"
                 height="200">
               </canvas>
               <div class="qr-overlay" *ngIf="!hijo.qrGenerated">
                 <ion-spinner name="crescent"></ion-spinner>
               </div>
             </div>
-            
+
             <div class="qr-actions">
-              <ion-button 
-                fill="clear" 
-                size="small" 
+              <ion-button
+                fill="clear"
+                size="small"
                 (click)="descargarQR(i)"
                 class="action-button">
                 <ion-icon name="download-outline" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button 
-                fill="clear" 
-                size="small" 
+              <ion-button
+                fill="clear"
+                size="small"
                 (click)="compartirQR(i)"
                 class="action-button">
                 <ion-icon name="share-outline" slot="icon-only"></ion-icon>
               </ion-button>
             </div>
           </div>
-          
+
           <!-- Información del código -->
           <div class="code-info">
             <div class="info-item">
@@ -102,27 +102,27 @@
 
         <!-- Botones de acción -->
         <div class="action-buttons">
-          <ion-button 
-            expand="block" 
+          <ion-button
+            expand="block"
             [fill]="hijo.codigo ? 'outline' : 'solid'"
             [color]="hijo.codigo ? 'medium' : 'primary'"
             (click)="generarCodigoQR(i)"
             [disabled]="hijo.generandoQR"
             class="generate-button">
-            <ion-spinner 
-              *ngIf="hijo.generandoQR" 
-              name="crescent" 
+            <ion-spinner
+              *ngIf="hijo.generandoQR"
+              name="crescent"
               slot="start">
             </ion-spinner>
-            <ion-icon 
+            <ion-icon
               *ngIf="!hijo.generandoQR"
-              [name]="hijo.codigo ? 'refresh-outline' : 'qr-code-outline'" 
+              [name]="hijo.codigo ? 'refresh-outline' : 'qr-code-outline'"
               slot="start">
             </ion-icon>
             {{ hijo.generandoQR ? 'Generando...' : (hijo.codigo ? 'Regenerar QR' : 'Generar código QR') }}
           </ion-button>
-          
-        
+
+
         </div>
       </ion-card-content>
     </ion-card>

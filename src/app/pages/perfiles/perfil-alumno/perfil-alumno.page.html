@@ -18,14 +18,14 @@
   <ion-grid fixed>
     <ion-row class="ion-justify-content-center">
       <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-
-        <!-- SELECT PARA ELEGIR HIJO -->
         <ion-item>
           <ion-label>Seleccionar hijo</ion-label>
           <ion-select [(ngModel)]="hijoSeleccionado" interface="action-sheet">
-            <ion-select-option *ngFor="let hijo of hijos" [value]="hijo">
-              {{ hijo.nombre }}
-            </ion-select-option>
+            @for (hijo of hijos; track hijo.id) {
+  <ion-select-option [value]="hijo">
+    {{ hijo.nombre }}
+  </ion-select-option>
+}
           </ion-select>
         </ion-item>
 
@@ -47,7 +47,6 @@
         </div>
       </ion-col>
     </ion-row>
-       <!-- BOTÓN PARA MOSTRAR QR -->
             <ion-button expand="block" color="success" (click)="mostrarModalQR()">
               Mostrar código QR
             </ion-button>

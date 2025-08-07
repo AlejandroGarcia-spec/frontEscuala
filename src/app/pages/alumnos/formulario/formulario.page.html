@@ -33,7 +33,7 @@
       </ion-select>
     </ion-card-content>
   </ion-card>
- 
+
   <ion-card class="ion-padding">
     <ion-card-header>
       <ion-card-title>Lista de Alumnos</ion-card-title>
@@ -53,7 +53,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let alumno of alumnosFiltrados">
+            @for (alumno of alumnosFiltrados; track alumno) {
+            <tr>
               <td>{{ alumno.id }}</td>
               <td>{{ alumno.nombre }}</td>
               <td>{{ alumno.apellido }}</td>
@@ -69,6 +70,7 @@
                 </ion-button>
               </td>
             </tr>
+          }
           </tbody>
         </table>
       </div>
