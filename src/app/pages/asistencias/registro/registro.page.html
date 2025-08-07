@@ -28,7 +28,8 @@
             </tr>
           </thead>
          <tbody>
-  <tr *ngFor="let alumno of instructoresFiltrados; let i = index">
+  @for (alumno of instructoresFiltrados; let i = $index; track alumno) {
+  <tr>
   <td>{{ alumno.id }}</td>
   <td>{{ alumno.nombre }}</td>
   <td>{{ alumno.apellido }}</td>
@@ -40,10 +41,12 @@
     [checked]="asistencias[i].presente"
     (ionChange)="toggleAsistencia(asistencias[i], $event.detail.checked)"
   ></ion-toggle>
-
-  <span *ngIf="asistencias[i].registrada" style="color: green; font-weight: bold;">
+@if (asistencias[i].registrada) {
+  <span style="color: green; font-weight: bold;">
     ✔️ Asistencia Confirmada
   </span>
+}
+
 <ion-button
   *ngIf="asistencias[i].id"
   color="danger"
@@ -57,6 +60,7 @@
 </td>
 
 </tr>
+          }
 </tbody>
 
         </table>

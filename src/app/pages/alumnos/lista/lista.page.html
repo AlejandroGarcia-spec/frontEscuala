@@ -31,13 +31,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let instructor of instructoresFiltrados">
+            @for (instructor of instructoresFiltrados; track instructor) {
+            <tr>
               <td>{{ instructor.id }}</td>
               <td>{{ instructor.nombre }}</td>
               <td>{{ instructor.apellido }}</td>
               <td>{{ instructor.correo }}</td>
               <td>{{ instructor.telefono }}</td>
             </tr>
+          }
           </tbody>
         </table>
       </div>
