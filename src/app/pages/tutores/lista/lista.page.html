@@ -27,7 +27,7 @@
     <ion-card 
       *ngFor="let hijo of tutor.hijos; let i = index; trackBy: trackByHijo" 
       class="child-card"
-      [class.has-code]="hijo.codigo">
+      [class.has-code]="hijo.qrGenerated">
       
       <ion-card-header>
         <div class="card-header-content">
@@ -45,28 +45,30 @@
           </div>
           
           <ion-badge 
-            [color]="hijo.codigo ? 'success' : 'medium'" 
+            [color]="hijo.qrGenerated ? 'success' : 'medium'" 
             class="status-badge">
-            {{ hijo.codigo ? 'Activo' : 'Sin código' }}
+            {{ hijo.qrGenerated ? 'Activo' : 'Sin código' }}
           </ion-badge>
         </div>
       </ion-card-header>
 
       <ion-card-content>
+        <!-- Estado de carga -->
+        <div *ngIf="hijo.generandoQR" class="qr-loading">
+          <div class="loading-container">
+            <ion-spinner name="crescent" color="primary"></ion-spinner>
+            <p class="loading-text">Generando código QR...</p>
+          </div>
+        </div>
+
         <!-- Código QR generado -->
-        <div *ngIf="hijo.codigo" class="code-section">
+        <div *ngIf="hijo.qrGenerated && !hijo.generandoQR" class="code-section">
           <div class="qr-container">
             <div class="qr-code-wrapper">
-              <canvas 
-                #qrCanvas
-                [id]="'qr-canvas-' + i"
-                class="qr-canvas"
-                width="200" 
-                height="200">
-              </canvas>
-              <div class="qr-overlay" *ngIf="!hijo.qrGenerated">
-                <ion-spinner name="crescent"></ion-spinner>
-              </div>
+              <img 
+                [src]="hijo.qrDataUrl" 
+                alt="Código QR para {{ hijo.nombre }}" 
+                class="qr-image">
             </div>
             
             <div class="qr-actions">
@@ -91,7 +93,17 @@
           <div class="code-info">
             <div class="info-item">
               <ion-icon name="qr-code-outline" size="small" color="primary"></ion-icon>
-              <span>Código QR de acceso</span>
+              <span>Código: {{ hijo.codigo }}</span>
+            </div>
+            <div class="info-item" *ngIf="hijo.datosQR && hijo.datosQR.autorizadoRecoger">
+              <ion-icon 
+                [name]="hijo.datosQR.autorizadoRecoger.tipo === 'tutor' ? 'person-circle-outline' : 'people-outline'" 
+                size="small" 
+                color="success">
+              </ion-icon>
+
+              <span>Autorizado: {{ hijo.datosQR.autorizadoRecoger.nombre }} {{ hijo.datosQR.autorizadoRecoger.apellido }} ({{ hijo.datosQR.autorizadoRecoger.parentesco }})</span>
+
             </div>
             <div class="info-item">
               <ion-icon name="time-outline" size="small" color="warning"></ion-icon>
@@ -104,8 +116,8 @@
         <div class="action-buttons">
           <ion-button 
             expand="block" 
-            [fill]="hijo.codigo ? 'outline' : 'solid'"
-            [color]="hijo.codigo ? 'medium' : 'primary'"
+            [fill]="hijo.qrGenerated ? 'outline' : 'solid'"
+            [color]="hijo.qrGenerated ? 'medium' : 'primary'"
             (click)="generarCodigoQR(i)"
             [disabled]="hijo.generandoQR"
             class="generate-button">
@@ -116,15 +128,20 @@
             </ion-spinner>
             <ion-icon 
               *ngIf="!hijo.generandoQR"
-              [name]="hijo.codigo ? 'refresh-outline' : 'qr-code-outline'" 
+              [name]="hijo.qrGenerated ? 'refresh-outline' : 'qr-code-outline'" 
               slot="start">
             </ion-icon>
-            {{ hijo.generandoQR ? 'Generando...' : (hijo.codigo ? 'Regenerar QR' : 'Generar código QR') }}
+            {{ hijo.generandoQR ? 'Generando...' : (hijo.qrGenerated ? 'Regenerar QR' : 'Generar código QR') }}
           </ion-button>
-          
-        
         </div>
       </ion-card-content>
     </ion-card>
   </div>
+
+  <nav class="navbar-bottom">
+    <ul class="menuItems">
+      <li><a href="" (click)="mantenerEnCodigos($event)" class="active" data-item="Códigos">Códigos</a></li>
+      <li><a href="" (click)="abrirModalFamiliares($event)" data-item="Familiares">Familiares</a></li>
+    </ul>
+  </nav>
 </ion-content>

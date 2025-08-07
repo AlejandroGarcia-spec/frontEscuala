@@ -44,5 +44,9 @@ export class AlumnosService {
   eliminarAlumno(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  // alumnos.service.ts (Angular)
+obtenerPorMaestro(idMaestro: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/maestro/${idMaestro}/alumnos`);
 }
- 
+
+}
