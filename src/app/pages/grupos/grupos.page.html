@@ -32,21 +32,30 @@
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                <tbody *ngIf="grupos.length > 0; else sinGrupos">
-                  <tr *ngFor="let grupo of grupos">
-                    <td data-label="ID">{{ grupo.id }}</td>
-                    <td data-label="Grupo">{{ grupo.nombre }}</td>
-                    <td data-label="Acciones" class="acciones">
-                      <ion-button size="small" fill="clear" color="warning" (click)="abrirModalEditarGrupo(grupo)">
-                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-                      </ion-button>
-                      <ion-button size="small" fill="clear" color="danger" (click)="abrirModalEliminarGrupo(grupo)">
-                        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                      </ion-button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+
+              @if (grupos.length > 0) {
+  <tbody>
+    @for (grupo of grupos; track grupo.id) {
+      <tr>
+        <td data-label="ID">{{ grupo.id }}</td>
+        <td data-label="Grupo">{{ grupo.nombre }}</td>
+        <td data-label="Acciones" class="acciones">
+          <ion-button size="small" fill="clear" color="warning" (click)="abrirModalEditarGrupo(grupo)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" fill="clear" color="danger" (click)="abrirModalEliminarGrupo(grupo)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+    }
+  </tbody>
+} @else {
+  <tr>
+    <td colspan="3" style="text-align: center;">No hay grupos disponibles.</td>
+  </tr>
+}
+     </table>
 
               <ng-template #sinGrupos>
                 <ion-note color="danger" class="mensaje-vacio">No se encontraron grupos.</ion-note>
