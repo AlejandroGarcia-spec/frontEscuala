@@ -68,12 +68,16 @@ onSubmit() {
         };
         this.router.navigate(['/dashboard']);
       } else if (this.rol === 'tutor') {
+        
         usuario = {
           correo: res.tutor.correo,
           nombre: res.tutor.nombre,
-          rol: this.rol
+          rol: this.rol,
+          id: res.tutor.id
         };
-        this.router.navigate(['/tutores/perfil']);
+        this.router.navigate(['/padres-home']);
+        console.log('redirigido a tutores');
+        
       }
 
       localStorage.setItem('usuario', JSON.stringify(usuario));

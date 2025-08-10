@@ -1,57 +1,65 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary" class="ion-text-center">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-title>CREDENCIAL DIGITAL</ion-title>
-          <ion-card-subtitle>CREDENCIAL ALUMNO</ion-card-subtitle>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
+    <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+    <ion-card-subtitle>REGISTRO DE CONOCIDOS</ion-card-subtitle>
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="page-usuario">
-  <ion-grid fixed>
-    <ion-row class="ion-justify-content-center">
-      <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+<ion-content class="ion-padding">
+  <!-- Lista de familiares -->
+  <div *ngIf="familiares.length > 0; else noFamiliares">
+<ion-card *ngFor="let familiar of familiares" class="familiar-card">
+  <ion-card-content>
+    <div class="familiar-info">
+      <div class="avatar-section">
+        <ion-avatar class="familiar-avatar">
+          <ion-icon name="person-circle-outline" size="large"></ion-icon>
+        </ion-avatar>
+      </div>
+      <div class="info-section">
+        <h3 class="familiar-name">{{ familiar.nombre }} {{ familiar.apellido }}</h3>
+      </div>
+<div class="actions-section">
+  <ion-button 
+    fill="clear" 
+    color="primary" 
+    size="small"
+    (click)="abrirRegistroFamiliar(familiar)">
+    <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+  <ion-button 
+    fill="clear" 
+    color="danger" 
+    size="small"
+    (click)="eliminarFamiliar(familiar.id, familiar.nombre, familiar.apellido)">
+    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
 
-        <!-- SELECT PARA ELEGIR HIJO -->
-        <ion-item>
-          <ion-label>Seleccionar hijo</ion-label>
-          <ion-select [(ngModel)]="hijoSeleccionado" interface="action-sheet">
-            <ion-select-option *ngFor="let hijo of hijos" [value]="hijo">
-              {{ hijo.nombre }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
+    </div>
+  </ion-card-content>
+</ion-card>
 
-        <div class="e-card playing">
-          <div class="wave"></div>
-          <div class="wave"></div>
-          <div class="wave"></div>
-          <div class="infotop">
-            <ion-avatar>
-              <img [src]="imagen" alt="Avatar de {{nombre}}">
-            </ion-avatar>
-            <h2>{{ nombre }}</h2>
-            <h2>{{ apellido }}</h2>
-            <p><strong>Tipo de usuario:</strong> {{ tipo_usuario }}</p>
-            <p><strong>Correo Electroico:</strong> {{ correo }}</p>
-            <p><strong>Numero Telefonico:</strong> {{ telefono }}</p>
-            <p><strong>Grupo:</strong> {{ grupo }}</p>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-       <!-- BOTÓN PARA MOSTRAR QR -->
-            <ion-button expand="block" color="success" (click)="mostrarModalQR()">
-              Mostrar código QR
-            </ion-button>
-  </ion-grid>
+  </div>
+
+  <!-- Mensaje cuando no hay familiares -->
+  <ng-template #noFamiliares>
+    <div class="empty-state">
+      <ion-icon name="people-outline" size="large" color="medium"></ion-icon>
+      <h3>No hay familiares registrados</h3>
+      <p>Agrega tu primer familiar externo para comenzar</p>
+    </div>
+  </ng-template>
+
+<!-- Botón para abrir el modal (añádelo donde lo necesites) -->
+<button id="bottone1" (click)="abrirRegistroFamiliar()">
+  <strong>Registrar Familiar Externo</strong>
+</button>
 </ion-content>
-
-<app-footer></app-footer>

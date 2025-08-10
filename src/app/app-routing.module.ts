@@ -15,12 +15,7 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
-      },
-      {
-      path: 'login/tutor',
-       loadComponent: () => import('./login-tutor/login-tutor.component').then(m => m.LoginTutorComponent)
-       
-  },
+      }
     ]
   },
 
@@ -29,7 +24,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [authGuard]
   },
-
+  {
+    path: 'padres-home',
+    loadChildren: () => import('./pages/padres-home/padres-home.module').then(m => m.PadresHomePageModule),
+    canActivate: [authGuard]
+  },
   {
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule),
@@ -61,10 +60,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/salidas/escanear-qr/escanear-qr.module').then(m => m.EscanearQrPageModule)
   },
 
+
   {
-    path: 'tutores/perfil',
+    path: 'tutoresqr',
     loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule),
-    canActivate:[authGuard]
   },
 
   {
@@ -72,127 +71,124 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tutores/formulario/formulario.module').then(m => m.FormularioPageModule)
   },
 
-  
+
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-   },
+  },
   {
     path: 'footer',
-    loadChildren: () => import('./componentes/footer/footer.module').then( m => m.FooterPageModule)
+    loadChildren: () => import('./componentes/footer/footer.module').then(m => m.FooterPageModule)
   },
   {
     path: 'header',
-    loadChildren: () => import('./componentes/header/header.module').then( m => m.HeaderPageModule)
+    loadChildren: () => import('./componentes/header/header.module').then(m => m.HeaderPageModule)
   },
   {
     path: 'menu-admin',
-    loadChildren: () => import('./componentes/menu-admin/menu-admin.module').then( m => m.MenuAdminPageModule)
+    loadChildren: () => import('./componentes/menu-admin/menu-admin.module').then(m => m.MenuAdminPageModule)
   },
   {
     path: 'registro',
-    loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
+    loadChildren: () => import('./pages/maestros/registro/registro.module').then(m => m.RegistroPageModule)
   },
   {
     path: 'perfil-admin',
-    loadChildren: () => import('./pages/perfiles/perfil-admin/perfil-admin.module').then( m => m.PerfilAdminPageModule)
+    loadChildren: () => import('./pages/perfiles/perfil-admin/perfil-admin.module').then(m => m.PerfilAdminPageModule)
   },
   {
     path: 'perfil-maestro',
-    loadChildren: () => import('./pages/perfiles/perfil-maestro/perfil-maestro.module').then( m => m.PerfilMaestroPageModule)
+    loadChildren: () => import('./pages/perfiles/perfil-maestro/perfil-maestro.module').then(m => m.PerfilMaestroPageModule)
   },
   {
-    path: 'perfil-alumno',
-    loadChildren: () => import('./pages/perfiles/perfil-alumno/perfil-alumno.module').then( m => m.PerfilAlumnoPageModule)
+    path: 'conocidos',
+    loadChildren: () => import('./pages/perfiles/perfil-alumno/perfil-alumno.module').then(m => m.PerfilAlumnoPageModule)
   },
   {
     path: 'agregar-admin-modal',
-    loadChildren: () => import('./modal/agregar-admin-modal/agregar-admin-modal.module').then( m => m.AgregarAdminModalPageModule)
+    loadChildren: () => import('./modal/agregar-admin-modal/agregar-admin-modal.module').then(m => m.AgregarAdminModalPageModule)
   },
   {
     path: 'editar-admin-modal',
-    loadChildren: () => import('./modal/editar-admin-modal/editar-admin-modal.module').then( m => m.EditarAdminModalPageModule)
+    loadChildren: () => import('./modal/editar-admin-modal/editar-admin-modal.module').then(m => m.EditarAdminModalPageModule)
   },
   {
     path: 'eliminar-admin-modal',
-    loadChildren: () => import('./modal/eliminar-admin-modal/eliminar-admin-modal.module').then( m => m.EliminarAdminModalPageModule)
+    loadChildren: () => import('./modal/eliminar-admin-modal/eliminar-admin-modal.module').then(m => m.EliminarAdminModalPageModule)
   },
   {
     path: 'agregar-tutor-modal',
-    loadChildren: () => import('./modal/agregar-tutor-modal/agregar-tutor-modal.module').then( m => m.AgregarTutorModalPageModule)
+    loadChildren: () => import('./modal/agregar-tutor-modal/agregar-tutor-modal.module').then(m => m.AgregarTutorModalPageModule)
   },
   {
     path: 'editar-tutor-modal',
-    loadChildren: () => import('./modal/editar-tutor-modal/editar-tutor-modal.module').then( m => m.EditarTutorModalPageModule)
+    loadChildren: () => import('./modal/editar-tutor-modal/editar-tutor-modal.module').then(m => m.EditarTutorModalPageModule)
   },
   {
     path: 'eliminar-tutor-modal',
-    loadChildren: () => import('./modal/eliminar-tutor-modal/eliminar-tutor-modal.module').then( m => m.EliminarTutorModalPageModule)
+    loadChildren: () => import('./modal/eliminar-tutor-modal/eliminar-tutor-modal.module').then(m => m.EliminarTutorModalPageModule)
   },
   {
     path: 'agregar-alumno-modal',
-    loadChildren: () => import('./modal/agregar-alumno-modal/agregar-alumno-modal.module').then( m => m.AgregarAlumnoModalPageModule)
+    loadChildren: () => import('./modal/agregar-alumno-modal/agregar-alumno-modal.module').then(m => m.AgregarAlumnoModalPageModule)
   },
   {
     path: 'editar-alumno-modal',
-    loadChildren: () => import('./modal/editar-alumno-modal/editar-alumno-modal.module').then( m => m.EditarAlumnoModalPageModule)
+    loadChildren: () => import('./modal/editar-alumno-modal/editar-alumno-modal.module').then(m => m.EditarAlumnoModalPageModule)
   },
   {
     path: 'eliminar-alumno-modal',
-    loadChildren: () => import('./modal/eliminar-alumno-modal/eliminar-alumno-modal.module').then( m => m.EliminarAlumnoModalPageModule)
+    loadChildren: () => import('./modal/eliminar-alumno-modal/eliminar-alumno-modal.module').then(m => m.EliminarAlumnoModalPageModule)
   },
   {
     path: 'agregar-maestro-modal',
-    loadChildren: () => import('./modal/agregar-maestro-modal/agregar-maestro-modal.module').then( m => m.AgregarMaestroModalPageModule)
+    loadChildren: () => import('./modal/agregar-maestro-modal/agregar-maestro-modal.module').then(m => m.AgregarMaestroModalPageModule)
   },
   {
     path: 'editar-maestro-modal',
-    loadChildren: () => import('./modal/editar-maestro-modal/editar-maestro-modal.module').then( m => m.EditarMaestroModalPageModule)
+    loadChildren: () => import('./modal/editar-maestro-modal/editar-maestro-modal.module').then(m => m.EditarMaestroModalPageModule)
   },
   {
     path: 'eliminar-maestro-modal',
-    loadChildren: () => import('./modal/eliminar-maestro-modal/eliminar-maestro-modal.module').then( m => m.EliminarMaestroModalPageModule)
+    loadChildren: () => import('./modal/eliminar-maestro-modal/eliminar-maestro-modal.module').then(m => m.EliminarMaestroModalPageModule)
   },
   {
     path: 'grupos',
-    loadChildren: () => import('./pages/grupos/grupos.module').then( m => m.GruposPageModule)
+    loadChildren: () => import('./pages/grupos/grupos.module').then(m => m.GruposPageModule)
   },
   {
     path: 'maestros/registro',
-    loadChildren: () => import('./pages/maestros/registro/registro.module').then( m => m.RegistroPageModule)
+    loadChildren: () => import('./pages/maestros/registro/registro.module').then(m => m.RegistroPageModule)
   },
   {
     path: 'agregar-grupo-modal',
-    loadChildren: () => import('./modal/agregar-grupo-modal/agregar-grupo-modal.module').then( m => m.AgregarGrupoModalPageModule)
+    loadChildren: () => import('./modal/agregar-grupo-modal/agregar-grupo-modal.module').then(m => m.AgregarGrupoModalPageModule)
   },
   {
     path: 'editar-grupo-modal',
-    loadChildren: () => import('./modal/editar-grupo-modal/editar-grupo-modal.module').then( m => m.EditarGrupoModalPageModule)
+    loadChildren: () => import('./modal/editar-grupo-modal/editar-grupo-modal.module').then(m => m.EditarGrupoModalPageModule)
   },
   {
     path: 'eliminar-grupo-modal',
-    loadChildren: () => import('./modal/eliminar-grupo-modal/eliminar-grupo-modal.module').then( m => m.EliminarGrupoModalPageModule)
+    loadChildren: () => import('./modal/eliminar-grupo-modal/eliminar-grupo-modal.module').then(m => m.EliminarGrupoModalPageModule)
   },
   {
     path: 'menu-maestro',
-    loadChildren: () => import('./componentes/menu-maestro/menu-maestro.module').then( m => m.MenuMaestroPageModule)
+    loadChildren: () => import('./componentes/menu-maestro/menu-maestro.module').then(m => m.MenuMaestroPageModule)
   },
-  {
-    path: 'padres-home',
-    loadChildren: () => import('./pages/padres-home/padres-home.module').then( m => m.PadresHomePageModule)
-  },
+
   {
     path: 'menu-padre',
-    loadChildren: () => import('./componentes/menu-padre/menu-padre.module').then( m => m.MenuPadrePageModule)
+    loadChildren: () => import('./componentes/menu-padre/menu-padre.module').then(m => m.MenuPadrePageModule)
   },
-  
+
   {
     path: 'perfil-padre',
-    loadChildren: () => import('./pages/perfiles/perfil-padre/perfil-padre.module').then( m => m.PerfilPadrePageModule)
+    loadChildren: () => import('./pages/perfiles/perfil-padre/perfil-padre.module').then(m => m.PerfilPadrePageModule)
   },
   {
     path: 'qralumno',
-    loadChildren: () => import('./modal/qralumno/qralumno.module').then( m => m.QRAlumnoPageModule)
+    loadChildren: () => import('./modal/qralumno/qralumno.module').then(m => m.QRAlumnoPageModule)
   },
 
 

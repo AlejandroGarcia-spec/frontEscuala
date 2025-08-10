@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title>
       <ion-icon name="person-add-outline" slot="start"></ion-icon>
-      Registrar Familiar
+      {{ familiar?.nombre ? 'Editar Familiar' : 'Registrar Familiar' }}
     </ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="cancelar()">
@@ -14,82 +14,70 @@
 
 <ion-content class="ion-padding">
   <form>
-<!-- Nombre -->
-<ion-item class="form-item">
-  <ion-label position="floating">
-    <ion-icon name="person-outline" slot="start"></ion-icon>
-    Nombre 
-  </ion-label>
-  <ion-input 
-    [(ngModel)]="familiar.nombre" 
-    name="nombre" 
-    required>
-  </ion-input>
-</ion-item>
+    <!-- Nombre -->
+    <ion-item class="form-item">
+      <ion-label position="floating">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        Nombre
+      </ion-label>
+      <ion-input [(ngModel)]="familiar.nombre" name="nombre" required></ion-input>
+    </ion-item>
 
-<!-- Apellido -->
-<ion-item class="form-item">
-  <ion-label position="floating">
-    <ion-icon name="person-outline" slot="start"></ion-icon>
-    Apellido 
-  </ion-label>
-  <ion-input 
-    [(ngModel)]="familiar.apellido" 
-    name="apellido" 
-    required>
-  </ion-input>
-</ion-item>
+    <!-- Apellido -->
+    <ion-item class="form-item">
+      <ion-label position="floating">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        Apellido
+      </ion-label>
+      <ion-input [(ngModel)]="familiar.apellido" name="apellido" required></ion-input>
+    </ion-item>
 
-    <!--Parentesco -->
+    <!-- Parentesco -->
     <ion-item class="form-item">
       <ion-label position="stacked">
         <ion-icon name="people-outline" slot="start"></ion-icon>
-        Parentesco 
+        Parentesco
       </ion-label>
-      <ion-select 
-        [(ngModel)]="familiar.parentesco" 
-        name="parentesco" 
+      <ion-select
+        [(ngModel)]="familiar.parentesco"
+        name="parentesco"
         placeholder="Selecciona el parentesco"
-        interface="popover">
-        <ion-select-option 
-          *ngFor="let opcion of opcionesParentesco" 
-          [value]="opcion.valor">
+        interface="popover"
+        required
+      >
+        <ion-select-option *ngFor="let opcion of opcionesParentesco" [value]="opcion.valor">
           {{ opcion.texto }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
-    <!--Foto -->
+    <!-- Foto -->
     <ion-item class="form-item">
       <ion-label>
         <ion-icon name="camera-outline" slot="start"></ion-icon>
-        Foto (Opcional)
+        Foto (obligatoria)
       </ion-label>
-      <input 
-        type="file" 
-        accept="image/*" 
-        (change)="onFileChange($event)" 
-        hidden 
-        #fileInput>
-      <ion-button 
-        fill="clear" 
-        color="medium"
-        (click)="fileInput.click()"
-        slot="end">
+      <input type="file" accept="image/*" (change)="onFileChange($event)" hidden #fileInput />
+      <ion-button fill="clear" color="medium" (click)="fileInput.click()" slot="end">
         <ion-icon name="camera" slot="start"></ion-icon>
         Seleccionar
       </ion-button>
     </ion-item>
 
+    <div *ngIf="fotoPreview" class="preview-container">
+      <img [src]="fotoPreview" alt="Vista previa foto" class="preview-img" />
+    </div>
+
     <!-- Botón Registrar -->
     <div class="button-container">
-      <ion-button 
-        expand="block" 
-        (click)="registrar()" 
+      <ion-button
+        expand="block"
+        (click)="registrar()"
         [disabled]="!familiar.nombre || !familiar.apellido || !familiar.parentesco"
-        size="large">
+        size="large"
+      >
         <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-        Registrar Familiar
+        {{ familiar?.nombre ? 'Guardar cambios' : 'Registrar Familiar' }}
       </ion-button>
     </div>
   </form>
