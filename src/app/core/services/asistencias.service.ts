@@ -6,20 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AsistenciasService {
-  private readonly apiUrl = 'http://localhost:3000/entradas';
+private readonly apiUrl = 'http://localhost:3000/entradas';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
-registrarEntrada(alumnoId: number): Observable<any> {
-  return this.http.post(this.apiUrl, { alumnoId });
-}
- eliminarEntrada(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  registrarEntrada(alumnoId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/new`, { alumnoId });
+  }
+  
+  eliminarEntrada(id: number) {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 
   getEntradasPorGrupo(idGrupo: number) {
     return this.http.get<any[]>(`${this.apiUrl}/grupo/${idGrupo}`);
   }
-
-
 }

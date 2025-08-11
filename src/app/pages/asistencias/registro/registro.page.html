@@ -1,10 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary" class="ion-text-center">
     <ion-title>CREDENCIAL DIGITAL</ion-title>
-    <ion-card-subtitle>REGISTRO DE ASISTENCIAS</ion-card-subtitle>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text=""></ion-back-button>
     </ion-buttons>
+  </ion-toolbar>
+    <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+      <ion-card-subtitle>REGISTRO DE ASISTENCIAS</ion-card-subtitle>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -36,28 +40,29 @@
   <td>{{ alumno.correo }}</td>
   <td>{{ alumno.telefono }}</td>
   <td>{{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellidoPaterno }} {{ alumno.tutor?.apellidoMaterno }}</td>
-<td>
-  <ion-toggle
-    [checked]="asistencias[i].presente"
-    (ionChange)="toggleAsistencia(asistencias[i], $event.detail.checked)"
-  ></ion-toggle>
-@if (asistencias[i].registrada) {
-  <span style="color: green; font-weight: bold;">
-    ✔️ Asistencia Confirmada
-  </span>
-}
 
-<ion-button
-  *ngIf="asistencias[i].id"
-  color="danger"
-  size="small"
-  (click)="confirmarYEliminarEntrada(asistencias[i].id!)"
->
-  Eliminar
-</ion-button>
-
-
+  <td>
+  @if (!asistencias[i].registrada) {
+    <ion-toggle
+      [checked]="asistencias[i].presente"
+      (ionChange)="toggleAsistencia(asistencias[i], $event.detail.checked)"
+    ></ion-toggle>
+  }
+  @else {
+    <span style="color: green; font-weight: bold;">
+      ✔️ Asistencia Confirmada
+    </span>
+    <ion-button
+      color="danger"
+      size="small"
+      (click)="confirmarYEliminarEntrada(asistencias[i].id!)"
+    >
+      Eliminar
+    </ion-button>
+  }
 </td>
+
+
 
 </tr>
           }
