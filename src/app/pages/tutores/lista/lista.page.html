@@ -46,6 +46,13 @@
           <ion-badge [color]="hijo.codigo ? 'success' : 'medium'" class="status-badge">
             {{ hijo.qrGenerated ? 'Activo' : 'Sin código' }}
           </ion-badge>
+
+
+          <ion-badge [color]="getBadgeColor(hijo)" class="status-badge">
+            {{ getBadgeText(hijo) }}
+          </ion-badge>
+
+
         </div>
       </ion-card-header>
 

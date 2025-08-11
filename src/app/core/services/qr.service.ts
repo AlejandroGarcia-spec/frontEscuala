@@ -14,7 +14,5 @@ export class QrService {
     );
   }
 
-  generarQR(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/qr/generar`, data);
-  }
+
 }

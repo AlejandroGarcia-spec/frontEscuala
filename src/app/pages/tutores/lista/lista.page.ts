@@ -23,12 +23,13 @@ interface AutorizadoRecoger {
 
 interface DatosQR {
   estudiante: {
-    id:number;
+    id: number;
     nombre: string;
-    grado: string;
+    grado: any;
   };
   autorizadoRecoger: AutorizadoRecoger;
   fechaGeneracion: string;
+  fechaExpiracion: string;
   codigoUnico: string;
 }
 
@@ -37,7 +38,7 @@ interface Hijo {
   nombre: string;
   apellido: string;
   grado: string;
-  grupo?: string;
+  grupo?: any;
   codigo: string;
   qrGenerated: boolean;
   generandoQR: boolean;
@@ -97,6 +98,7 @@ export class ListaPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.inicializarDatos();
+    setInterval(() => this.verificarExpiracionQR(), 60000);
   }
 
   ngOnDestroy() {
@@ -129,7 +131,6 @@ export class ListaPage implements OnInit, OnDestroy {
       .subscribe({
         next: (respuesta) => {
           this.tutor = respuesta;
-          console.log('Datos del tutor:', this.tutor);
           this.cargarHijos(tutorId);
           this.cargarFamiliaresExternos(tutorId);
         },
@@ -155,7 +156,6 @@ export class ListaPage implements OnInit, OnDestroy {
               qrDataUrl: '',
               datosQR: null
             }));
-            console.log('Tutor con hijos:', this.tutor);
             this.cdr.detectChanges();
           }
         },
@@ -172,10 +172,7 @@ export class ListaPage implements OnInit, OnDestroy {
     const familiaresSub = this._conocidoService.getByTutorId(tutorId)
       .subscribe({
         next: (familiares) => {
-          console.log('Estructura de familiares:', familiares);  
-          console.log('Primer familiar:', familiares[0]);
           this.familiares = familiares;
-          console.log('Familiares cargados:', this.familiares);
         },
         error: (err) => {
           console.error('Error al obtener familiares externos:', err);
@@ -220,13 +217,12 @@ export class ListaPage implements OnInit, OnDestroy {
             tipo: 'tutor',
             nombre: this.tutor!.nombre,
             apellido: this.tutor!.apellido,
-            parentesco: 'tutor',
+            parentesco: 'Tutor',
           });
         }
       });
     }
 
-    console.log(this.familiares);
 
     // Opciones de familiares
     this.familiares.forEach((familiar) => {
@@ -266,18 +262,18 @@ export class ListaPage implements OnInit, OnDestroy {
     }
 
     const hijo = this.tutor.hijos[hijoIndex];
+    
     hijo.generandoQR = true;
     this.cdr.detectChanges();
 
     try {
-      console.log('Generando QR para persona:', persona);
 
       // Obtener datos del backend si es necesario
       let autorizado: AutorizadoRecoger;
 
       if (persona.tipo === 'tutor') {
         autorizado = {
-          id:this.tutor.id,
+          id: this.tutor.id,
           nombre: this.tutor.nombre,
           apellido: this.tutor.apellido,
           tipo: 'tutor',
@@ -288,15 +284,19 @@ export class ListaPage implements OnInit, OnDestroy {
         autorizado = await this.obtenerDatosFamiliar(persona, hijo.id);
       }
 
+      const ahora = new Date();
+      const fechaExpiracion = new Date(ahora.getTime() + 12 * 60 * 60 * 1000);
+
       // Construir datos del QR
       const datosQR: DatosQR = {
         estudiante: {
           id: hijo.id,
           nombre: hijo.nombre,
-          grado: hijo.grado
+          grado: hijo.grupo.nombre
         },
         autorizadoRecoger: autorizado,
-        fechaGeneracion: new Date().toISOString(),
+        fechaGeneracion: ahora.toISOString(),
+        fechaExpiracion: fechaExpiracion.toISOString(),
         codigoUnico: this.generarCodigoUnico()
       };
 
@@ -478,6 +478,40 @@ export class ListaPage implements OnInit, OnDestroy {
       backdropDismiss: false
     });
     await alert.present();
+  }
+
+  private verificarExpiracionQR() {
+    if (!this.tutor) return;
+
+    const ahora = new Date();
+
+    this.tutor.hijos.forEach(hijo => {
+      if (hijo.datosQR?.fechaExpiracion) {
+        const expira = new Date(hijo.datosQR.fechaExpiracion);
+        if (ahora > expira) {
+          hijo.qrGenerated = false;
+          hijo.qrDataUrl = '';
+          hijo.codigo = '';
+          hijo.datosQR = null;
+        }
+      }
+    });
+  }
+
+  getBadgeColor(hijo: Hijo): string {
+    if (!hijo.qrGenerated) return 'medium';
+    if (!hijo.datosQR?.fechaExpiracion) return 'medium';
+
+    const expira = new Date(hijo.datosQR.fechaExpiracion);
+    return new Date() > expira ? 'danger' : 'success';
+  }
+
+  getBadgeText(hijo: Hijo): string {
+    if (!hijo.qrGenerated) return 'Sin código';
+    if (!hijo.datosQR?.fechaExpiracion) return 'Activo';
+
+    const expira = new Date(hijo.datosQR.fechaExpiracion);
+    return new Date() > expira ? 'Expirado' : 'Activo';
   }
 
   // Método para refrescar datos manualmente
