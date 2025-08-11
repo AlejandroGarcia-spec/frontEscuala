@@ -31,17 +31,17 @@
   ion-content {
     --background: #f4f4f4;
   }
-
-  .e-card {
-    margin: 10px auto;
-    background: #00703c;
-    box-shadow: 0px 8px 28px -9px rgba(0, 0, 0, 0.45);
-    position: relative;
-    width: 300px;
-    height: 600px;
-    border-radius: 16px;
-    overflow: hidden;
-  }
+.e-card {
+  margin: 10px auto;
+  background: #00703c;
+  box-shadow: 0px 8px 28px -9px rgba(0, 0, 0, 0.45);
+  position: relative;
+  width: 300px;
+  height: 600px;
+  border-radius: 16px;
+  overflow-y: auto; /* Scroll vertical */
+  padding-bottom: 10px;
+}
 
   .wave {
     position: absolute;
@@ -150,4 +150,3 @@ img {
 }
 
 
-  
