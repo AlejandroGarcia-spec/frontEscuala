@@ -28,10 +28,12 @@ export class GrupoService {
     return this.http.get<Grupo>(`${this.apiUrl}/${id}`);
   }
 
+
   // Crear grupo
-  crearGrupo(grupo: Partial<Grupo>): Observable<Grupo> {
-    return this.http.post<Grupo>(this.apiUrl, grupo);
+  crearGrupo(data: { nombre: string }) {
+    return this.http.post(`${this.apiUrl}/post`, data);
   }
+
 
   // Actualizar grupo
   actualizarGrupo(id: number, grupo: Partial<Grupo>): Observable<Grupo> {
