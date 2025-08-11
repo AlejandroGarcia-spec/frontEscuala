@@ -19,7 +19,7 @@
 <ion-content class="ion-padding">
 
   <div class="welcome-message">
-    <h2>👋 Bienvenido, </h2>
+    <h2>👋 Bienvenido, {{tutorNombre}}</h2>
     <p>Selecciona una opción para comenzar:</p>
   </div>
 
@@ -32,10 +32,10 @@
       <ion-col size="12" size-md="5">
         <ion-card button (click)="irAsistencias()" class="opcion-card">
           <ion-card-header>
-            <ion-card-title>Asistencias</ion-card-title>
+            <ion-card-title>Hijos</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            Visualizar las Asistencias de mis Hijos.
+            Visualiza el estado de tus Hijos.
           </ion-card-content>
         </ion-card>
       </ion-col>

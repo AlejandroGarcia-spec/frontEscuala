@@ -71,6 +71,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tutores/formulario/formulario.module').then(m => m.FormularioPageModule)
   },
 
+  {
+    path: 'asistencias-vt',
+    loadChildren: () => import('./pages/asistencias/vista-tutor/vista-tutor.module').then(m => m.VistaTutorPageModule)
+  },
+
 
   {
     path: 'home',

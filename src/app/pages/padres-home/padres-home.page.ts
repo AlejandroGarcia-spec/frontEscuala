@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class PadresHomePage {
 
-  tutorId!:number;
+  tutorNombre!: string;
 
   constructor(
     private router: Router,
@@ -30,12 +30,14 @@ export class PadresHomePage {
       return;
     }
 
-    this.tutorId = usuario.id;
-    console.log(usuario);
+    this.tutorNombre = usuario.nombre;
     
 
   }
-  irAsistencias() { }
+  irAsistencias() { 
+    this.router.navigate(['/asistencias-vt']);
+
+  }
 
   irQr() {
     this.router.navigate(['/tutoresqr']);
