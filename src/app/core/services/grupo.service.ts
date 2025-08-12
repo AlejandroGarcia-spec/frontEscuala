@@ -14,7 +14,7 @@ export interface Grupo {
   providedIn: 'root'
 })
 export class GrupoService {
-  private readonly apiUrl = 'http://localhost:3000/grupos'; // Asegúrate que sea la ruta correcta
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/grupos'; // Asegúrate que sea la ruta correcta
 
   constructor(private readonly http: HttpClient) {}
 

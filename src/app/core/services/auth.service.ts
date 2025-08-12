@@ -22,9 +22,8 @@ logout() {
   }
 
 getAdminByCorreo(correo: string) {
-  return this.http.get(`http://localhost:3000/administradores/perfil/${correo}`);
+  return this.http.get(`https://backescolar-production.up.railway.app/administradores/perfil/${correo}`);
 }
 
 
 }
- 

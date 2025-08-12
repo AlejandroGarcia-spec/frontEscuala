@@ -30,7 +30,7 @@ export interface Salida {
   providedIn: 'root'
 })
 export class SalidasService {
-  private readonly apiUrl = 'http://localhost:3000/salidas';
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/salidas';
 
   constructor(private readonly http: HttpClient) {}
 

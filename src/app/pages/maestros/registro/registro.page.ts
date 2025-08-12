@@ -36,7 +36,7 @@ export class RegistroPage {
   }
 
 obtenerInstructores() {
-  this.http.get<any[]>('http://localhost:3000/maestros').subscribe(data => {
+  this.http.get<any[]>('https://backescolar-production.up.railway.app/maestros').subscribe(data => {
     this.instructores = data;
   });
 }
