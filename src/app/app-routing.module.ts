@@ -14,66 +14,62 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
+        loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
       }
     ]
   },
 
   {
     path: 'dashboard',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    loadChildren: () => import('./pages/docentes/docentes-home/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [authGuard]
   },
   {
     path: 'padres-home',
-    loadChildren: () => import('./pages/padres-home/padres-home.module').then(m => m.PadresHomePageModule),
+    loadChildren: () => import('./pages/tutores/padres-home/padres-home.module').then(m => m.PadresHomePageModule),
     canActivate: [authGuard]
   },
   {
     path: 'admin',
-    loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule),
+    loadChildren: () => import('./pages/administradores/admin-home/admin.module').then(m => m.AdminPageModule),
     //canActivate: [authGuard, adminGuard]
   },
 
   {
     path: 'alumnos/lista',
-    loadChildren: () => import('./pages/alumnos/lista/lista.module').then(m => m.ListaPageModule)
+    loadChildren: () => import('./pages/docentes/vista-alumnos/lista.module').then(m => m.ListaPageModule)
   },
 
-  {
-    path: 'alumnos/detalle',
-    loadChildren: () => import('./pages/alumnos/detalle/detalle.module').then(m => m.DetallePageModule)
-  },
 
   {
     path: 'alumnos/formulario',
-    loadChildren: () => import('./pages/alumnos/formulario/formulario.module').then(m => m.FormularioPageModule)
+    loadChildren: () => import('./pages/administradores/vista-alumnos/formulario.module').then(m => m.FormularioPageModule)
   },
 
   {
     path: 'asistencias/registro',
-    loadChildren: () => import('./pages/asistencias/registro/registro.module').then(m => m.RegistroPageModule)
+    loadChildren: () => import('./pages/docentes/vista-asistencias/registro.module').then(m => m.RegistroPageModule)
   },
 
   {
     path: 'salidas/escanear-qr',
-    loadChildren: () => import('./pages/salidas/escanear-qr/escanear-qr.module').then(m => m.EscanearQrPageModule)
+    loadChildren: () => import('./pages/docentes/vista-salidas/escanear-qr.module').then(m => m.EscanearQrPageModule)
   },
 
 
   {
     path: 'tutoresqr',
-    loadChildren: () => import('./pages/tutores/lista/lista.module').then(m => m.ListaPageModule),
+    loadChildren: () => import('./pages/tutores/vista-generarQR/lista.module').then(m => m.ListaPageModule),
   },
 
   {
     path: 'tutores/formulario',
-    loadChildren: () => import('./pages/tutores/formulario/formulario.module').then(m => m.FormularioPageModule)
+    loadChildren: () => import('./pages/administradores/vista-tutores/formulario.module').then(m => m.FormularioPageModule)
   },
 
   {
     path: 'asistencias-vt',
-    loadChildren: () => import('./pages/asistencias/vista-tutor/vista-tutor.module').then(m => m.VistaTutorPageModule)
+    loadChildren: () => import('./pages/tutores/vista-asistenciasHijo/vista-tutor.module').then(m => m.VistaTutorPageModule)
   },
 
 
@@ -95,19 +91,19 @@ const routes: Routes = [
   },
   {
     path: 'registro',
-    loadChildren: () => import('./pages/maestros/registro/registro.module').then(m => m.RegistroPageModule)
+    loadChildren: () => import('./pages/administradores/vista-docentes/registro.module').then(m => m.RegistroPageModule)
   },
   {
     path: 'perfil-admin',
-    loadChildren: () => import('./pages/perfiles/perfil-admin/perfil-admin.module').then(m => m.PerfilAdminPageModule)
+    loadChildren: () => import('./perfiles/perfil-admin/perfil-admin.module').then(m => m.PerfilAdminPageModule)
   },
   {
     path: 'perfil-maestro',
-    loadChildren: () => import('./pages/perfiles/perfil-maestro/perfil-maestro.module').then(m => m.PerfilMaestroPageModule)
+    loadChildren: () => import('./perfiles/perfil-maestro/perfil-maestro.module').then(m => m.PerfilMaestroPageModule)
   },
   {
     path: 'conocidos',
-    loadChildren: () => import('./pages/perfiles/perfil-alumno/perfil-alumno.module').then(m => m.PerfilAlumnoPageModule)
+    loadChildren: () => import('./pages/tutores/vista-conocidos/perfil-alumno.module').then(m => m.PerfilAlumnoPageModule)
   },
   {
     path: 'agregar-admin-modal',
@@ -159,11 +155,11 @@ const routes: Routes = [
   },
   {
     path: 'grupos',
-    loadChildren: () => import('./pages/grupos/grupos.module').then(m => m.GruposPageModule)
+    loadChildren: () => import('./pages/administradores/vista-grupos/grupos.module').then(m => m.GruposPageModule)
   },
   {
     path: 'maestros/registro',
-    loadChildren: () => import('./pages/maestros/registro/registro.module').then(m => m.RegistroPageModule)
+    loadChildren: () => import('./pages/administradores/vista-docentes/registro.module').then(m => m.RegistroPageModule)
   },
   {
     path: 'agregar-grupo-modal',
@@ -189,7 +185,7 @@ const routes: Routes = [
 
   {
     path: 'perfil-padre',
-    loadChildren: () => import('./pages/perfiles/perfil-padre/perfil-padre.module').then(m => m.PerfilPadrePageModule)
+    loadChildren: () => import('./perfiles/perfil-padre/perfil-padre.module').then(m => m.PerfilPadrePageModule)
   },
   {
     path: 'qralumno',
