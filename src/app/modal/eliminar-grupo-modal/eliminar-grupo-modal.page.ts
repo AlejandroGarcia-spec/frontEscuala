@@ -17,7 +17,7 @@ export class EliminarGrupoModalPage  {
   grupos: any[] = [];
   grupoCarreraId: number = 0;
   grupoId!: number;
- 
+
 constructor(
     private modalController: ModalController,
     private alertController: AlertController,
@@ -77,7 +77,7 @@ loadGrupos() {
         this.mostrarToastSuccess('Grupo eliminado con éxito');
         this.loadGrupos();
       },
-      error: () => this.mostrarToastError('Error al eliminar el grupo')
+      error: () => this.mostrarToastError('Error al eliminar el grupo, puede ser que el grupo tenga alumnos o maestros')
     });
   }
 
