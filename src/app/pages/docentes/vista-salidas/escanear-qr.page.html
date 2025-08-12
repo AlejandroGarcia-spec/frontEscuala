@@ -15,32 +15,40 @@
 <ion-content class="ion-padding">
 
   <!-- Botón para mostrar escáner QR -->
-  <ion-button *ngIf="!mostrarScanner" expand="block" color="primary" (click)="mostrarEscanner()"
-    style="margin-bottom: 20px;">
+  @if (!mostrarScanner) {
+  <ion-button expand="block" color="primary" (click)="mostrarEscanner()" style="margin-bottom: 20px;">
     <ion-icon name="qr-code-outline" slot="start"></ion-icon>
     Leer QR
   </ion-button>
+  }
 
   <!-- Escáner QR (solo se muestra cuando se activa) -->
-  <div *ngIf="mostrarScanner">
-    <zxing-scanner *ngIf="!alumno" [torch]="true" [tryHarder]="true" (scanSuccess)="onCodeResult($event)">
+  @if (mostrarScanner) {
+  <div>
+    @if (!alumno) {
+    <zxing-scanner [torch]="true" [tryHarder]="true" (scanSuccess)="onCodeResult($event)">
     </zxing-scanner>
+    }
 
     <!-- Botón para ocultar escáner -->
-    <ion-button *ngIf="!alumno" expand="block" color="medium" (click)="ocultarEscanner()" style="margin-top: 10px;">
+    @if (!alumno) {
+    <ion-button expand="block" color="medium" (click)="ocultarEscanner()" style="margin-top: 10px;">
       Cerrar Escáner
     </ion-button>
+    }
 
     <!-- Card de confirmación de salida -->
-    <ion-card *ngIf="alumno">
+    @if (alumno) {
+    <ion-card>
       <ion-card-header>
         <ion-card-title>{{ alumno.nombre }} - {{ alumno.grado }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <p><strong>Autorizado:</strong> {{ autorizado.nombre }} {{ autorizado.apellido }}</p>
         <p><strong>Parentesco:</strong> {{ autorizado.parentesco }}</p>
-        <img *ngIf="autorizado.foto" [src]="autorizado.foto" style="width:100px; border-radius:8px" />
-
+        @if (autorizado.foto) {
+        <img [src]="autorizado.foto" style="width:100px; border-radius:8px" />
+        }
         <ion-item>
           <ion-label>Autorizar salida</ion-label>
           <ion-toggle [(ngModel)]="salidaAutorizada"></ion-toggle>
@@ -52,10 +60,13 @@
         <ion-button expand="block" color="medium" (click)="reset()">Cancelar</ion-button>
       </ion-card-content>
     </ion-card>
+    }
   </div>
+  }
 
   <!-- Lista de salidas registradas - OPTIMIZADA PARA MÓVIL -->
-  <ion-card *ngIf="!mostrarScanner">
+  @if (!mostrarScanner) {
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Historial de Salidas</ion-card-title>
 
@@ -67,9 +78,11 @@
               <ion-select placeholder="Grupo" [(ngModel)]="filtroGrupo" (ionChange)="onFiltroGrupoChange()"
                 interface="action-sheet">
                 <ion-select-option value="">Todos</ion-select-option>
-                <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.nombre">
+                @for (grupo of grupos; track grupo.nombre) {
+                <ion-select-option [value]="grupo.nombre">
                   {{ grupo.nombre }}
                 </ion-select-option>
+                }
               </ion-select>
             </ion-item>
           </ion-col>
@@ -78,9 +91,11 @@
               <ion-select placeholder="Fecha" [(ngModel)]="filtroFecha" (ionChange)="onFiltroFechaChange()"
                 interface="action-sheet">
                 <ion-select-option value="">Todas</ion-select-option>
-                <ion-select-option *ngFor="let fecha of fechas" [value]="fecha">
+                @for (fecha of fechas; track fecha) {
+                <ion-select-option [value]="fecha">
                   {{ fecha }}
                 </ion-select-option>
+                }
               </ion-select>
             </ion-item>
           </ion-col>
@@ -90,8 +105,10 @@
 
     <ion-card-content style="padding: 0;">
       <!-- Lista tipo cards para móvil -->
-      <div *ngIf="salidasFiltradas.length > 0; else noSalidas">
-        <ion-item-sliding *ngFor="let salida of salidasFiltradas; trackBy: trackBySalidaId">
+      @if (salidasFiltradas.length > 0) {
+      <div>
+        @for (salida of salidasFiltradas; track salida.id) {
+        <ion-item-sliding>
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -121,22 +138,33 @@
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
+        }
       </div>
-
+      }@else {
       <!-- Mensaje cuando no hay salidas -->
-      <ng-template #noSalidas>
-        <ion-item>
-          <ion-label class="ion-text-center">
-            <ion-icon name="clipboard-outline" size="large"></ion-icon>
-            <h2 *ngIf="!filtroGrupo && !filtroFecha">No hay salidas registradas</h2>
-            <h2 *ngIf="filtroGrupo || filtroFecha">No hay salidas con los filtros seleccionados</h2>
-            <p *ngIf="!filtroGrupo && !filtroFecha">Los registros aparecerán aquí</p>
-            <p *ngIf="filtroGrupo">Grupo: <strong>{{ filtroGrupo }}</strong></p>
-            <p *ngIf="filtroFecha">Fecha: <strong>{{ filtroFecha }}</strong></p>
-          </ion-label>
-        </ion-item>
-      </ng-template>
+      <ion-item>
+        <ion-label class="ion-text-center">
+          <ion-icon name="clipboard-outline" size="large"></ion-icon>
+          @if (!filtroGrupo && !filtroFecha) {
+          <h2>No hay salidas registradas</h2>
+          }
+          @if (filtroGrupo || filtroFecha) {
+          <h2>No hay salidas con los filtros seleccionados</h2>
+          }
+          @if (!filtroGrupo && !filtroFecha) {
+          <p>Los registros aparecerán aquí</p>
+          }
+          @if (filtroGrupo) {
+          <p>Grupo: <strong>{{ filtroGrupo }}</strong></p>
+          }
+          @if (filtroFecha) {
+          <p>Fecha: <strong>{{ filtroFecha }}</strong></p>
+          }
+        </ion-label>
+      </ion-item>
+      }
     </ion-card-content>
   </ion-card>
+  }
 
 </ion-content>
