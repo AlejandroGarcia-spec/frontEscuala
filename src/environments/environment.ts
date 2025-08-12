@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://85ac57a88d75.ngrok-free.app', // URL base de la API
+  apiUrl: 'https://backescuelapruebaproduccion-production.up.railway.app', // URL base de la API
 };
 
 /*
