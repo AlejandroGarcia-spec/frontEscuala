@@ -38,10 +38,16 @@ tbody td {
 }
 
 /* Hover en filas */
+/* Hover en filas */
 tbody tr:hover {
   background-color: var(--ion-color-primary-tint);
-  color: white;
+  color: black; /* 🔹 Texto siempre negro */
   transition: background-color 0.3s ease;
+}
+
+thead th,
+tbody td {
+  color: black; /* 🔹 Fuerza texto negro */
 }
 
 /* Columna acciones: centrar botones */
@@ -98,4 +104,3 @@ ion-button {
     color: var(--ion-color-primary);
   }
 }
- 
