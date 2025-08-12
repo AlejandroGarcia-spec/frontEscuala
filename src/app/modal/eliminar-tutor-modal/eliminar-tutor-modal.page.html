@@ -14,13 +14,15 @@
       <ion-item>
         <ion-label>Seleccionar Tutor</ion-label>
         <ion-select formControlName="id">
-          <ion-select-option *ngFor="let instructor of instructores" [value]="instructor.id">
+          @for (instructor of instructores; track instructor.id) {
+          <ion-select-option [value]="instructor.id">
             {{ instructor.nombre }}
           </ion-select-option>
+          }
         </ion-select>
       </ion-item>
     </ion-list>
-    <ion-button expand="full" type="submit" color="danger" [disabled]="formEliminar.invalid">Eliminar Instructor</ion-button>
+    <ion-button expand="full" type="submit" color="danger" [disabled]="formEliminar.invalid">Eliminar
+      Instructor</ion-button>
   </form>
 </ion-content>
-<!--AL QUERER CAMBIAR EL *NGFOR POR @FOR GENERA UN ERROR DE COMPILACION-->

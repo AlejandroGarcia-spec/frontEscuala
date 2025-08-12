@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+      <ion-card-subtitle>REGISTRO DE CONOCIDOS</ion-card-subtitle>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Lista de familiares -->
+  @if (familiares.length > 0) {
+  <div>
+@for (familiar of familiares; track familiar.id) {
+  <ion-card class="familiar-card">
+      <ion-card-content>
+        <div class="familiar-info">
+          <div class="avatar-section">
+            <ion-avatar class="familiar-avatar">
+              <ion-icon name="person-circle-outline" size="large"></ion-icon>
+            </ion-avatar>
+          </div>
+          <div class="info-section">
+            <h3 class="familiar-name">{{ familiar.nombre }} {{ familiar.apellido }}</h3>
+          </div>
+          <div class="actions-section">
+            <ion-button fill="clear" color="primary" size="small" (click)="abrirRegistroFamiliar(familiar)">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" size="small"
+              (click)="eliminarFamiliar(familiar.id, familiar.nombre, familiar.apellido)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+  }
+  </div>
+  }@else {
+    <div class="empty-state">
+      <ion-icon name="people-outline" size="large" color="medium"></ion-icon>
+      <h3>No hay familiares registrados</h3>
+      <p>Agrega tu primer familiar externo para comenzar</p>
+    </div>
+  }
+
+
+
+  <!-- Botón para abrir el modal (añádelo donde lo necesites) -->
+  <button id="bottone1" (click)="abrirRegistroFamiliar()">
+    <strong>Registrar Familiar Externo</strong>
+  </button>
+</ion-content>

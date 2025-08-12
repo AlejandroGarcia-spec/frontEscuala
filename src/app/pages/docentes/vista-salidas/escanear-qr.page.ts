@@ -249,11 +249,7 @@ export class EscanearQrPage implements OnInit {
     this.qrResult = '';
     this.salidaAutorizada = false;
   }
-
-  // TrackBy para mejor performance en la lista
-  trackBySalidaId(index: number, salida: Salida): number {
-    return salida.id;
-  }
+ 
 
     private async mostrarToast(mensaje: string, color: 'success' | 'warning' | 'danger' = 'success') {
     const toast = await this.toastController.create({

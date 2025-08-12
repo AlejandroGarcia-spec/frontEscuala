@@ -38,16 +38,12 @@
         <ion-icon name="people-outline" slot="start"></ion-icon>
         Parentesco
       </ion-label>
-      <ion-select
-        [(ngModel)]="familiar.parentesco"
-        name="parentesco"
-        placeholder="Selecciona el parentesco"
-        interface="popover"
-        required
-      >
-        <ion-select-option *ngFor="let opcion of opcionesParentesco" [value]="opcion.valor">
-          {{ opcion.texto }}
+      <ion-select [(ngModel)]="familiar.parentesco" name="parentesco" placeholder="Selecciona el parentesco"
+        interface="popover" required>
+        @for (opcion of opcionesParentesco; track opcion.valor) {
+        <ion-select-option [value]="opcion.valor"> {{ opcion.texto }}
         </ion-select-option>
+        }
       </ion-select>
     </ion-item>
 
@@ -63,19 +59,16 @@
         Seleccionar
       </ion-button>
     </ion-item>
-
-    <div *ngIf="fotoPreview" class="preview-container">
+    @if (fotoPreview) {
+    <div class="preview-container">
       <img [src]="fotoPreview" alt="Vista previa foto" class="preview-img" />
     </div>
+    }
 
     <!-- Botón Registrar -->
     <div class="button-container">
-      <ion-button
-        expand="block"
-        (click)="registrar()"
-        [disabled]="!familiar.nombre || !familiar.apellido || !familiar.parentesco"
-        size="large"
-      >
+      <ion-button expand="block" (click)="registrar()"
+        [disabled]="!familiar.nombre || !familiar.apellido || !familiar.parentesco" size="large">
         <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
         {{ familiar?.nombre ? 'Guardar cambios' : 'Registrar Familiar' }}
       </ion-button>
