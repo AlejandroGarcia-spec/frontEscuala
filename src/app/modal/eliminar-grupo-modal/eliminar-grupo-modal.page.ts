@@ -17,7 +17,7 @@ export class EliminarGrupoModalPage  {
   grupos: any[] = [];
   grupoCarreraId: number = 0;
   grupoId!: number;
- 
+
 constructor(
     private modalController: ModalController,
     private alertController: AlertController,
@@ -32,7 +32,7 @@ constructor(
   this.loadGrupos();
   }
 loadGrupos() {
-  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
+  this.http.get<any[]>('https://backescolar-production.up.railway.app/grupos/getAll').subscribe({
     next: (data) => {
       this.grupos = data;
       if (this.grupoCarreraId) {

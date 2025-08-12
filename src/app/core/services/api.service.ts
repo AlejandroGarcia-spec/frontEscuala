@@ -32,7 +32,7 @@ getAlumnosPorGrupo(idGrupo: number) {
   return this.http.get<any[]>(`${this.backendUrl}/alumnos/grupo/${idGrupo}`);
 }
 getHijosByTutorId(tutorId: number) {
-  return this.http.get<any[]>(`http://localhost:3000/alumnos/tutor/${tutorId}`);
+  return this.http.get<any[]>(`https://backescolar-production.up.railway.app/alumnos/tutor/${tutorId}`);
 }
 
 
