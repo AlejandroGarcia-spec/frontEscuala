@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ConocidosService {
-  private apiUrl = 'https://backescolar-production.up.railway.app/conocidos'; // Cambia por tu URL real
+  private apiUrl = 'http://localhost:3000/conocidos'; // Cambia por tu URL real
 
   constructor(private http: HttpClient) {}
 

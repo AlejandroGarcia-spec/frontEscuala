@@ -32,7 +32,7 @@ constructor(
   this.loadGrupos();
   }
 loadGrupos() {
-  this.http.get<any[]>('https://backescolar-production.up.railway.app/grupos/getAll').subscribe({
+  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
     next: (data) => {
       this.grupos = data;
       if (this.grupoCarreraId) {

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  private readonly backendUrl = 'https://backescolar-production.up.railway.app';
+  private readonly backendUrl = 'http://localhost:3000';
 
   constructor(private readonly http: HttpClient) { }
 login(correo: string, contrasena: string) {

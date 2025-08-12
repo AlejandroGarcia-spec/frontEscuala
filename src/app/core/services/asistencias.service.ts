@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AsistenciasService {
-  private readonly apiUrl = 'https://backescolar-production.up.railway.app/entradas';
+  private readonly apiUrl = 'http://localhost:3000/entradas';
 
   constructor(private readonly http: HttpClient) { }
 

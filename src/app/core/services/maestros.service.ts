@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MaestrosService {
- private apiUrl = 'https://backescolar-production.up.railway.app/maestros'; // Cambia según tu IP y puerto
+ private apiUrl = 'http://localhost:3000/maestros'; // Cambia según tu IP y puerto
   constructor(private readonly http: HttpClient) { }
   agregarMaestro(maestroData: any) {
   return this.http.post(this.apiUrl, maestroData);
