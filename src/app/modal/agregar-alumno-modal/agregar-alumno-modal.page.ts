@@ -24,9 +24,9 @@ export class AgregarAlumnoModalPage implements OnInit {
     private toastController: ToastController,
     private modalController: ModalController,
     private grupoService: GrupoService,
-    private alumnosService: AlumnosService, 
-      private tutorService: TutoresService
-  ) {}
+    private alumnosService: AlumnosService,
+    private tutorService: TutoresService
+  ) { }
 
   ngOnInit() {
     this.alumnoForm = this.fb.group({
@@ -41,22 +41,22 @@ export class AgregarAlumnoModalPage implements OnInit {
     this.cargarTutores();
     this.cargarGrupos();
   }
-cargarTutores() {
-  this.tutorService.obtenerTutores().subscribe({
-    next: (res: any) => {
-      this.tutores = res;
-    },
-    error: async (err) => {
-      const toast = await this.toastController.create({
-        message: 'Error al cargar tutores',
-        duration: 2000,
-        color: 'danger',
-      });
-      toast.present();
-      console.error(err);
-    }
-  });
-}
+  cargarTutores() {
+    this.tutorService.obtenerTutores().subscribe({
+      next: (res: any) => {
+        this.tutores = res;
+      },
+      error: async (err) => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar tutores',
+          duration: 2000,
+          color: 'danger',
+        });
+        toast.present();
+        console.error(err);
+      }
+    });
+  }
   cargarGrupos() {
     this.grupoService.obtenerGrupos().subscribe({
       next: (res: any) => {
@@ -86,52 +86,57 @@ cargarTutores() {
       lector.readAsDataURL(archivo);
     }
   }
-guardarAlumno() {
-  if (this.alumnoForm.valid) {
-    const datos = this.alumnoForm.value;
+  guardarAlumno() {
+    if (this.alumnoForm.valid) {
+      const datos = this.alumnoForm.value;
 
 
-    const grupoIdStr = datos.grupoId ? datos.grupoId.toString() : '';
+      const grupoIdStr = datos.grupoId ? datos.grupoId.toString() : '';
 
-    if (grupoIdStr === '') {
-      console.error('El grupoId no puede estar vacío');
-      return;
-    }
-
-    const alumnoConFoto = {
-      ...datos,
-  grupoId: Number(datos.grupoId),
-  tutorId: Number(datos.tutorId),
-  imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
-    };
-
-    this.alumnosService.crearAlumno(alumnoConFoto).subscribe({
-      next: async () => {
-        const toast = await this.toastController.create({
-          message: 'Alumno guardado correctamente ✅',
-          duration: 2000,
-          color: 'success',
-        });
-        toast.present();
-        this.cerrarModal();
-      },
-      error: async (err) => {
-        const toast = await this.toastController.create({
-          message: 'Error al guardar alumno ❌',
-          duration: 2000,
-          color: 'danger',
-        });
-        toast.present();
-        console.error(err);
+      if (grupoIdStr === '') {
+        console.error('El grupoId no puede estar vacío');
+        return;
       }
-    });
-  } else {
-    console.log('Formulario inválido ❌');
+
+      const alumnoConFoto = {
+        ...datos,
+        grupoId: Number(datos.grupoId),
+        tutorId: Number(datos.tutorId),
+        imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
+      };
+
+      this.alumnosService.crearAlumno(alumnoConFoto).subscribe({
+        next: async () => {
+          const toast = await this.toastController.create({
+            message: 'Alumno guardado correctamente ✅',
+            duration: 2000,
+            color: 'success',
+          });
+          toast.present();
+          this.cerrarModal();
+        },
+        error: async (err) => {
+          const toast = await this.toastController.create({
+            message: 'Error al guardar alumno ❌',
+            duration: 2000,
+            color: 'danger',
+          });
+          toast.present();
+          console.error(err);
+        }
+      });
+    } else {
+      console.log('Formulario inválido ❌');
+    }
   }
-}
 
 
   cerrarModal() {
     this.modalController.dismiss();
+  }
+
+  eliminarFoto() {
+    this.fotoPreview = null;
+    this.fotoArchivo = null;
   }
 }

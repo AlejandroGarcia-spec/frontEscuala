@@ -29,7 +29,7 @@ interface Alumno {
   styleUrls: ['./editar-alumno-modal.page.scss'],
 })
 export class EditarAlumnoModalPage implements OnInit {
- tutores: any[] = [];
+  tutores: any[] = [];
   @Input() alumno!: Alumno;
   alumnoForm!: FormGroup;
   grupos: Grupo[] = [];
@@ -39,91 +39,91 @@ export class EditarAlumnoModalPage implements OnInit {
   fotoArchivo: File | null = null;
 
   constructor(
-  private fb: FormBuilder,
-  private toastController: ToastController,
-  private modalController: ModalController,
-  private grupoService: GrupoService,
-  private alumnosService: AlumnosService,
-  private tutorService: TutoresService,
-  private readonly navParams: NavParams
-) {}
+    private fb: FormBuilder,
+    private toastController: ToastController,
+    private modalController: ModalController,
+    private grupoService: GrupoService,
+    private alumnosService: AlumnosService,
+    private tutorService: TutoresService,
+    private readonly navParams: NavParams
+  ) { }
 
 
- ngOnInit() {
-  this.alumnoSeleccionado = this.navParams.get('alumnoSeleccionado');
-  this.alumnoForm = this.fb.group({
-    id: [null, Validators.required],
-    nombre: ['', [Validators.required, Validators.minLength(2)]],
-    apellido: ['', [Validators.required, Validators.minLength(2)]],
-    correo: ['', [Validators.email]],
-    telefono: ['', [Validators.pattern(/^\d{10}$/)]],
-    grupoId: ['', Validators.required],
-    tutorId: ['', Validators.required]
-  });
-
-  if (this.alumnoSeleccionado) {
-    this.alumnoForm.patchValue({
-      id: this.alumnoSeleccionado.id,
-      nombre: this.alumnoSeleccionado.nombre,
-      apellido: this.alumnoSeleccionado.apellido,
-      correo: this.alumnoSeleccionado.correo,
-      telefono: this.alumnoSeleccionado.telefono,
-      grupoId: this.alumnoSeleccionado.grupoId,
-      tutorId: this.alumnoSeleccionado.tutorId
+  ngOnInit() {
+    this.alumnoSeleccionado = this.navParams.get('alumnoSeleccionado');
+    this.alumnoForm = this.fb.group({
+      id: [null, Validators.required],
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      apellido: ['', [Validators.required, Validators.minLength(2)]],
+      correo: ['', [Validators.email]],
+      telefono: ['', [Validators.pattern(/^\d{10}$/)]],
+      grupoId: ['', Validators.required],
+      tutorId: ['', Validators.required]
     });
-    this.fotoPreview = this.alumnoSeleccionado.imagenBase64;
-  }
-  this.cargarTutores();
-  this.cargarGrupos();
-  this.cargarAlumnos();
-}
-cargarTutores() {
-  this.tutorService.obtenerTutores().subscribe({
-    next: (res: any) => {
-      this.tutores = res;
-    },
-    error: async (err) => {
-      const toast = await this.toastController.create({
-        message: 'Error al cargar tutores',
-        duration: 2000,
-        color: 'danger',
-      });
-      toast.present();
-      console.error(err);
-    }
-  });
-}
-cargarGrupos() {
-  this.grupoService.obtenerGrupos().subscribe({
-    next: (res: any) => {
-      this.grupos = res;
-    },
-    error: async (err) => {
-      const toast = await this.toastController.create({
-        message: 'Error al cargar grupos',
-        duration: 2000,
-        color: 'danger',
-      });
-      toast.present();
-    }
-  });
-}
 
-cargarAlumnos() {
-  this.alumnosService.obtenerAlumnos().subscribe({
-    next: (res: any) => {
-      this.alumnos = res;
-    },
-    error: async (err) => {
-      const toast = await this.toastController.create({
-        message: 'Error al cargar alumnos',
-        duration: 2000,
-        color: 'danger',
+    if (this.alumnoSeleccionado) {
+      this.alumnoForm.patchValue({
+        id: this.alumnoSeleccionado.id,
+        nombre: this.alumnoSeleccionado.nombre,
+        apellido: this.alumnoSeleccionado.apellido,
+        correo: this.alumnoSeleccionado.correo,
+        telefono: this.alumnoSeleccionado.telefono,
+        grupoId: this.alumnoSeleccionado.grupoId,
+        tutorId: this.alumnoSeleccionado.tutorId
       });
-      toast.present();
+      this.fotoPreview = this.alumnoSeleccionado.imagenBase64;
     }
-  });
-}
+    this.cargarTutores();
+    this.cargarGrupos();
+    this.cargarAlumnos();
+  }
+  cargarTutores() {
+    this.tutorService.obtenerTutores().subscribe({
+      next: (res: any) => {
+        this.tutores = res;
+      },
+      error: async (err) => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar tutores',
+          duration: 2000,
+          color: 'danger',
+        });
+        toast.present();
+        console.error(err);
+      }
+    });
+  }
+  cargarGrupos() {
+    this.grupoService.obtenerGrupos().subscribe({
+      next: (res: any) => {
+        this.grupos = res;
+      },
+      error: async (err) => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar grupos',
+          duration: 2000,
+          color: 'danger',
+        });
+        toast.present();
+      }
+    });
+  }
+
+  cargarAlumnos() {
+    this.alumnosService.obtenerAlumnos().subscribe({
+      next: (res: any) => {
+        this.alumnos = res;
+      },
+      error: async (err) => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar alumnos',
+          duration: 2000,
+          color: 'danger',
+        });
+        toast.present();
+      }
+    });
+  }
 
   onImageSelected(event: any) {
     const archivo = event.target.files[0];
@@ -138,75 +138,79 @@ cargarAlumnos() {
     }
   }
 
- async guardarAlumno() {
-  if (this.alumnoForm.valid) {
-    const datos = this.alumnoForm.value;
-    const alumnoActualizado = {
-  nombre: datos.nombre,
-  apellido: datos.apellido,
-  correo: datos.correo,
-  telefono: datos.telefono,
-  grupoId: datos.grupoId,
-  tutorId: datos.tutorId,
-  imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
-};
-    this.alumnosService.actualizarAlumno(datos.id, alumnoActualizado).subscribe({
-      next: async () => {
-        const toast = await this.toastController.create({
-          message: 'Alumno actualizado correctamente ✅',
-          duration: 2000,
-          color: 'success',
+  async guardarAlumno() {
+    if (this.alumnoForm.valid) {
+      const datos = this.alumnoForm.value;
+      const alumnoActualizado = {
+        nombre: datos.nombre,
+        apellido: datos.apellido,
+        correo: datos.correo,
+        telefono: datos.telefono,
+        grupoId: datos.grupoId,
+        tutorId: datos.tutorId,
+        imagenBase64: this.fotoPreview ? this.fotoPreview.toString() : null
+      };
+      this.alumnosService.actualizarAlumno(datos.id, alumnoActualizado).subscribe({
+        next: async () => {
+          const toast = await this.toastController.create({
+            message: 'Alumno actualizado correctamente ✅',
+            duration: 2000,
+            color: 'success',
+          });
+          toast.present();
+          this.cerrarModal(true);
+        },
+        error: async () => {
+          const toast = await this.toastController.create({
+            message: 'Error al actualizar alumno',
+            duration: 2000,
+            color: 'danger',
+          });
+          toast.present();
+        }
+      });
+    } else {
+      const toast = await this.toastController.create({
+        message: 'Formulario inválido ❌',
+        duration: 2000,
+        color: 'danger',
+      });
+      toast.present();
+    }
+  }
+
+
+  cerrarModal(actualizo: boolean = false) {
+    this.modalController.dismiss({ actualizado: actualizo });
+  }
+  onAlumnoChange(event: any) {
+    const idAlumno = event.detail.value;
+    this.alumnosService.obtenerAlumnoPorId(idAlumno).subscribe({
+      next: (alumno: Alumno) => {
+        this.alumnoForm.patchValue({
+          id: alumno.id,
+          nombre: alumno.nombre,
+          apellido: alumno.apellido,
+          correo: alumno.correo || '',
+          telefono: alumno.telefono || '',
+          grupoId: alumno.grupoId,
         });
-        toast.present();
-        this.cerrarModal(true);
+        this.fotoPreview = alumno.imagenBase64 || null;
       },
       error: async () => {
         const toast = await this.toastController.create({
-          message: 'Error al actualizar alumno',
+          message: 'Error al cargar datos del alumno',
           duration: 2000,
           color: 'danger',
         });
         toast.present();
       }
     });
-  } else {
-    const toast = await this.toastController.create({
-      message: 'Formulario inválido ❌',
-      duration: 2000,
-      color: 'danger',
-    });
-    toast.present();
   }
-}
-
-
-  cerrarModal(actualizo: boolean = false) {
-    this.modalController.dismiss({ actualizado: actualizo });
+  
+  eliminarFoto() {
+    this.fotoPreview = null;
+    this.fotoArchivo = null;
   }
-onAlumnoChange(event: any) {
-  const idAlumno = event.detail.value;
-  this.alumnosService.obtenerAlumnoPorId(idAlumno).subscribe({
-    next: (alumno: Alumno) => {
-      this.alumnoForm.patchValue({
-        id: alumno.id,
-        nombre: alumno.nombre,
-        apellido: alumno.apellido,
-        correo: alumno.correo || '',
-        telefono: alumno.telefono || '',
-        grupoId: alumno.grupoId,
-      });
-      this.fotoPreview = alumno.imagenBase64 || null;
-    },
-    error: async () => {
-      const toast = await this.toastController.create({
-        message: 'Error al cargar datos del alumno',
-        duration: 2000,
-        color: 'danger',
-      });
-      toast.present();
-    }
-  });
-}
 
 }
- 

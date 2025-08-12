@@ -15,68 +15,78 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <!-- Selección de Grupo -->
-  <ion-card class="ion-margin-bottom">
-    <ion-card-header>
-      <ion-card-title>Selecciona un grupo</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-select interface="popover" placeholder="Elige un grupo" [(ngModel)]="grupoSeleccionado"
-        (ionChange)="filtrarAlumnosPorGrupo()">
-        @for (grupo of grupos; track grupo.id) {
-        <ion-select-option [value]="grupo.id"> {{ grupo.nombre }}
-        </ion-select-option>
-        }
-      </ion-select>
-    </ion-card-content>
-  </ion-card>
-
   <ion-card class="ion-padding">
     <ion-card-header>
-      <ion-card-title>Lista de Alumnos</ion-card-title>
+      <ion-card-title class="mobile-title">Lista de Alumnos</ion-card-title>
+
+      <!-- Campo de búsqueda -->
+      <ion-item fill="outline" class="search-input">
+        <ion-icon name="search-outline" slot="start" color="medium"></ion-icon>
+        <ion-input [(ngModel)]="searchTerm" (ionInput)="buscarAlumnos()" placeholder="Buscar por nombre o apellido...">
+        </ion-input>
+      </ion-item>
+
+      <!-- Filtro por grupo -->
+      <ion-item fill="outline" class="filter-select">
+        <ion-icon name="filter-outline" slot="start" color="medium"></ion-icon>
+        <ion-select interface="action-sheet" placeholder="Seleccionar grupo" [(ngModel)]="grupoSeleccionado"
+          (ionChange)="filtrarAlumnosPorGrupo()">
+          <ion-select-option value="">Todos los grupos</ion-select-option>
+          @for (grupo of grupos; track grupo.id) {
+          <ion-select-option [value]="grupo.id">{{ grupo.nombre }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
     </ion-card-header>
+
     <ion-card-content class="ion-no-padding">
-      <div style="overflow-x: auto;">
-        <table class="tabla-alumnos">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Apellidos</th>
-              <th>Email</th>
-              <th>Teléfono</th>
-              <th>Tutor</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (alumno of alumnosFiltrados; track alumno) {
-            <tr>
-              <td>{{ alumno.id }}</td>
-              <td>{{ alumno.nombre }}</td>
-              <td>{{ alumno.apellido }}</td>
-              <td>{{ alumno.correo }}</td>
-              <td>{{ alumno.telefono }}</td>
-              <td>{{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellido }}</td>
-              <td>
-                <ion-button size="small" color="warning" fill="clear" (click)="abrirModalEditarAlumno(alumno)">
-                  <ion-icon name="create-outline" slot="start"></ion-icon> Editar
-                </ion-button>
-                <ion-button size="small" color="danger" fill="clear" (click)="abrirModalEliminarAlumno(alumno)">
-                  <ion-icon name="trash-outline" slot="start"></ion-icon> Eliminar
-                </ion-button>
-              </td>
-            </tr>
+      <!-- Lista de alumnos optimizada para móvil -->
+      <div class="alumnos-list">
+        @for (alumno of alumnosFiltrados; track alumno.id) {
+        <ion-item class="alumno-item">
+          <div slot="start" class="alumno-avatar">
+            <ion-icon name="person-circle-outline" size="large" color="primary"></ion-icon>
+          </div>
+
+          <ion-label>
+            <h2>{{ alumno.nombre }} {{ alumno.apellido }}</h2>
+            <p><ion-icon name="mail-outline" size="small"></ion-icon> {{ alumno.correo }}</p>
+            <p><ion-icon name="call-outline" size="small"></ion-icon> {{ alumno.telefono }}</p>
+            @if (alumno.tutor) {
+            <p><ion-icon name="people-outline" size="small"></ion-icon> Tutor: {{ alumno.tutor.nombre }} {{
+              alumno.tutor.apellido }}</p>
             }
-          </tbody>
-        </table>
+          </ion-label>
+
+          <div slot="end" class="action-buttons">
+            <ion-button fill="clear" size="small" color="warning" (click)="abrirModalEditarAlumno(alumno)">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button size="small" color="danger" fill="clear" (click)="eliminarAlumno(alumno)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-item>
+        }
+
+        @if (alumnosFiltrados.length === 0) {
+        <div class="empty-state">
+          <ion-icon name="school-outline" size="large" color="medium"></ion-icon>
+          <p>No se encontraron alumnos</p>
+          @if (searchTerm || grupoSeleccionado) {
+          <ion-button fill="clear" color="primary" (click)="limpiarFiltros()">
+            Limpiar filtros
+          </ion-button>
+          }
+        </div>
+        }
       </div>
     </ion-card-content>
   </ion-card>
 
   <ion-grid fixed>
     <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="6">
+      <ion-col size="12">
         <ion-button expand="block" color="success" (click)="abrirModalAgregarAlumno()">
           <ion-icon slot="start" name="person-add-outline"></ion-icon>
           Agregar Alumno
@@ -85,5 +95,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<app-footer></app-footer>
