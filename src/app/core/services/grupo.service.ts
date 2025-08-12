@@ -25,7 +25,7 @@ export class GrupoService {
 
   // Obtener grupo por ID
   obtenerGrupoPorId(id: number): Observable<Grupo> {
-    return this.http.get<Grupo>(`${this.apiUrl}/${id}`);
+    return this.http.get<Grupo>(`${this.apiUrl}/get/${id}`);
   }
 
 
@@ -37,12 +37,12 @@ export class GrupoService {
 
   // Actualizar grupo
   actualizarGrupo(id: number, grupo: Partial<Grupo>): Observable<Grupo> {
-    return this.http.patch<Grupo>(`${this.apiUrl}/${id}`, grupo);
+    return this.http.patch<Grupo>(`${this.apiUrl}/update/${id}`, grupo);
   }
 
   // Eliminar grupo
   eliminarGrupo(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
-  
+
 }
