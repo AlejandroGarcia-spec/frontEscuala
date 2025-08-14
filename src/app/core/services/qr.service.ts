@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QrService {
- private apiUrl = 'http://localhost:3000/qr'; // Cambia según tu IP y puerto
+ private apiUrl = 'https://backescolar-production.up.railway.app/qr'; // Cambia según tu IP y puerto
 
   constructor(private http: HttpClient) {}
 

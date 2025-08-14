@@ -28,7 +28,7 @@ grupoSeleccionado: any;
       this.loadGrupos();
   }
   loadGrupos() {
-  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
+  this.http.get<any[]>('https://backescolar-production.up.railway.app/grupos/getAll').subscribe({
     next: (data) => this.grupos = data,
     error: () => this.mostrarToastError('Error al cargar los grupos')
   });
@@ -39,7 +39,7 @@ modificarGrupo() {
     nombre: this.nombre
   };
 
-  this.http.patch(`http://localhost:3000/grupos/update/${this.grupoCarreraId}`, grupoActualizado)
+  this.http.patch(`https://backescolar-production.up.railway.app/grupos/update/${this.grupoCarreraId}`, grupoActualizado)
     .subscribe({
       next: () => {
         this.mostrarToastSuccess('Grupo modificado correctamente');

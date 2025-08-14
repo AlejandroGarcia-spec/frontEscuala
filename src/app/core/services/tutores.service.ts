@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TutoresService {
-  private readonly apiUrl = 'http://localhost:3000/tutores';
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/tutores';
 
   constructor(private readonly http: HttpClient) { }
 
