@@ -20,14 +20,14 @@ export class EscanearQrPage implements OnInit {
   autorizado: any = null;
   salidaAutorizada = false;
   qrResult = '';
-  
+
   // Propiedades para la lista
   mostrarScanner = false;
   salidas: Salida[] = [];
   salidasFiltradas: Salida[] = [];
   grupos: any[] = [];
   fechas: string[] = [];
-  
+
   // Filtros
   filtroGrupo = '';
   filtroFecha = '';
@@ -93,8 +93,8 @@ export class EscanearQrPage implements OnInit {
       this.fechas = [];
       return;
     }
-    
-    const fechasUnicas = [...new Set(this.salidas.map(salida => 
+
+    const fechasUnicas = [...new Set(this.salidas.map(salida =>
       this.formatearFecha(salida.Date)
     ))];
     this.fechas = fechasUnicas.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
@@ -102,17 +102,17 @@ export class EscanearQrPage implements OnInit {
 
   aplicarFiltros() {
     if (!this.salidas) return;
-    
+
     this.salidasFiltradas = this.salidas.filter(salida => {
-      const cumpleFecha = !this.filtroFecha || 
+      const cumpleFecha = !this.filtroFecha ||
         this.formatearFecha(salida.Date) === this.filtroFecha;
-      
+
       const grupoAlumno = salida.alumno?.grupo?.nombre || salida.alumno?.grado || '';
       const cumpleGrupo = !this.filtroGrupo || grupoAlumno === this.filtroGrupo;
-      
+
       return cumpleFecha && cumpleGrupo;
     });
-    
+
     console.log(`Filtros aplicados - Grupo: "${this.filtroGrupo}", Fecha: "${this.filtroFecha}"`);
     console.log(`Salidas filtradas: ${this.salidasFiltradas.length} de ${this.salidas.length}`);
   }
@@ -158,7 +158,7 @@ export class EscanearQrPage implements OnInit {
         this.autorizadoService
           .getFotoAutorizado(this.autorizado.tipo, this.autorizado.id)
           .subscribe((res) => {
-            this.autorizado.foto = res.foto || 'https://via.placeholder.com/150';
+            this.autorizado.foto = res.foto || 'https://backescolar-production.up.railway.app/tutore';
           });
       }
     } catch (error) {
@@ -236,7 +236,7 @@ export class EscanearQrPage implements OnInit {
   }
 
   obtenerNombreAlumno(salida: Salida): string {
-    
+
     if (!salida.alumno) return 'Sin datos';
     const nombre = salida.alumno.nombre || '';
     const apellido = salida.alumno.apellido || '';
@@ -249,7 +249,7 @@ export class EscanearQrPage implements OnInit {
     this.qrResult = '';
     this.salidaAutorizada = false;
   }
- 
+
 
     private async mostrarToast(mensaje: string, color: 'success' | 'warning' | 'danger' = 'success') {
     const toast = await this.toastController.create({
