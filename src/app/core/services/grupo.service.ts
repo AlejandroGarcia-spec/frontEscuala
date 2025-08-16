@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GrupoService {
-  private apiUrl = 'http://localhost:3000/grupos'; // Cambia según tu IP y puerto
+  private apiUrl = 'https://backescuelapruebaproduccion-production.up.railway.app/grupos'; // Cambia según tu IP y puerto
 
   constructor(private http: HttpClient) {}
 
@@ -25,4 +25,3 @@ export class GrupoService {
     return this.http.patch(`${this.apiUrl}/update/${id}`, data);
   }
 }
- 
