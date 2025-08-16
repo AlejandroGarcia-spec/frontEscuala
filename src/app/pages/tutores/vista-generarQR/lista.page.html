@@ -1,0 +1,146 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+      <ion-card-subtitle>GENERAR QR</ion-card-subtitle>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Header con información del tutor -->
+  <div class="welcome-section">
+    <ion-avatar class="tutor-avatar">
+      <ion-icon name="person-circle" size="large"></ion-icon>
+    </ion-avatar>
+    <h1 class="welcome-title">¡Hola, {{tutor?.nombre}} {{tutor?.apellido}}!</h1>
+    <p class="welcome-subtitle">Gestiona los códigos de acceso de tus hijos</p>
+  </div>
+
+  <!-- Lista de hijos -->
+  <div class="children-section">
+    @for (hijo of tutor?.hijos; track trackByHijo($index, hijo); let i = $index) {
+    <ion-card class="child-card" [class.has-code]="hijo.codigo">
+
+
+      <ion-card-header>
+        <div class="card-header-content">
+          <div class="child-info">
+            <ion-avatar size="small" class="child-avatar">
+              <ion-icon name="school-outline"></ion-icon>
+            </ion-avatar>
+            <div>
+              <ion-card-title class="child-name">{{ hijo.nombre }}</ion-card-title>
+              <ion-card-subtitle class="child-grade">
+                <ion-icon name="ribbon-outline" size="small"></ion-icon>
+                {{ hijo.grado }}
+              </ion-card-subtitle>
+            </div>
+          </div>
+
+          <ion-badge [color]="hijo.codigo ? 'success' : 'medium'" class="status-badge">
+            {{ hijo.qrGenerated ? 'Activo' : 'Sin código' }}
+          </ion-badge>
+
+
+          <ion-badge [color]="getBadgeColor(hijo)" class="status-badge">
+            {{ getBadgeText(hijo) }}
+          </ion-badge>
+
+
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Estado de carga -->
+        @if (hijo.generandoQR) {
+        <div class="qr-loading">
+          <div class="loading-container">
+            <ion-spinner name="crescent" color="primary"></ion-spinner>
+            <p class="loading-text">Generando código QR...</p>
+          </div>
+        </div>
+        }
+
+        <!-- Código QR generado -->
+        @if (hijo.qrGenerated && !hijo.generandoQR) {
+        <div class="code-section">
+          <div class="qr-container">
+            <div class="qr-code-wrapper">
+              @if (hijo.qrDataUrl) {
+              <img [src]="hijo.qrDataUrl" [alt]="'QR Code para ' + hijo.nombre" class="qr-image" width="200"
+                height="200">
+              }
+              @if (!hijo.qrDataUrl) {
+              <div class="qr-overlay">
+                <ion-spinner name="crescent"></ion-spinner>
+              </div>
+              }
+            </div>
+
+            <div class="qr-actions">
+              <ion-button fill="clear" size="small" (click)="descargarQR(i)" class="action-button">
+                <ion-icon name="download-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" (click)="compartirQR(i)" class="action-button">
+                <ion-icon name="share-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+
+          <!-- Información del código -->
+          <div class="code-info">
+            <div class="info-item">
+              <ion-icon name="qr-code-outline" size="small" color="primary"></ion-icon>
+              <span>Código: {{ hijo.codigo }}</span>
+            </div>
+            @if (hijo.datosQR && hijo.datosQR.autorizadoRecoger) {
+            <div class="info-item">
+              <ion-icon
+                [name]="hijo.datosQR.autorizadoRecoger.tipo === 'tutor' ? 'person-circle-outline' : 'people-outline'"
+                size="small" color="success">
+              </ion-icon>
+
+              <span>Autorizado: {{ hijo.datosQR.autorizadoRecoger.nombre }} {{ hijo.datosQR.autorizadoRecoger.apellido
+                }} ({{ hijo.datosQR.autorizadoRecoger.parentesco }})</span>
+
+            </div>
+            }
+
+            <div class="info-item">
+              <ion-icon name="time-outline" size="small" color="warning"></ion-icon>
+              <span>Válido por 24 horas</span>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Botones de acción -->
+        <div class="action-buttons">
+          <ion-button expand="block" [fill]="hijo.codigo ? 'outline' : 'solid'"
+            [color]="hijo.codigo ? 'medium' : 'primary'" (click)="generarCodigoQR(i)" [disabled]="hijo.generandoQR"
+            class="generate-button">
+            @if (hijo.generandoQR) {
+            <ion-spinner name="crescent" slot="start">
+            </ion-spinner>
+            }
+            @if (!hijo.generandoQR) {
+            <ion-icon [name]="hijo.codigo ? 'refresh-outline' : 'qr-code-outline'" slot="start">
+            </ion-icon>
+            }
+            {{ hijo.generandoQR ? 'Generando...' : (hijo.qrGenerated ? 'Regenerar QR' : 'Generar código QR') }}
+          </ion-button>
+
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+    }
+  </div>
+
+</ion-content>

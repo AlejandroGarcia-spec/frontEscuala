@@ -6,27 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TutoresService {
-  private readonly apiUrl = 'https://backescuelapruebaproduccion-production.up.railway.app/tutores';
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/tutores';
 
-  constructor(private readonly http: HttpClient) {}
-crearTutor(tutor: any) {
-  return this.http.post(this.apiUrl, tutor); // JSON puro
-}
-obtenerTutores() {
-  return this.http.get(this.apiUrl);
-}
+  constructor(private readonly http: HttpClient) { }
 
-editarTutor(id: number, datos: any) {
-  return this.http.patch(`${this.apiUrl}/${id}`, datos);
-}
+  crearTutor(tutor: any) {
+    return this.http.post(this.apiUrl, tutor); // JSON puro
+  }
+  obtenerTutores() {
+    return this.http.get(this.apiUrl);
+  }
 
-obtenerTutorPorId(id: number): Observable<any> {
+  editarTutor(id: number, datos: any) {
+    return this.http.patch(`${this.apiUrl}/${id}`, datos);
+  }
+
+  obtenerTutorPorId(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
- actualizarTutor(id: number, tutor: any): Observable<any> {
-  return this.http.patch(`${this.apiUrl}/${id}`, tutor);
-}
+  actualizarTutor(id: number, tutor: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}`, tutor);
+  }
 
 
   eliminarTutor(id: number): Observable<any> {

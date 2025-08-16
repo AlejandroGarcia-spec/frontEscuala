@@ -26,9 +26,7 @@ rol: string = '';
     this.router.navigate(['/perfil-padre']);
   }
 
-  navigateToCredencialHijos() {
-    this.router.navigate(['/perfil-alumno']);
-  }
+
   logout() {
     localStorage.removeItem('usuario');
     this.router.navigate(['/home']);

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  private readonly backendUrl = 'https://backescuelapruebaproduccion-production.up.railway.app';
+  private readonly backendUrl = 'https://backescolar-production.up.railway.app';
 
   constructor(private readonly http: HttpClient) { }
 login(correo: string, contrasena: string) {
@@ -32,7 +32,7 @@ getAlumnosPorGrupo(idGrupo: number) {
   return this.http.get<any[]>(`${this.backendUrl}/alumnos/grupo/${idGrupo}`);
 }
 getHijosByTutorId(tutorId: number) {
-  return this.http.get<any[]>('https://85ac57a88d75.ngrok-free.app/alumnos/tutor/${tutorId}');
+  return this.http.get<any[]>(`https://backescolar-production.up.railway.app/alumnos/tutor/${tutorId}`);
 }
 
 

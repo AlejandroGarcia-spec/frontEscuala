@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AlumnosService {
-  private readonly apiUrl = 'https://backescuelapruebaproduccion-production.up.railway.app/alumnos'; // Ajusta si es diferente
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/alumnos'; // Ajusta si es diferente
 
   constructor(private readonly http: HttpClient) {}
 

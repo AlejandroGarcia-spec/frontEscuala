@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+      <ion-card-subtitle>ASISTENCIAS DE HIJOS</ion-card-subtitle>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @if (hijos.length === 0) {
+      <ion-item>
+        <ion-label>
+          <p style="color: gray; text-align: center;">No hay hijos registrados.</p>
+        </ion-label>
+      </ion-item>
+    }
+    @for (hijo of hijos; track hijo.id) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ hijo.nombre }} - {{ hijo.grupo }}</h2>
+
+          @if (hijo.entrada && !hijo.salida) {
+            <p style="color: green;">En la escuela desde {{ formatoHora(hijo.entrada.DateEntrada) }}</p>
+          }
+          @else if (hijo.salida) {
+            <p style="color: red;">
+              Salió a las {{ formatoHora(hijo.salida.DateSalida) }}
+              <br>Recogido por: {{ hijo.salida.recogidoPor }}
+            </p>
+          }
+          @else {
+            <p style="color: gray;">No ha llegado hoy</p>
+          }
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>

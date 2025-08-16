@@ -32,7 +32,7 @@ constructor(
   this.loadGrupos();
   }
 loadGrupos() {
-  this.http.get<any[]>('http://localhost:3000/grupos/getAll').subscribe({
+  this.http.get<any[]>('https://backescolar-production.up.railway.app/grupos/getAll').subscribe({
     next: (data) => {
       this.grupos = data;
       if (this.grupoCarreraId) {
@@ -72,7 +72,7 @@ loadGrupos() {
   }
 
   eliminarGrupo(id: number) {
-    this.http.delete(`http://localhost:3000/grupos/delete/${id}`).subscribe({
+    this.http.delete(`https://backescolar-production.up.railway.app/grupos/delete/${id}`).subscribe({
       next: () => {
         this.mostrarToastSuccess('Grupo eliminado con éxito');
         this.loadGrupos();

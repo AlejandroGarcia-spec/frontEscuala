@@ -12,11 +12,17 @@
   <ion-item>
     <ion-label>Seleccionar Grupo</ion-label>
     <ion-select [(ngModel)]="grupoCarreraId" (ionChange)="onGrupoChange($event)">
-      <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.id + ' - ' + grupo.nombre }}</ion-select-option>
+      @for (grupo of grupos; track grupo.id) {
+      <ion-select-option [value]="grupo.id">
+        {{ grupo.id + ' - ' + grupo.nombre }}
+      </ion-select-option>
+      }
     </ion-select>
   </ion-item>
   <ion-item>
-    <ion-input label="Nombre del Grupo" placeholder="Escriba el nombre del grupo..." labelPlacement="floating" [(ngModel)]="nombre" (input)="nombre = nombre.toUpperCase()"></ion-input>
+    <ion-input label="Nombre del Grupo" placeholder="Escriba el nombre del grupo..." labelPlacement="floating"
+      [(ngModel)]="nombre" (input)="nombre = nombre.toUpperCase()">
+    </ion-input>
   </ion-item>
 
   <ion-button expand="block" (click)="modificarGrupo()">Modificar</ion-button>

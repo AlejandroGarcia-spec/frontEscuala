@@ -6,20 +6,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AsistenciasService {
-  private readonly apiUrl = 'https://backescuelapruebaproduccion-production.up.railway.app/entradas';
+  private readonly apiUrl = 'https://backescolar-production.up.railway.app/entradas';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
-registrarEntrada(alumnoId: number): Observable<any> {
-  return this.http.post(this.apiUrl, { alumnoId });
-}
- eliminarEntrada(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  registrarEntrada(alumnoId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/new`, { alumnoId });
+  }
+
+  eliminarEntrada(id: number) {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 
   getEntradasPorGrupo(idGrupo: number) {
     return this.http.get<any[]>(`${this.apiUrl}/grupo/${idGrupo}`);
   }
 
-
+  getHijosConEstado(tutorId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/hijos/${tutorId}`);
+  }
 }

@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" class="ion-text-center">
+    <ion-title>CREDENCIAL DIGITAL</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+    <ion-toolbar color="light">
+    <ion-title size="small" class="ion-text-center">
+      <ion-card-subtitle>REGISTRO DE ASISTENCIAS</ion-card-subtitle>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de Mis Alumnos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
+        <table style="min-width: 900px; border-collapse: collapse; width: 100%;">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Tutor</th>
+              <th>Asistencia</th>
+            </tr>
+          </thead>
+         <tbody>
+  @for (alumno of instructoresFiltrados; let i = $index; track alumno) {
+  <tr>
+  <td>{{ alumno.id }}</td>
+  <td>{{ alumno.nombre }}</td>
+  <td>{{ alumno.apellido }}</td>
+  <td>{{ alumno.correo }}</td>
+  <td>{{ alumno.telefono }}</td>
+  <td>{{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellidoPaterno }} {{ alumno.tutor?.apellidoMaterno }}</td>
+
+  <td>
+  @if (!asistencias[i].registrada) {
+    <ion-toggle
+      [checked]="asistencias[i].presente"
+      (ionChange)="toggleAsistencia(asistencias[i], $event.detail.checked)"
+    ></ion-toggle>
+  }
+  @else {
+    <span style="color: green; font-weight: bold;">
+      ✔️ Asistencia Confirmada
+    </span>
+    <ion-button
+      color="danger"
+      size="small"
+      (click)="confirmarYEliminarEntrada(asistencias[i].id!)"
+    >
+      Eliminar
+    </ion-button>
+  }
+</td>
+
+
+
+</tr>
+          }
+</tbody>
+
+        </table>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<app-footer></app-footer>
